@@ -14,7 +14,8 @@ investigación académica aplicada. La carpeta conectada es un vault de Obsidian
 Git del grupo: es la única fuente de verdad.
 
 Lee en este orden antes de hacer nada:
-1. 00 Inicio.md
+1. 01 Proyecto/Explicacion del proyecto.md   ← el proyecto completo explicado
+   00 Inicio.md
 2. 01 Proyecto/Ruta de trabajo y coordinacion.md   ← qué se entrega, quién y cuándo
 3. 01 Proyecto/Rubrica y checklist.md              ← criterios de calificación
 4. 01 Proyecto/Inventario de insumos.md            ← dónde está cada archivo
@@ -35,7 +36,7 @@ Tarea actual: [escribir aquí la tarea, por ejemplo "preparar los 3 casos del pr
 ```
 
 ## Estado al 2026-10-24
-- Vault creado y ordenado. Falta publicarlo en GitHub (ver [[GitHub - configurar repositorio]]).
+- Vault creado y ordenado. ✅ Publicado en https://github.com/FrailM7/nexo-sismico (privado) con sincronización automática ([[Sincronizacion automatica]]).
 - Prototipo de hoy pendiente de decisión A/B (ver [[Ruta de trabajo y coordinacion]]).
 
 
