@@ -62,5 +62,5 @@ s += [Paragraph("Conclusión", H),
       Paragraph("El prototipo reproduce el cálculo de referencia y bloquea entradas incompletas o erróneas antes de calcular. "
                 "Las derivas del caso quedan a menos de 2 % del límite (0.991 % vs 1.0 %), lo que justifica usar la herramienta para comparar alternativas. "
                 "Siguiente paso: alimentar la base de datos NSR-10 (18 edificios del Prof. T. F. Rojas Vallejo + este caso) y conectarla al predictor y al bot. <i>Nota del profesor: varios de esos 18 resultados son teóricos (algunas plantas y luces no se resolverían con pórticos resistentes a momento en la práctica) y las plantas ausentes fallaron en el dimensionamiento del algoritmo de OpenSees; por eso se usan solo para entrenar y comparar, no como diseños.</i>", B),
-      Paragraph("Enlace: repositorio del equipo (GitHub) · carpeta 03 Prototipo/codigo · sin claves ni tokens.", S)]
+      Paragraph("Enlace: https://github.com/FrailM7/nexo-sismico · carpeta 03 Prototipo/codigo · sin claves ni tokens.", S)]
 doc.build(s)
