@@ -30,4 +30,5 @@ Nunca guardar claves, tokens ni datos personales.
 ## Sesiones
 - [[2026-10-24-1302]] — publicación en GitHub, código portable, revisión E.030, explicación y sincronización
 - [[2026-10-24-1330-nicolas]] — videos v2 y memoria compartida para el equipo y sus IAs
+- [[2026-10-24-1354-configuracion-obsidian]] — Joseph: repositorio clonado, vault abierto y sincronización activa en su PC
 - [[2026-10-24-1400-nicolas]] — nombres oficiales y entrega completa del Reto 06 (ficha, video en vivo, capturas, definición)
