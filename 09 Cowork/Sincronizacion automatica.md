@@ -33,3 +33,5 @@ Registro: `%LOCALAPPDATA%\NexoSismico\sincronizar.log` (fuera del repositorio).
 ## Si algo sale mal
 - "DETENIDO: posible clave o token": revisar el archivo indicado en el registro, quitar la clave y esperar la siguiente ejecución.
 - "No se pudieron traer cambios": abrir GitHub Desktop, resolver el conflicto y hacer Push; la tarea sigue sola después.
+
+Prueba de punta a punta: 2026-10-24, la tarea detectó un cambio, lo subió y bloqueó un token de prueba. ✅
