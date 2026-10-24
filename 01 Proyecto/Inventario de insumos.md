@@ -4,8 +4,8 @@
 |---|---|---|---|---|
 | Rúbrica | Proyecto Claude: `Proyecto Final - Rubrica.pdf` | Criterios, entregables, fechas | Vigente | [[Rubrica y checklist]] |
 | Reparto de responsabilidades | Proyecto Claude: `Investigacion_aplicada_responsabilidades_detalladas.pdf` | Modalidad C, pregunta, roles | Vigente | [[Equipo y roles]] |
-| Base OpenSees E.030 | Equipo (Alexis / autor del generador) | 130 config., 49 familias | Falta procedencia | [[Generador OpenSees E030]] |
-| Random Forest | Jean Piere | Modelo y particiones | Faltan métricas por familia | [[Random Forest]] |
+| Base OpenSees E.030 | https://github.com/PieroVQ/ProyectoGH (`base_ml_ampliada/`) | 1 500 estructuras, 1 500 familias | ✅ Con metodología y semilla | [[Ruta E030 - repositorio de Piero]] |
+| Modelos E.030 | https://github.com/PieroVQ/ProyectoGH (`resultados_ml_optimizado/`) | 7 configuraciones, modelo final y de evaluación | ✅ Métricas por familias reservadas | [[Random Forest]] |
 | Bot Telegram (n8n) | `05 Datos/Piero JSON/` (3 flujos) | Conversación, procesamiento, informe | Backend Python **no implementado** | [[Bot Telegram n8n]] |
 | Notebook NSR-10 completo | Proyecto Claude: `claude/Plantilla_..._completa.ipynb` | Bloques 1–11 | Corre; datos SAP de ejemplo | [[Modulo NSR-10 y SAP2000]] |
 | Notebook NSR-10 original | Proyecto Claude: `Plantilla_..._NSR10 (1).ipynb` | Versión del autor | Referencia | — |

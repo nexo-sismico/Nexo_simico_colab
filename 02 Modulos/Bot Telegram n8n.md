@@ -14,5 +14,5 @@ Esquema de extracción del LLM: `estado` ∈ {faltan_datos, requiere_aclaracion,
 - [ ] Backend Python con `GET /schema`, `POST /consultas/validar`, `POST /consultas`, `GET /consultas/{id}` (contrato propuesto, **no implementado**)
 - [ ] Reemplazar `BACKEND_URL` y `PDF_SERVICE_URL` (hoy dicen `https://CONFIGURAR-...`)
 - [ ] Confirmar el modelo del LLM disponible (los nodos traen nombres por defecto que deben revisarse)
-- [ ] El backend debe usar `modelo_final.joblib` del Random Forest
+- [ ] El backend debe cargar `resultados_ml_optimizado/modelo_final.joblib` + `ml_porticos/modelos_mejorados.py` del repositorio https://github.com/PieroVQ/ProyectoGH (ya existen)
 - [ ] Los datos fijados en nodos son ficticios: no usarlos como resultados

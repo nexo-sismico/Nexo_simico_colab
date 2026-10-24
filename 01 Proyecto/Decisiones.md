@@ -18,3 +18,6 @@
 | 2026-10-24 | Random Forest NSR-10 evaluado dejando una planta completa fuera (9 pliegues) y comparado con regresión lineal, Ta y la media | Probar generalización a plantas no vistas, que es la pregunta de investigación |
 | 2026-10-24 | No se afirma un porcentaje de ahorro de tiempo: solo se reportan tiempos medidos (cálculo < 1 ms, predicción 32 ms) | El flujo completo en SAP2000 no se cronometró |
 | 2026-10-24 | Videos generados sin voz y con subtítulos; el equipo puede grabar la narración sobre ellos | No hay herramienta de voz en el entorno; el guion queda listo |
+| 2026-10-24 | Repositorio del equipo publicado (privado): https://github.com/FrailM7/nexo-sismico, con sincronización automática cada 15 min | Una sola fuente de verdad versionada |
+| 2026-10-24 | Se incorpora la ruta E.030 del repositorio de Jean Piere (1 500 estructuras, 300 familias de prueba) como evidencia principal de R1 | Ya estaba hecha; el vault la tenía como pendiente |
+| 2026-10-24 | **Por decidir:** el mejor modelo E.030 es Gradient Boosting; ¿la pregunta dice "Random Forest" o "modelos de ensamble de árboles"? | Coherencia entre pregunta, informe y resultados |
