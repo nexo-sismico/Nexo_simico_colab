@@ -1,10 +1,15 @@
 const fs = require("fs");
+const path = require("path");
+// Rutas relativas a este archivo: corre igual desde cualquier carpeta y sistema operativo.
+const RAIZ = path.resolve(__dirname, "..", "..");
+const SAL = path.join(RAIZ, "07 Outputs", "Prototipo NSR-10");
+const FIG = (f) => path.join(SAL, "figuras", f);
 const {
   Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, ImageRun, AlignmentType,
   WidthType, ShadingType, BorderStyle, HeadingLevel, Footer, PageNumber, LevelFormat,
 } = require("docx");
 
-const N = JSON.parse(fs.readFileSync("numeros.json"));
+const N = JSON.parse(fs.readFileSync(path.join(SAL, "numeros.json"), "utf8"));
 const f = (x, d = 3) => Number(x).toFixed(d).replace(".", ",");
 const met = (o, m, k) => N.met.find((r) => r.Objetivo === o && r.Modelo === m)[k];
 const FONT = "Arial", SZ = 19; // 9.5 pt
@@ -73,7 +78,7 @@ const children = [
 
   H("2. Metodología"),
   P("El enfoque es cuantitativo y aplicado, basado en experimentación computacional. La Figura 1 resume la arquitectura: las dos rutas normativas se mantienen separadas porque difieren en espectro, rango de alturas e hipótesis de rigidez, y convergen en un mismo procedimiento de aprendizaje y evaluación."),
-  img("figuras/fig_flujo_integrado.png", 560, 217),
+  img(FIG("fig_flujo_integrado.png"), 560, 217),
   cap("Figura 1. Flujo integrado de herramientas del proyecto."),
   H2("2.1 Ruta E.030: generación paramétrica"),
   P("Un generador en Python crea modelos tridimensionales en OpenSeesPy [3] de edificios regulares de dos a cinco pisos con diafragma rígido y masas por nivel, y los somete a análisis modal espectral según la E.030 [2]. Cada familia conserva el número de pisos y de vanos y varía secciones y cargas; la base actual reúne 130 configuraciones en 49 familias, de las cuales 43 superan el umbral de deriva de 0,007 en al menos un eje. Los modelos no reducen la rigidez por agrietamiento, simplificación que tiende a subestimar periodos y derivas."),
@@ -86,13 +91,13 @@ const children = [
   H("3. Resultados"),
   H2("3.1 Prototipo NSR-10: tres pruebas"),
   P(`Con la entrada completa, el módulo entregó Ta = ${f(N.Ta)} s, Cu·Ta = ${f(N.CuTa)} s, Sa = ${f(N.Sa, 4)} g en la meseta del espectro, peso sísmico de ${f(N.Wt / 1000, 2)} MN, cortante basal de ${f(N.vs / 1000, 2)} MN y derivas máximas de ${f(N.dxmax)} % (X) y ${f(N.dymax)} % (Y), todas dentro del 1,0 % (Figura 2). Q máximo fue ${f(N.Q, 4)} (no requiere P-Delta) y la relación Δmáx/Δprom = ${f(N.tor)} quedó por debajo del 1,2 de irregularidad torsional, por lo que R = ${f(N.R, 1)}. Estos valores coinciden con el cálculo de referencia hecho con SAP2000 y hoja de cálculo. Al eliminar Fv, el módulo se detuvo e identificó el campo faltante; al introducir una altura libre de 350 (en centímetros), rechazó el valor e indicó el rango válido. Ninguna de las dos entradas defectuosas produjo resultados. Cada ejecución tardó menos de 1 ms.`),
-  img("figuras/fig_derivas_caso_curso.png", 330, 204),
+  img(FIG("fig_derivas_caso_curso.png"), 330, 204),
   cap("Figura 2. Derivas por nivel del edificio del curso: envolvente de 12 combinaciones en las esquinas E5 y A1."),
   H2("3.2 Aprendizaje automático sobre la base NSR-10"),
   P("La Tabla 1 resume el desempeño en plantas no vistas. Para las derivas, Random Forest redujo el error absoluto medio en 39 % (X) y 39 % (Y) respecto de la referencia y superó a la regresión lineal. Para el periodo y el cortante basal, la regresión lineal sobre variables físicas fue igual o ligeramente mejor, lo que es esperable con 18 casos y relaciones casi proporcionales a la altura y al peso. Ambos modelos mejoraron la fórmula Ta de la norma (error medio de 13,2 % frente a 9,2 % y 7,2 %). Las variables más influyentes en la deriva fueron el número de pisos, la altura y la esbeltez."),
   table(mlRows, [2300, 2300, 2300, 2300]),
   cap("Tabla 1. Error absoluto medio (MAE) y R² con validación dejando una planta fuera (18 edificios, 9 plantas). Derivas en % de la altura de piso."),
-  img("figuras/fig_calculado_vs_predicho.png", 560, 248),
+  img(FIG("fig_calculado_vs_predicho.png"), 560, 248),
   cap("Figura 3. Deriva calculada (OpenSees) frente a predicha por Random Forest en plantas no vistas."),
   P(`De los 7 edificios con deriva ≥ 0,90 %, el modelo identificó 3 y no generó falsas alarmas; los 4 restantes fueron subestimados (Figura 3). La predicción de un edificio tomó ${f(N.ml.t_prediccion_ms, 0)} ms y el entrenamiento de cada modelo unos 0,4 s.`),
 
@@ -133,4 +138,5 @@ const doc = new Document({
     children,
   }],
 });
-Packer.toBuffer(doc).then((b) => { fs.writeFileSync("Informe_tecnico_Nexo_Sismico.docx", b); console.log("ok"); });
+Packer.toBuffer(doc).then((b) => { const out = path.join(RAIZ, "04 Entregables", "Informe", "Informe_tecnico_Nexo_Sismico.docx");
+  fs.writeFileSync(out, b); console.log("ok →", out, "(PDF: abrir en Word → Guardar como PDF)"); });

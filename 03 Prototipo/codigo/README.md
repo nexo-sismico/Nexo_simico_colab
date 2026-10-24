@@ -10,27 +10,31 @@
 | `experimento_ml.py` | Random Forest vs regresión lineal vs referencias, validación dejando una planta fuera |
 | `numeros.py` | Junta en `numeros.json` las cifras que usan el informe y la presentación |
 | `figuras.py` | Figuras del informe y la presentación (`figuras/`) |
-| `ficha.py` | Ficha de pruebas de 1 página (PDF) |
+| `ficha.py` | Ficha de pruebas de 1 página (PDF), copia en `04 Entregables/Prototipo` |
+| `rutas.py` | Rutas comunes (codigo, 07 Outputs, 04 Entregables) y búsqueda de fuentes en cualquier sistema |
+| `ejecutar_todo.py` | Corre toda la cadena en orden |
 | `informe.js` | Informe tipo artículo (DOCX; convertir a PDF con Word o LibreOffice) |
 | `deck.js` | Presentación (PPTX) con notas del orador |
 | `videos.py` | Videos del prototipo y ejecutivo (MP4 con subtítulos) y sus .srt |
 | `casos/*.json` | Caso 1 completo (grupo 1, Piedemonte A), caso 2 sin Fv, caso 3 con altura en cm |
 | `desplazamientos_excel.json` | Desplazamientos de las 12 combinaciones (hojas Der-E5 y Der-A1 del Excel del curso) |
 
-## Orden de ejecución
+## Cómo ejecutarlo (Windows, macOS, Linux o Colab)
+Los scripts ya no dependen de la carpeta desde donde se llamen ni de fuentes de Linux (`rutas.py` resuelve rutas y fuentes).
+Las salidas van a `07 Outputs/Prototipo NSR-10/` y los entregables a `04 Entregables/`.
+
 ```
-python correr_pruebas.py        # prototipo: 3 casos
-python base_datos_nsr10.py      # base NSR-10 (19 registros)
-python experimento_ml.py        # métricas Random Forest
-python numeros.py               # cifras para informe y PPT
-python figuras.py
-python ficha.py
-node informe.js                 # requiere: npm install docx
-node deck.js                    # requiere: npm install pptxgenjs react react-dom react-icons sharp
-python videos.py                # requiere ffmpeg, python-pptx, Pillow y el PDF de la presentación
+pip install -r "03 Prototipo/codigo/requirements.txt"
+python "03 Prototipo/codigo/ejecutar_todo.py"             # pruebas → base (19) → ML → cifras → figuras → ficha
+python "03 Prototipo/codigo/ejecutar_todo.py" --informe   # + informe DOCX y presentación PPTX (antes: npm install en esta carpeta)
+python "03 Prototipo/codigo/ejecutar_todo.py" --videos    # + videos (requiere ffmpeg: winget install Gyan.FFmpeg)
 ```
-Requisitos Python: 3.10+, `numpy`, `pandas`, `scikit-learn`, `matplotlib`, `openpyxl`, `reportlab`.
-`deck.js` usa además un script de tema (`apply_theme.js`) del entorno donde se generó; si no está, comentar esas dos líneas y el deck sale con los colores por defecto.
+También se puede correr cada script por separado, en el mismo orden: `correr_pruebas.py`, `base_datos_nsr10.py`, `experimento_ml.py`, `numeros.py`, `figuras.py`, `ficha.py`.
+
+Notas:
+- Las métricas del Random Forest pueden variar en el 4.º decimal entre equipos (paralelismo de scikit-learn); las cifras del informe (3 decimales) no cambian.
+- `deck.js` usa `apply_theme.js` solo si existe (variable `APPLY_THEME`); sin él, el PPTX sale con colores por defecto. Por eso el PPTX versionado no se regenera salvo que se cambie su contenido.
+- El PDF del informe se obtiene abriendo el DOCX en Word → Guardar como PDF.
 
 Para un edificio nuevo: copiar `casos/caso1_completo.json`, cambiar los valores y llamar `analizar()` de `nexo_nsr10.py`.
 Sin claves ni tokens en ningún archivo.

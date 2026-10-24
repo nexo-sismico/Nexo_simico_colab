@@ -19,3 +19,5 @@ __pycache__/
 *.key
 *token*
 *secret*
+node_modules/
+package-lock.json

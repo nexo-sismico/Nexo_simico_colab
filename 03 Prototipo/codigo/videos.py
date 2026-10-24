@@ -2,17 +2,20 @@
 - Video_prototipo_NSR10.mp4  (≤ 2 min): salidas reales del prototipo para los 3 casos.
 - Video_ejecutivo_Nexo_Sismico.mp4 (≤ 5 min): diapositivas + narración como subtítulos.
 El equipo puede grabar la voz encima siguiendo los .srt."""
-import json, os, re, subprocess, textwrap, glob, shutil
+import json, os, re, subprocess, textwrap, glob, shutil, tempfile
+from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 from pptx import Presentation
+from rutas import COD, RES, SAL, ENT, RAIZ, fuente
 
 W, H = 1280, 720
-OUT = "videos"; TMP = "videos/_frames"
-shutil.rmtree(TMP, ignore_errors=True); os.makedirs(TMP, exist_ok=True)
-SANS = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
-SANSB = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
-MONO = "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"
-MONOB = "/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf"
+OUT = ENT / "Videos"                 # guion y .srt (van a Git)
+MP4 = RAIZ / "08 Multimedia"         # videos (fuera de Git)
+TMP = tempfile.mkdtemp(prefix="nexo_frames_")
+if not shutil.which("ffmpeg"):
+    raise SystemExit("Falta ffmpeg en el PATH (Windows: winget install Gyan.FFmpeg).")
+SANS, SANSB = fuente("DejaVuSans.ttf"), fuente("DejaVuSans-Bold.ttf")
+MONO, MONOB = fuente("DejaVuSansMono.ttf"), fuente("DejaVuSansMono-Bold.ttf")
 F = lambda p, s: ImageFont.truetype(p, s)
 NAVY, ORANGE, LIGHT, GREEN, RED, AMBER = (30, 42, 51), (228, 87, 46), (237, 240, 243), (46, 139, 87), (192, 57, 43), (242, 165, 65)
 
@@ -51,10 +54,10 @@ def save(img, name):
 def render(segs, out_mp4, srt_path):
     """segs = [(png, segundos, texto)] → mp4 + srt."""
     lst = f"{TMP}/{os.path.basename(out_mp4)}.txt"
-    with open(lst, "w") as f:
+    with open(lst, "w", encoding="utf-8") as f:
         for p, s, _ in segs:
-            f.write(f"file '{os.path.abspath(p)}'\nduration {s:.2f}\n")
-        f.write(f"file '{os.path.abspath(segs[-1][0])}'\n")
+            f.write(f"file '{Path(p).resolve().as_posix()}'\nduration {s:.2f}\n")
+        f.write(f"file '{Path(segs[-1][0]).resolve().as_posix()}'\n")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", lst,
                     "-vf", "fps=25,format=yuv420p", "-c:v", "libx264", "-preset", "medium", "-crf", "23",
                     "-movflags", "+faststart", out_mp4], check=True)
@@ -68,15 +71,21 @@ def render(segs, out_mp4, srt_path):
     return t
 
 # --------------------------------------------------------------------------- slides a PNG
-subprocess.run(["pdftoppm", "-png", "-scale-to-x", str(W), "-scale-to-y", str(H), "Presentacion_Nexo_Sismico.pdf", f"{TMP}/slide"], check=True)
+PPT_PDF = ENT / "Presentacion" / "Presentacion_Nexo_Sismico.pdf"
+if shutil.which("pdftoppm"):
+    subprocess.run(["pdftoppm", "-png", "-scale-to-x", str(W), "-scale-to-y", str(H), str(PPT_PDF), f"{TMP}/slide"], check=True)
+else:  # Windows sin poppler: pip install pypdfium2
+    import pypdfium2
+    for i, pg in enumerate(pypdfium2.PdfDocument(str(PPT_PDF)), 1):
+        pg.render(scale=W / pg.get_width()).to_pil().save(f"{TMP}/slide-{i:02d}.png")
 slides = sorted(glob.glob(f"{TMP}/slide-*.png"))
 slide = lambda n: Image.open(slides[n - 1]).convert("RGB").resize((W, H))
 
 # =========================================================================== VIDEO 1: PROTOTIPO
-caso1 = json.load(open("casos/caso1_completo.json", encoding="utf-8"))
-r1 = open("resultados/caso1_completo.txt", encoding="utf-8").read().splitlines()
-r2 = open("resultados/caso2_falta_dato.txt", encoding="utf-8").read().splitlines()
-r3 = open("resultados/caso3_dato_erroneo.txt", encoding="utf-8").read().splitlines()
+caso1 = json.load(open(COD / "casos/caso1_completo.json", encoding="utf-8"))
+r1 = open(RES / "caso1_completo.txt", encoding="utf-8").read().splitlines()
+r2 = open(RES / "caso2_falta_dato.txt", encoding="utf-8").read().splitlines()
+r3 = open(RES / "caso3_dato_erroneo.txt", encoding="utf-8").read().splitlines()
 
 def seg_txt(s, n=8):
     return s
@@ -121,11 +130,11 @@ c3 = ['  "alturas_libres": [350, 2.5, 2.5, 2.5, 2.5]   ← escrito en centímetr
 v1.append((save(caption(terminal("Terminal · caso 3", c3, colorize(c3), cmd="python correr_pruebas.py"),
                         "Caso 3: si un dato está mal, como una altura en centímetros, lo rechaza y explica el rango válido."), "p07"), 17,
            "Caso 3: si un dato está mal, como una altura en centímetros, lo rechaza y explica el rango válido."))
-csv = open("base_datos_NSR10.csv", encoding="utf-8-sig").read().splitlines()
+csv = open(SAL / "base_datos_NSR10.csv", encoding="utf-8-sig").read().splitlines()
 cols = csv[0].split(",")
 show = ["id", "norma", "n_pisos", "hn_m", "Lx_m", "Ly_m", "W_total_kN", "Tx_s", "dx_pct", "dy_pct"]
 import csv as _csv
-rows = list(_csv.DictReader(open("base_datos_NSR10.csv", encoding="utf-8-sig")))
+rows = list(_csv.DictReader(open(SAL / "base_datos_NSR10.csv", encoding="utf-8-sig")))
 def fmt(v):
     try: return f"{float(v):.3f}" if "." in v else v
     except: return v[:14]
@@ -138,10 +147,10 @@ d.text((90, 250), "Nexo Sísmico · Módulo NSR-10", font=F(SANSB, 52), fill=(25
 d.text((90, 330), "3 pruebas: completa ✓ · falta un dato ✗ · dato erróneo ✗", font=F(SANS, 30), fill=(200, 210, 220))
 d.text((90, 380), "Código en el repositorio del equipo (sin claves ni tokens)", font=F(SANS, 26), fill=ORANGE)
 v1.append((save(end, "p09"), 5, "Nexo Sísmico · Módulo NSR-10. Código en el repositorio del equipo, sin claves ni tokens."))
-dur1 = render(v1, f"{OUT}/Video_prototipo_NSR10.mp4", f"{OUT}/Video_prototipo_NSR10.srt")
+dur1 = render(v1, str(MP4 / "Video_prototipo_NSR10.mp4"), OUT / "Video_prototipo_NSR10.srt")
 
 # =========================================================================== VIDEO 2: EJECUTIVO
-prs = Presentation("Presentacion_Nexo_Sismico.pptx")
+prs = Presentation(str(ENT / "Presentacion" / "Presentacion_Nexo_Sismico.pptx"))
 notes = [s.notes_slide.notes_text_frame.text if s.has_notes_slide else "" for s in prs.slides]
 WPS = 2.45  # palabras por segundo (ritmo de lectura en voz alta)
 v2 = []
@@ -158,10 +167,10 @@ for n, txt in enumerate(notes, 1):
     for k, g in enumerate(grupos):
         dur = max(3.0, len(g.split()) / WPS + 0.6)
         v2.append((save(caption(slide(n), g), f"e{n:02d}_{k}"), dur, g))
-dur2 = render(v2, f"{OUT}/Video_ejecutivo_Nexo_Sismico.mp4", f"{OUT}/Video_ejecutivo_Nexo_Sismico.srt")
+dur2 = render(v2, str(MP4 / "Video_ejecutivo_Nexo_Sismico.mp4"), OUT / "Video_ejecutivo_Nexo_Sismico.srt")
 
 # guion legible
-with open(f"{OUT}/Guion_video_ejecutivo.md", "w", encoding="utf-8") as f:
+with open(OUT / "Guion_video_ejecutivo.md", "w", encoding="utf-8") as f:
     f.write(f"# Guion del video ejecutivo (duración {int(dur2 // 60)}:{int(dur2 % 60):02d})\n\n"
             "Narración por diapositiva. Para grabar la voz: reproducir el MP4 y leer cada subtítulo cuando aparece, "
             "o grabar el audio aparte y montarlo sobre el MP4 (el .srt tiene los tiempos).\n\n")

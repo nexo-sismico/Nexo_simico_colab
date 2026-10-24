@@ -13,6 +13,7 @@ import json, csv, sys
 from openpyxl import load_workbook
 import config_plantas_profesor as cp
 from nexo_nsr10 import analizar, registro_bd
+from rutas import COD, SAL
 
 COLS = ["id", "fuente", "norma", "programa", "estado_dato", "n_pisos", "hn_m", "Lx_m", "Ly_m",
         "luces_x_m", "luces_y_m", "n_col", "area_m2", "uso", "grupo_uso", "I", "R",
@@ -20,7 +21,7 @@ COLS = ["id", "fuente", "norma", "programa", "estado_dato", "n_pisos", "hn_m", "
         "Tx_s", "Ty_s", "Tz_s", "CuTa_s", "Sa_x_g", "Sa_y_g", "Vx_kN", "Vy_kN", "dx_pct", "dy_pct", "columnas"]
 
 
-def filas_profesor(xlsx="Resumen_resultados_profesor.xlsx"):
+def filas_profesor(xlsx=COD / "Resumen_resultados_profesor.xlsx"):
     ws = load_workbook(xlsx, data_only=True).active
     res = {r[1]: r[2:] for r in ws.iter_rows(min_row=4, values_only=True) if r[1]}
     E = {e["id"]: e for e in cp.edificios()}
@@ -57,7 +58,7 @@ def fila_modulo(ruta_json):
     return f
 
 
-def construir(salida="base_datos_NSR10.csv", casos=("casos/caso1_completo.json",)):
+def construir(salida=SAL / "base_datos_NSR10.csv", casos=(COD / "casos/caso1_completo.json",)):
     filas = filas_profesor() + [fila_modulo(c) for c in casos]
     with open(salida, "w", newline="", encoding="utf-8-sig") as fh:
         w = csv.DictWriter(fh, fieldnames=COLS, extrasaction="ignore")
@@ -69,4 +70,4 @@ def construir(salida="base_datos_NSR10.csv", casos=("casos/caso1_completo.json",
 
 if __name__ == "__main__":
     filas = construir()
-    print(f"{len(filas)} registros → base_datos_NSR10.csv")
+    print(f"{len(filas)} registros → {SAL / 'base_datos_NSR10.csv'}")

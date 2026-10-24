@@ -1,0 +1,10 @@
+numpy>=1.26
+pandas>=2.2
+scikit-learn>=1.5
+matplotlib>=3.8
+openpyxl>=3.1
+reportlab>=4.0
+# solo para videos.py (además de ffmpeg en el PATH)
+pillow>=10
+python-pptx>=0.6
+pypdfium2>=4

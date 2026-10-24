@@ -4,8 +4,16 @@ const React = require("react");
 const ReactDOMServer = require("react-dom/server");
 const sharp = require("sharp");
 const fa = require("react-icons/fa");
-const { applyTheme } = require("/mnt/skills/public/pptx/scripts/apply_theme.js");
-const N = require("./numeros.json");
+const path = require("path");
+// Rutas relativas a este archivo: corre igual desde cualquier carpeta y sistema operativo.
+const RAIZ = path.resolve(__dirname, "..", "..");
+const SAL = path.join(RAIZ, "07 Outputs", "Prototipo NSR-10");
+const FIG = (f) => path.join(SAL, "figuras", f);
+// apply_theme.js solo existía en el entorno donde se generó el deck; sin él, el deck usa los colores definidos aquí.
+let applyTheme = async () => {};
+try { ({ applyTheme } = require(process.env.APPLY_THEME || "/mnt/skills/public/pptx/scripts/apply_theme.js")); } catch (e) {}
+const N = require(path.join(SAL, "numeros.json"));
+const OUT = path.join(RAIZ, "04 Entregables", "Presentacion", "Presentacion_Nexo_Sismico.pptx");
 
 const THEME = {
   name: "Nexo Sismico",
@@ -149,7 +157,7 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   // 5 ---------------------------------------------------------------- Arquitectura
   s = pres.addSlide({ masterName: "CONTENIDO", sectionTitle: "Solución" });
   s.addText("Arquitectura: una pregunta, dos rutas de evidencia", { placeholder: "title" });
-  s.addImage({ path: "figuras/fig_flujo_integrado.png", x: 0.5, y: 1.15, w: 9.0, h: 3.48, objectName: "flujo" });
+  s.addImage({ path: FIG("fig_flujo_integrado.png"), x: 0.5, y: 1.15, w: 9.0, h: 3.48, objectName: "flujo" });
   T(s, "Las rutas no se mezclan: E.030 (Perú) y NSR-10 (Colombia) difieren en espectro, límite de deriva e hipótesis. Comparten el método de aprendizaje y evaluación.",
     { x: 0.5, y: 4.68, w: 9.0, h: 0.45, fontSize: 12, color: C.text2, italic: true });
   s.addNotes("La arquitectura tiene dos rutas de evidencia que no se mezclan, porque las normas difieren: la ruta E.030 con 130 modelos paramétricos en OpenSees y la ruta NSR-10 con el módulo de verificación y los edificios del profesor Rojas Vallejo. Ambas alimentan el mismo método de Random Forest y la interfaz propuesta en Telegram.");
@@ -213,7 +221,7 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   ];
   s.addTable(filas.map((r, i) => r.map((c) => ({ text: c, options: i === 0 ? hdr : Object.assign({ fill: { color: i % 2 ? HEX.lt2 : HEX.lt1 } }, cel) }))),
     { x: 0.5, y: 1.3, w: 4.7, colW: [2.1, 1.3, 1.3], rowH: 0.42, border: { type: "solid", pt: 0.5, color: "C9D1D9" }, fontFace: "Calibri", objectName: "tabla_validacion" });
-  s.addImage({ path: "figuras/fig_derivas_caso_curso.png", x: 5.45, y: 1.2, w: 4.05, h: 3.0, sizing: { type: "contain", w: 4.05, h: 3.0 }, objectName: "derivas" });
+  s.addImage({ path: FIG("fig_derivas_caso_curso.png"), x: 5.45, y: 1.2, w: 4.05, h: 3.0, sizing: { type: "contain", w: 4.05, h: 3.0 }, objectName: "derivas" });
   T(s, "Envolvente de 12 combinaciones en las esquinas E5 y A1. La relación torsional (1,193) queda cerca del umbral 1,2 de irregularidad.",
     { x: 5.45, y: 4.3, w: 4.05, h: 0.7, fontSize: 11, color: C.text2, italic: true });
   s.addNotes("Validamos contra el cálculo de referencia del curso, hecho con Excel y SAP2000. El prototipo reproduce cortante, fuerzas, derivas, Q, relación torsional y R. La relación torsional de 1,19 queda muy cerca del límite de 1,2: un hallazgo útil para el diseñador.");
@@ -266,7 +274,7 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   // 11 --------------------------------------------------------------- Calc vs pred
   s = pres.addSlide({ masterName: "CONTENIDO", sectionTitle: "Resultados" });
   s.addText("Útil para priorizar, aún no para certificar", { placeholder: "title" });
-  s.addImage({ path: "figuras/fig_calculado_vs_predicho.png", x: 0.5, y: 1.2, w: 5.6, h: 3.0, sizing: { type: "contain", w: 5.6, h: 3.0 }, objectName: "calc_pred" });
+  s.addImage({ path: FIG("fig_calculado_vs_predicho.png"), x: 0.5, y: 1.2, w: 5.6, h: 3.0, sizing: { type: "contain", w: 5.6, h: 3.0 }, objectName: "calc_pred" });
   T(s, "Deriva calculada (OpenSees, profesor) frente a predicha por Random Forest en plantas no vistas.", { x: 0.5, y: 4.3, w: 5.6, h: 0.5, fontSize: 11, color: C.text2, italic: true });
   T(s, `${N.ml.detectados} de ${N.ml.cerca_limite_reales}`, { x: 6.4, y: 1.3, w: 3.1, h: 0.85, fontSize: 48, bold: true, color: C.accent1, fontFace: THEME.headFontFace });
   T(s, "edificios con deriva ≥ 0,90 % detectados por el modelo", { x: 6.4, y: 2.15, w: 3.1, h: 0.6, fontSize: 14, color: C.text2 });
@@ -334,7 +342,7 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   T(s, "Profesor de apoyo: Thomas Federico Rojas Vallejo (Universidad Nacional de Colombia), algoritmo de diseño NSR-10 en OpenSees.", { x: 0.5, y: 4.6, w: 9, h: 0.4, fontSize: 12, color: C.accent2, italic: true });
   s.addNotes("Somos cinco: Lucero en el planteamiento, Alexis en la generación y OpenSees, Nicolás en el módulo NSR-10, Jean Piere en datos, Random Forest y el bot, y Joseph en validación y coordinación. Agradecemos al profesor Thomas Rojas Vallejo por sus datos. Gracias.");
 
-  await pres.writeFile({ fileName: "Presentacion_Nexo_Sismico.pptx" });
-  await applyTheme("Presentacion_Nexo_Sismico.pptx", THEME);
-  console.log("ok");
+  await pres.writeFile({ fileName: OUT });
+  await applyTheme(OUT, THEME);
+  console.log("ok →", OUT);
 })();

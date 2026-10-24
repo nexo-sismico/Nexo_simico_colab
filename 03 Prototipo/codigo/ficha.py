@@ -6,9 +6,11 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Spacer, Preformatted
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-pdfmetrics.registerFont(TTFont("LS", "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf"))
-pdfmetrics.registerFont(TTFont("LSB", "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf"))
-pdfmetrics.registerFont(TTFont("DM", "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"))
+import shutil
+from rutas import RES, SAL, ENT, SANS, SANS_B, MONO
+pdfmetrics.registerFont(TTFont("LS", SANS()))
+pdfmetrics.registerFont(TTFont("LSB", SANS_B()))
+pdfmetrics.registerFont(TTFont("DM", MONO()))
 NAVY = colors.HexColor("#1F3864")
 st = lambda n, **k: ParagraphStyle(n, fontName=k.pop("f", "LS"), **k)
 T = st("t", f="LSB", fontSize=13, textColor=NAVY, leading=16)
@@ -18,9 +20,10 @@ B = st("b", fontSize=8, leading=10.3)
 C = st("c", fontSize=7.4, leading=9)
 CH = st("ch", f="LSB", fontSize=7.4, leading=9, textColor=colors.white)
 M = st("m", f="DM", fontSize=6.3, leading=7.6)
-r1 = json.load(open("resultados/caso1_completo.json"))
-res = json.load(open("resultados/resumen_pruebas.json"))
-doc = SimpleDocTemplate("Ficha_pruebas_prototipo_NSR10.pdf", pagesize=letter, leftMargin=14*mm, rightMargin=14*mm,
+r1 = json.load(open(RES / "caso1_completo.json", encoding="utf-8"))
+res = json.load(open(RES / "resumen_pruebas.json", encoding="utf-8"))
+PDF = SAL / "Ficha_pruebas_prototipo_NSR10.pdf"
+doc = SimpleDocTemplate(str(PDF), pagesize=letter, leftMargin=14*mm, rightMargin=14*mm,
                         topMargin=11*mm, bottomMargin=10*mm, title="Ficha de pruebas — Prototipo NSR-10")
 s = [Paragraph("Ficha de pruebas · Prototipo Nexo Sísmico – Módulo NSR-10", T),
      Paragraph("Beca AI Talent (AECODE) · Investigación académica aplicada · Responsable del módulo: Nicolás Infante · 24 de octubre de 2026", S),
@@ -56,7 +59,7 @@ val = [["Magnitud", "Referencia (Excel)", "Prototipo"],
 tv = Table([[Paragraph(x, CH if i == 0 else C) for x in r] for i, r in enumerate(val)], colWidths=[62*mm, 40*mm, 40*mm])
 tv.setStyle(TableStyle([("BACKGROUND", (0, 0), (-1, 0), NAVY), ("GRID", (0, 0), (-1, -1), 0.4, colors.HexColor("#BFBFBF"))]))
 s += [tv, Paragraph("Captura de la salida (caso 1, extracto)", H)]
-txt = open("resultados/caso1_completo.txt", encoding="utf-8").read().splitlines()
+txt = open(RES / "caso1_completo.txt", encoding="utf-8").read().splitlines()
 s += [Preformatted("\n".join(txt[1:6] + txt[13:20] + txt[-4:-1]), M)]
 s += [Paragraph("Conclusión", H),
       Paragraph("El prototipo reproduce el cálculo de referencia y bloquea entradas incompletas o erróneas antes de calcular. "
@@ -64,3 +67,5 @@ s += [Paragraph("Conclusión", H),
                 "Siguiente paso: alimentar la base de datos NSR-10 (18 edificios del Prof. T. F. Rojas Vallejo + este caso) y conectarla al predictor y al bot. <i>Nota del profesor: varios de esos 18 resultados son teóricos (algunas plantas y luces no se resolverían con pórticos resistentes a momento en la práctica) y las plantas ausentes fallaron en el dimensionamiento del algoritmo de OpenSees; por eso se usan solo para entrenar y comparar, no como diseños.</i>", B),
       Paragraph("Enlace: https://github.com/FrailM7/nexo-sismico · carpeta 03 Prototipo/codigo · sin claves ni tokens.", S)]
 doc.build(s)
+shutil.copy(PDF, ENT / "Prototipo" / PDF.name)   # copia para entregar
+print("ficha →", PDF, "y", ENT / "Prototipo")

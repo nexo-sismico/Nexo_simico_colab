@@ -9,8 +9,9 @@ import json, time, numpy as np, pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from rutas import RES, SAL
 
-d = pd.read_csv("base_datos_NSR10.csv")
+d = pd.read_csv(SAL / "base_datos_NSR10.csv")
 d = d[d["fuente"].str.contains("Rojas")].reset_index(drop=True)
 d["planta"] = d["id"].str.split("-").str[0]
 lx = d["luces_x_m"].apply(json.loads); ly = d["luces_y_m"].apply(json.loads)
@@ -62,13 +63,13 @@ t_pred_ms = (time.perf_counter() - t0) / 100 * 1000
 imp = pd.Series(rf_final.feature_importances_, index=X.columns).sort_values(ascending=False)
 
 met = pd.DataFrame(filas)
-met.round(4).to_csv("resultados/metricas_ml_NSR10.csv", index=False)
-pd.DataFrame(pred_tab).round(4).to_csv("resultados/predicciones_ml_NSR10.csv", index=False)
-imp.round(4).to_csv("resultados/importancia_variables_dx.csv", header=["importancia"])
+met.round(4).to_csv(RES / "metricas_ml_NSR10.csv", index=False)
+pd.DataFrame(pred_tab).round(4).to_csv(RES / "predicciones_ml_NSR10.csv", index=False)
+imp.round(4).to_csv(RES / "importancia_variables_dx.csv", header=["importancia"])
 json.dump({"n_registros": len(d), "n_plantas": int(len(np.unique(grupos))), "validacion": "dejando una planta fuera (9 pliegues)",
            "umbral_revision_pct": umbral, "cerca_limite_reales": int(real.sum()), "detectados": tp, "no_detectados": fn,
            "falsas_alarmas": fp, "t_entrenamiento_s": tiempos, "t_prediccion_ms": t_pred_ms},
-          open("resultados/resumen_ml_NSR10.json", "w"), indent=1)
+          open(RES / "resumen_ml_NSR10.json", "w", encoding="utf-8"), indent=1)
 print(met.round(3).to_string(index=False))
 print(f"\nCerca del límite (≥{umbral}%): reales {int(real.sum())}, detectados {tp}, no detectados {fn}, falsas alarmas {fp}")
 print(f"Predicción de un edificio: {t_pred_ms:.2f} ms")
