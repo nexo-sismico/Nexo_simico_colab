@@ -25,10 +25,17 @@ Registro: `%LOCALAPPDATA%\NexoSismico\sincronizar.log` (fuera del repositorio).
 | Reanudar | `Enable-ScheduledTask -TaskName "Nexo Sismico - sincronizar repositorio"` |
 | Quitarla | `Unregister-ScheduledTask -TaskName "Nexo Sismico - sincronizar repositorio" -Confirm:$false` |
 
-## Para los compañeros
-- Clonar con GitHub Desktop (File → Clone repository → `nexo-sismico`) y abrir esa carpeta como vault en Obsidian.
-- Antes de trabajar: **Fetch/Pull**. Al terminar: **Commit + Push** con un mensaje claro.
-- Si alguien quiere lo mismo automático: plugin **Obsidian Git** (auto commit-and-sync cada 10 min) o copiar esta tarea en su PC.
+## Para los compañeros (cada uno, una vez)
+1. Aceptar la invitación al repositorio, instalar GitHub Desktop, Git para Windows (`winget install Git.Git`) y Obsidian.
+2. GitHub Desktop → File → Clone repository → `FrailM7/nexo-sismico`; abrir esa carpeta como vault en Obsidian.
+3. En PowerShell, dentro de la carpeta clonada:
+   ```powershell
+   powershell -ExecutionPolicy Bypass -File "09 Cowork\instalar_sincronizacion.ps1"
+   ```
+   Configura nombre y correo de los commits si faltan, prueba el acceso a GitHub (puede abrir el navegador para iniciar sesión), registra la tarea y hace la primera sincronización. Para quitarla: el mismo comando con `-Quitar`.
+4. macOS o Linux: plugin **Obsidian Git** con *auto commit-and-sync* cada 10 min y *pull on startup*.
+
+Para no chocar: cada quien edita sobre todo las notas de su módulo (ver `AGENTS.md`), y en las compartidas hace cambios pequeños.
 
 ## Si algo sale mal
 - "DETENIDO: posible clave o token": revisar el archivo indicado en el registro, quitar la clave y esperar la siguiente ejecución.

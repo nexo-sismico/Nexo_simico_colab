@@ -148,7 +148,7 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     T(s, objs[i][1], { x: x + 0.95, y: 3.1, w: 1.7, h: 0.45, fontSize: 18, bold: true, color: C.text1, valign: "middle" });
     T(s, objs[i][2], { x: x + 0.25, y: 3.8, w: 2.35, h: 0.95, fontSize: 14, color: C.text2 });
   }
-  s.addNotes("Nuestra pregunta es: ¿con qué precisión puede Random Forest estimar las derivas de edificios que no vio en el entrenamiento, y qué ventaja ofrece? Para responderla generamos familias paramétricas, automatizamos la verificación NSR-10 y evaluamos el modelo solo con edificios que no vio al entrenar.");
+  s.addNotes("Nuestra pregunta: ¿con qué precisión puede Random Forest estimar las derivas de edificios que no vio al entrenar, y qué ventaja ofrece? Para responderla generamos familias paramétricas, automatizamos la verificación NSR-10 y evaluamos solo con edificios nuevos.");
 
   // 4 ---------------------------------------------------------------- Ejes
   pres.addSection({ title: "Solución" });
@@ -175,7 +175,7 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   s.addImage({ path: FIG("fig_flujo_integrado.png"), x: 0.5, y: 1.15, w: 9.0, h: 3.48, objectName: "flujo" });
   T(s, "Las rutas no se mezclan: E.030 (Perú) y NSR-10 (Colombia) difieren en espectro, límite de deriva e hipótesis. Comparten el método de aprendizaje y evaluación.",
     { x: 0.5, y: 4.68, w: 9.0, h: 0.45, fontSize: 12, color: C.text2, italic: true });
-  s.addNotes("La arquitectura tiene dos rutas de evidencia que no se mezclan, porque las normas difieren: la ruta E.030 con 1 500 edificios paramétricos en OpenSees y la ruta NSR-10 con el módulo de verificación y los edificios del profesor Rojas Vallejo. Ambas alimentan el mismo método de Random Forest y la interfaz propuesta en Telegram.");
+  s.addNotes("La arquitectura tiene dos rutas que no se mezclan porque las normas difieren: la ruta E.030, con 1 500 edificios paramétricos en OpenSees, y la ruta NSR-10, con el módulo de verificación y los edificios del profesor Rojas Vallejo. Ambas alimentan el mismo método de evaluación.");
 
   // 6 ---------------------------------------------------------------- Módulo NSR-10
   pres.addSection({ title: "Prototipo" });
@@ -200,7 +200,7 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     { text: "Entrada: ", options: { bold: true } },
     { text: "sitio (Aa, Av, Fa, Fv, TL), grupo de uso, R0, geometría, pesos por piso, periodos de SAP2000 y desplazamientos en dos esquinas opuestas. Tiempo de cálculo: menos de 1 ms por caso.", options: {} },
   ], { x: 0.5, y: 4.15, w: 9.0, h: 0.6, fontSize: 13, color: C.text2 });
-  s.addNotes("El prototipo es el módulo NSR-10 en Python. Recibe un JSON con el sitio, la geometría, los pesos y los resultados de SAP2000. Primero valida; luego calcula espectro, fuerza horizontal equivalente, derivas de doce combinaciones con torsión accidental, estabilidad P-Delta, irregularidad torsional y R. Al final escribe un reporte y una fila para la base de datos. Todo en menos de un milisegundo.");
+  s.addNotes("El prototipo es el módulo NSR-10 en Python. Recibe un JSON con el sitio, la geometría, los pesos y los resultados de SAP2000; primero valida y luego calcula espectro, fuerza horizontal equivalente, derivas de doce combinaciones con torsión accidental, estabilidad y R. Todo en menos de un milisegundo.");
 
   // 7 ---------------------------------------------------------------- 3 pruebas
   s = pres.addSlide({ masterName: "CONTENIDO", sectionTitle: "Prototipo" });
@@ -218,7 +218,7 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     T(s, casos[i][3], { x: x + 0.25, y: 2.7, w: 2.4, h: 0.65, fontSize: 13, color: C.text2 });
     T(s, casos[i][4], { x: x + 0.25, y: 3.45, w: 2.4, h: 1.3, fontSize: 14, bold: true, color: C.text1 });
   }
-  s.addNotes("Lo probamos con tres casos. Con datos completos, el edificio del curso en Piedemonte A da un cortante de 23 250 kilonewtons y una deriva máxima de 0,99 %: cumple. Si falta un dato, como Fv, se detiene y dice cuál falta. Si un dato está mal, como una altura escrita en centímetros, lo rechaza y explica el rango válido.");
+  s.addNotes("Lo probamos con tres casos. Con datos completos, el edificio del curso da 23 250 kilonewtons de cortante y 0,99 % de deriva: cumple. Si falta un dato, como Fv, se detiene y dice cuál falta. Si un dato está mal, como una altura en centímetros, lo rechaza.");
 
   // 8 ---------------------------------------------------------------- Validación
   s = pres.addSlide({ masterName: "CONTENIDO", sectionTitle: "Prototipo" });
@@ -256,7 +256,7 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   T(s, `${xr.detectadas} de ${xr.reales}`, { x: 6.6, y: 3.1, w: 2.8, h: 0.8, fontSize: 36, bold: true, color: C.accent3, fontFace: THEME.headFontFace });
   T(s, `edificios que exceden 0,7 % detectados; ${xr.falsas_alarmas} falsas alarmas`, { x: 6.6, y: 3.9, w: 2.8, h: 0.6, fontSize: 13, color: C.text2 });
   T(s, "Los no detectados tienen derivas reales de 0,70 % a 0,76 %: justo en el límite.", { x: 0.5, y: 4.75, w: 9.0, h: 0.3, fontSize: 11, color: C.accent2, italic: true });
-  s.addNotes(`Esta es la respuesta principal a la pregunta. En la ruta peruana generamos y analizamos 1 500 edificios en OpenSees. Entrenamos Random Forest con 1 200 y lo probamos una sola vez con 300 familias que nunca vio. Su error medio en la deriva fue de 0,04 puntos porcentuales, con R² de 0,99, y detectó 137 de los 146 edificios que exceden el límite. Los que se le escapan están justo en el límite, entre 0,70 y 0,76 %. Como comparación, Gradient Boosting mejora un poco: R² de 0,995 y 139 detectados. La diferencia entre algoritmos es pequeña; lo que manda son los datos y las variables físicas.`);
+  s.addNotes("Esta es la respuesta principal. Generamos y analizamos 1 500 edificios en OpenSees, entrenamos Random Forest con 1 200 y lo probamos una sola vez con 300 familias que nunca vio. Su error medio en la deriva fue de 0,04 puntos, con R² de 0,99, y detectó 137 de 146 excedencias; las que se le escapan están justo en el límite. Gradient Boosting, como comparación, mejora poco: lo que manda son los datos.");
 
   // 10 --------------------------------------------------------------- Base NSR-10
   s = pres.addSlide({ masterName: "CONTENIDO", sectionTitle: "Resultados" });
@@ -272,7 +272,7 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   T(s, "Nota del profesor", { x: 1.5, y: 3.3, w: 7.8, h: 0.35, fontSize: 15, bold: true });
   T(s, "Varios resultados son teóricos: algunas plantas y luces no se resolverían con pórticos resistentes a momento en la práctica. Las plantas ausentes fallaron en el dimensionamiento del algoritmo de OpenSees. Por eso estos datos sirven para entrenar y comparar, no como diseños.",
     { x: 1.5, y: 3.7, w: 7.8, h: 1.1, fontSize: 13, color: C.text2 });
-  s.addNotes("Para la ruta NSR-10 armamos una base con 18 edificios que diseñó el profesor Rojas Vallejo con su algoritmo en OpenSees, más el caso del curso. El profesor nos advirtió que varios son teóricos y que las plantas que faltan fallaron en el dimensionamiento. Los usamos para entrenar y comparar, no como diseños.");
+  s.addNotes("Para la ruta colombiana usamos 18 edificios que diseñó el profesor Rojas Vallejo con su algoritmo en OpenSees, más el caso del curso. Varios son teóricos, así que sirven para entrenar y comparar, no como diseños.");
 
   // 11 --------------------------------------------------------------- RF chart NSR-10
   s = pres.addSlide({ masterName: "CONTENIDO", sectionTitle: "Resultados" });
@@ -300,7 +300,7 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   T(s, `${Math.round(N.ml.t_prediccion_ms)} ms`, { x: 6.6, y: 3.3, w: 2.8, h: 0.8, fontSize: 40, bold: true, color: C.accent1, fontFace: THEME.headFontFace });
   T(s, "por predicción; entrenar toma 0,4 s", { x: 6.6, y: 4.1, w: 2.8, h: 0.6, fontSize: 13, color: C.text2 });
   T(s, "Validación dejando una planta completa fuera (9 pliegues).", { x: 0.5, y: 4.95, w: 5.6, h: 0.25, fontSize: 10, color: C.accent2, italic: true });
-  s.addNotes("Evaluamos Random Forest dejando cada planta completa por fuera. Con plantas que nunca vio, su error en la deriva fue de 0,086 puntos en X y 0,101 en Y: un 39 % menos que predecir la media y mejor que la regresión lineal. Cada predicción toma unos 32 milisegundos.");
+  s.addNotes("Con plantas NSR-10 que nunca vio, el error de deriva de Random Forest fue de 0,086 puntos en X y 0,101 en Y: un 39 % menos que predecir la media.");
 
   // 12 --------------------------------------------------------------- Calc vs pred NSR-10
   s = pres.addSlide({ masterName: "CONTENIDO", sectionTitle: "Resultados" });
@@ -311,7 +311,7 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   T(s, "edificios con deriva ≥ 0,90 % detectados por el modelo", { x: 6.4, y: 2.15, w: 3.1, h: 0.6, fontSize: 14, color: C.text2 });
   T(s, `${N.ml.falsas_alarmas}`, { x: 6.4, y: 2.95, w: 3.1, h: 0.85, fontSize: 48, bold: true, color: C.accent3, fontFace: THEME.headFontFace });
   T(s, "falsas alarmas; el modelo subestima los casos más cercanos al límite", { x: 6.4, y: 3.8, w: 3.1, h: 0.8, fontSize: 14, color: C.text2 });
-  s.addNotes("Pero hay que ser honestos: de siete edificios cerca del límite, el modelo detectó tres y subestimó cuatro. No dio falsas alarmas. Con 18 datos sirve para ordenar alternativas; con 1 500, como en la ruta E.030, la precisión sube de forma drástica. La lección es que ampliar la base colombiana con casos verificados es el siguiente paso.");
+  s.addNotes("Con 18 edificios, el modelo detectó tres de siete casos cerca del límite y no dio falsas alarmas. Con tan pocos datos solo sirve para ordenar alternativas; por eso el siguiente paso es ampliar la base colombiana con casos verificados.");
 
   // 12 --------------------------------------------------------------- Limitaciones
   pres.addSection({ title: "Cierre" });
@@ -350,7 +350,7 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     { text: "Conectar módulo y predictor al bot de Telegram", options: { bullet: true, breakLine: true } },
     { text: "Cronometrar el flujo completo para medir el ahorro", options: { bullet: true } },
   ], { x: 6.05, y: 1.9, w: 3.3, h: 2.8, fontSize: 14, color: C.background1, paraSpaceAfter: 6 });
-  s.addNotes("En conclusión: el módulo NSR-10 reproduce el cálculo de referencia y filtra datos malos; con 1 500 edificios Random Forest estima la deriva de familias nuevas con R² de 0,99 y detecta casi todas las excedencias; con 18 edificios colombianos solo sirve para priorizar. Los siguientes pasos son ampliar la base NSR-10 con casos verificados, conectar todo al bot y medir el ahorro de tiempo real.");
+  s.addNotes("En conclusión: el módulo NSR-10 reproduce el cálculo de referencia y filtra datos malos; con 1 500 edificios, Random Forest estima la deriva de familias nuevas con R² de 0,99, y con 18 solo sirve para priorizar. Siguientes pasos: ampliar la base NSR-10, conectar el bot y medir el ahorro de tiempo.");
 
   // 14 --------------------------------------------------------------- Equipo
   s = pres.addSlide({ masterName: "CONTENIDO", sectionTitle: "Cierre" });
@@ -370,7 +370,7 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   T(s, "Python · OpenSeesPy · SAP2000 · scikit-learn · n8n · Telegram · asistentes de IA generativa para programación · Obsidian · GitHub · Discord · Miro",
     { x: 0.5, y: 3.9, w: 9, h: 0.6, fontSize: 14, color: C.text2 });
   T(s, "Profesor de apoyo: Thomas Federico Rojas Vallejo (Universidad Nacional de Colombia), algoritmo de diseño NSR-10 en OpenSees.", { x: 0.5, y: 4.6, w: 9, h: 0.4, fontSize: 12, color: C.accent2, italic: true });
-  s.addNotes("Somos cinco: Lucero en el planteamiento, Alexis en la generación y OpenSees, Nicolás en el módulo NSR-10, Jean Piere en datos, modelos E.030 y el bot, y Joseph en validación y coordinación. Agradecemos al profesor Thomas Rojas Vallejo por sus datos. Gracias.");
+  s.addNotes("Somos Lucero, Alexis, Nicolás, Jean Piere y Joseph. Agradecemos al profesor Thomas Rojas Vallejo por sus datos. Gracias.");
 
   await pres.writeFile({ fileName: OUT });
   await applyTheme(OUT, THEME);

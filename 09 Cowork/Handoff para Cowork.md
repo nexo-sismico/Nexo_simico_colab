@@ -14,6 +14,7 @@ investigación académica aplicada. La carpeta conectada es un vault de Obsidian
 Git del grupo: es la única fuente de verdad.
 
 Lee en este orden antes de hacer nada:
+0. AGENTS.md y 10 Memoria IA/Contexto.md       ← reglas y estado actual (memoria compartida)
 1. 01 Proyecto/Explicacion del proyecto.md   ← el proyecto completo explicado
    00 Inicio.md
 2. 01 Proyecto/Ruta de trabajo y coordinacion.md   ← qué se entrega, quién y cuándo

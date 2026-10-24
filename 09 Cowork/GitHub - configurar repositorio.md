@@ -54,7 +54,7 @@ carpeta: no toques otras carpetas (ni Documents\Claude ni el vault "Oficinas Pie
 7. En github.com → Settings → Collaborators → invitar a Lucero, Alexis, Jean Piere y Joseph.
 
 ## Cada compañero (una vez)
-GitHub Desktop → File → Clone repository → `nexo-sismico` → abrir esa carpeta como vault en Obsidian.
+✅ Repositorio publicado: https://github.com/FrailM7/nexo-sismico. Pasos completos en el `README.md` (sección "Cómo trabajamos en conjunto") y en [[Sincronizacion automatica]]: clonar, abrir como vault y correr `09 Cowork/instalar_sincronizacion.ps1`.
 
 ## Día a día
 - Antes de trabajar: **Fetch / Pull**.

@@ -15,4 +15,4 @@ Archivo: `04 Entregables/Presentacion/Presentacion_Nexo_Sismico.pptx` (15 diapos
 | 14–15 | Conclusiones · equipo | Joseph |
 
 Pendiente opcional: diapositiva con una familia OpenSees E.030 en 3D (Alexis, `porticos_rc/main.py ver`) y captura del bot (Jean Piere).
-⚠️ El video ejecutivo (`08 Multimedia`) se hizo con la versión 1 (14 diapositivas): no incluye la diapositiva E.030. Regenerarlo con `python "03 Prototipo/codigo/ejecutar_todo.py" --videos` (requiere ffmpeg) o grabar la voz sobre la versión 2.
+Notas del orador acortadas el 24 oct para que el video ejecutivo quede en 4:36 (límite 5 min); el video v2 ya incluye la diapositiva E.030.

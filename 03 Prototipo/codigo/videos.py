@@ -60,7 +60,7 @@ def render(segs, out_mp4, srt_path):
         f.write(f"file '{Path(segs[-1][0]).resolve().as_posix()}'\n")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", lst,
                     "-vf", "fps=25,format=yuv420p", "-c:v", "libx264", "-preset", "medium", "-crf", "23",
-                    "-movflags", "+faststart", out_mp4], check=True)
+                    "-movflags", "+faststart", "-t", f"{sum(s for _, s, _ in segs):.2f}", out_mp4], check=True)   # -t: el último cuadro repetido no suma tiempo
     t = 0.0
     def ts(x):
         h, r = divmod(x, 3600); m, s = divmod(r, 60)

@@ -16,6 +16,7 @@ Estimación preliminar de derivas sísmicas en edificios aporticados de concreto
 ## 👉 Empieza aquí
 - **[[Ruta de trabajo y coordinacion]]** — qué se entrega hoy, quién y en qué orden
 - **[[Explicacion del proyecto]]** — el proyecto completo explicado de principio a fin (léelo primero)
+- **[[Contexto]]** (`10 Memoria IA/`) — memoria compartida del equipo y sus IAs: estado, decisiones y sesiones · reglas para IAs en `AGENTS.md`
 - **[[Flujo integrado de herramientas]]** — cómo encajan todas las herramientas y la historia del informe
 - [[Inventario de insumos]] — dónde está cada archivo
 - [[Handoff para Cowork]] · [[GitHub - configurar repositorio]] · `REGISTRO_EQUIPO.md`
@@ -38,7 +39,7 @@ Estimación preliminar de derivas sísmicas en edificios aporticados de concreto
 | Base de datos NSR-10 | ✅ 19 registros (18 profesor + caso del curso) |
 | Informe tipo artículo (5 págs., v2 con E.030) | ✅ `04 Entregables/Informe/` · [[Informe tipo articulo]] |
 | Presentación (15 diapositivas, v2 con E.030) | ✅ `04 Entregables/Presentacion/` · [[Presentacion PPT]] |
-| Video prototipo (1:58) y ejecutivo (4:49) | ✅ MP4 en `08 Multimedia` (fuera de Git) · guion y .srt en `04 Entregables/Videos/` |
+| Video prototipo (1:58) y ejecutivo v2 (4:36, con E.030) | ✅ MP4 en `08 Multimedia` (fuera de Git) · guion y .srt en `04 Entregables/Videos/` · falta subir por enlace |
 | Random Forest NSR-10 (validación por planta) | ✅ MAE deriva 0.086 % (X) / 0.101 % (Y), −39 % vs referencia · [[Random Forest]] |
 | Random Forest E.030 (300 familias reservadas) | ✅ Deriva R² 0,990 · MAE 0,040 % · 137 de 146 excedencias (Gradient Boosting como comparación: 0,995) · en informe y PPT v2 |
 | Código del prototipo | ✅ Corre en Windows: `python "03 Prototipo/codigo/ejecutar_todo.py"` |

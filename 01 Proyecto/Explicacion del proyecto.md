@@ -86,8 +86,8 @@ Nota: [[Bot Telegram n8n]] · flujos en `05 Datos/Piero JSON/`
 | Ficha de 1 página | `04 Entregables/Prototipo/Ficha_pruebas_prototipo_NSR10.pdf` | ✅ con enlace al repositorio |
 | Video del prototipo (≤ 2 min) | `08 Multimedia/` (fuera de Git) | ✅ 1:58, falta subir por enlace |
 | Informe tipo artículo (≤ 5 págs.) | `04 Entregables/Informe/` | ✅ v2 (5 págs.) con resultados E.030 |
-| Presentación | `04 Entregables/Presentacion/` | ✅ v2 (15 diap.) con diapositiva E.030; el video ejecutivo sigue en v1 |
-| Video ejecutivo (≤ 5 min) | `08 Multimedia/` | ✅ 4:49 sin voz; falta enlace |
+| Presentación | `04 Entregables/Presentacion/` | ✅ v2 (15 diap.) con diapositiva E.030 |
+| Video ejecutivo (≤ 5 min) | `08 Multimedia/` | ✅ v2, 4:36 sin voz, con la diapositiva E.030; falta enlace |
 | Registro Git | `REGISTRO_EQUIPO.md` + https://github.com/FrailM7/nexo-sismico | 🟡 faltan habilidades de 4 integrantes |
 
 ## 7. Equipo
@@ -116,5 +116,5 @@ Detalles en `03 Prototipo/codigo/README.md`. La línea E.030 se corre desde su p
 
 ## 10. Cómo se mantiene el repositorio
 - Repositorio del equipo (privado): https://github.com/FrailM7/nexo-sismico.
-- En el PC de Nicolás, una tarea de Windows ejecuta `09 Cowork/sincronizar.ps1` cada 15 minutos: trae los cambios del equipo, revisa que no haya claves y sube lo nuevo. Ver [[Sincronizacion automatica]].
-- Los compañeros clonan el repositorio con GitHub Desktop y abren la carpeta como vault de Obsidian.
+- Cada integrante clona el repositorio, lo abre como vault de Obsidian y corre `09 Cowork/instalar_sincronizacion.ps1`: una tarea de Windows sincroniza cada 15 minutos (trae los cambios del equipo, revisa que no haya claves y sube lo nuevo). Ver [[Sincronizacion automatica]] y el `README.md`.
+- **Memoria compartida para personas e IAs:** `10 Memoria IA/` (contexto, decisiones y sesiones). Las IAs leen `AGENTS.md` (o `CLAUDE.md`, `GEMINI.md`, `.github/copilot-instructions.md`).
