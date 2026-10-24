@@ -1,0 +1,100 @@
+{
+ "fuente": "https://github.com/PieroVQ/ProyectoGH",
+ "n_desarrollo": 1200,
+ "n_prueba": 300,
+ "limite_deriva": 0.007,
+ "base_estructuras": 1500,
+ "base_exceden": 668,
+ "objetivos": {
+  "Tx_s": {
+   "RF": {
+    "MAE": 0.008884537218851641,
+    "RMSE": 0.011926507273621482,
+    "R2": 0.9964021283615349,
+    "err_rel_mediano_pct": 1.1502814443800427
+   },
+   "GB": {
+    "MAE": 0.004310226906545698,
+    "RMSE": 0.005861659914553372,
+    "R2": 0.9991309188196986,
+    "err_rel_mediano_pct": 0.519955481138966
+   },
+   "media_R2": -0.004803543437691404,
+   "media_MAE": 0.16767508264783365,
+   "t_entrenamiento_RF_s": 2.415791600000375,
+   "t_prediccion_RF_ms": 69.17008499995063
+  },
+  "deriva_max_X": {
+   "RF": {
+    "MAE": 0.00040089295575207343,
+    "RMSE": 0.0006443238834180436,
+    "R2": 0.9895196044135371,
+    "err_rel_mediano_pct": 4.292457490854332
+   },
+   "GB": {
+    "MAE": 0.00026316900621323457,
+    "RMSE": 0.00044032367118760984,
+    "R2": 0.9951054442199744,
+    "err_rel_mediano_pct": 2.5773781896427868
+   },
+   "media_R2": -0.004356624456401059,
+   "media_MAE": 0.004718303287488616,
+   "t_entrenamiento_RF_s": 2.478461900000184,
+   "t_prediccion_RF_ms": 68.73719000004712,
+   "exced_RF": {
+    "reales": 140,
+    "detectadas": 132,
+    "no_detectadas": 8,
+    "falsas_alarmas": 3
+   },
+   "exced_GB": {
+    "reales": 140,
+    "detectadas": 134,
+    "no_detectadas": 6,
+    "falsas_alarmas": 3
+   }
+  },
+  "deriva_max_Y": {
+   "RF": {
+    "MAE": 0.0004013852765363941,
+    "RMSE": 0.0006366751055673571,
+    "R2": 0.9897551037150988,
+    "err_rel_mediano_pct": 3.9916144205749307
+   },
+   "GB": {
+    "MAE": 0.00026131193690921153,
+    "RMSE": 0.00045198045939951484,
+    "R2": 0.9948368927478152,
+    "err_rel_mediano_pct": 2.493211351605974
+   },
+   "media_R2": -0.005418305263334755,
+   "media_MAE": 0.004760602491852971,
+   "t_entrenamiento_RF_s": 2.640922900000078,
+   "t_prediccion_RF_ms": 68.8556349999999,
+   "exced_RF": {
+    "reales": 136,
+    "detectadas": 131,
+    "no_detectadas": 5,
+    "falsas_alarmas": 3
+   },
+   "exced_GB": {
+    "reales": 136,
+    "detectadas": 132,
+    "no_detectadas": 4,
+    "falsas_alarmas": 3
+   }
+  }
+ },
+ "exced_XoY_RF": {
+  "reales": 146,
+  "detectadas": 137,
+  "no_detectadas": 9,
+  "falsas_alarmas": 2
+ },
+ "exced_XoY_GB": {
+  "reales": 146,
+  "detectadas": 139,
+  "no_detectadas": 7,
+  "falsas_alarmas": 2
+ }
+}

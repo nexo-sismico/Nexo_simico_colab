@@ -20,4 +20,5 @@
 | 2026-10-24 | Videos generados sin voz y con subtítulos; el equipo puede grabar la narración sobre ellos | No hay herramienta de voz en el entorno; el guion queda listo |
 | 2026-10-24 | Repositorio del equipo publicado (privado): https://github.com/FrailM7/nexo-sismico, con sincronización automática cada 15 min | Una sola fuente de verdad versionada |
 | 2026-10-24 | Se incorpora la ruta E.030 del repositorio de Jean Piere (1 500 estructuras, 300 familias de prueba) como evidencia principal de R1 | Ya estaba hecha; el vault la tenía como pendiente |
-| 2026-10-24 | **Por decidir:** el mejor modelo E.030 es Gradient Boosting; ¿la pregunta dice "Random Forest" o "modelos de ensamble de árboles"? | Coherencia entre pregunta, informe y resultados |
+| 2026-10-24 | La pregunta mantiene **Random Forest**; Gradient Boosting (mejor modelo del repositorio E.030) se reporta como comparación. RF evaluado en las mismas 300 familias reservadas: deriva R² 0,990, 137 de 146 excedencias | Coherencia con la pregunta y la rúbrica; la diferencia entre algoritmos es pequeña |
+| 2026-10-24 | Informe v2 (5 págs.) y presentación v2 (15 diap.) con resultados E.030 | La ruta E.030 responde R1 |

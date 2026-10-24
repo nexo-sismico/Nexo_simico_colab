@@ -13,6 +13,7 @@
 | `ficha.py` | Ficha de pruebas de 1 página (PDF), copia en `04 Entregables/Prototipo` |
 | `rutas.py` | Rutas comunes (codigo, 07 Outputs, 04 Entregables) y búsqueda de fuentes en cualquier sistema |
 | `ejecutar_todo.py` | Corre toda la cadena en orden |
+| `resumen_e030.py` | Resultados de la ruta E.030 (repositorio de Jean Piere): entrena Random Forest con su partición y escribe `07 Outputs/E030/` para el informe y la PPT. Uso: `python resumen_e030.py RUTA/ProyectoGH` |
 | `informe.js` | Informe tipo artículo (DOCX; convertir a PDF con Word o LibreOffice) |
 | `deck.js` | Presentación (PPTX) con notas del orador |
 | `videos.py` | Videos del prototipo y ejecutivo (MP4 con subtítulos) y sus .srt |

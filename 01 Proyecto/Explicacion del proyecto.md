@@ -47,7 +47,7 @@ Repositorio: https://github.com/PieroVQ/ProyectoGH · revisión: [[Ruta E030 - r
 2. **Predimensiona** columnas, vigas y losas con reglas de E.060 y metra cargas con E.020.
 3. **Analiza** en OpenSeesPy: modos, espectro E.030, CQC, excentricidad accidental, cortante mínimo, deriva normativa (elástica × 0,75·R).
 4. **Entrena** 7 configuraciones de modelos de árboles con 1 200 estructuras y prueba con 300 familias nunca vistas.
-5. **Resultado:** deriva con **MAE 0,026 % y R² 0,995**; detecta **139 de 146 edificios que exceden el límite (95 %)**, con 2 falsas alarmas. El mejor modelo es Gradient Boosting; Random Forest queda muy cerca (R² 0,989).
+5. **Resultado (Random Forest, el modelo de la pregunta):** deriva con **MAE 0,040 % y R² 0,990**; detecta **137 de 146 edificios que exceden el límite (94 %)**, con 2 falsas alarmas; los que se le escapan tienen derivas de 0,70–0,76 %, justo en el límite. Como comparación, Gradient Boosting llega a R² 0,995 y 139 de 146.
 6. **Por qué funciona tan bien:** el modelo no adivina desde cero; recibe una estimación física (periodo aproximado por rigidez de piso y espectro) y aprende a corregirla.
 
 ### 4.2 Línea 2 — Prototipo NSR-10 (Colombia) · ✅ hecho
@@ -72,12 +72,12 @@ Nota: [[Bot Telegram n8n]] · flujos en `05 Datos/Piero JSON/`
 ## 5. Qué responde cada resultado (la historia del informe)
 | Resultado | Responde | Estado |
 |---|---|---|
-| R1 · Precisión en familias nuevas | La pregunta central | ✅ E.030: R² 0,995, 95 % de excedencias detectadas · ✅ NSR-10: R² 0,42–0,59 con 18 datos |
+| R1 · Precisión en familias nuevas | La pregunta central | ✅ E.030: Random Forest R² 0,990, 137 de 146 excedencias · ✅ NSR-10: R² 0,42–0,59 con 18 datos |
 | R2 · Prototipo NSR-10 | ¿Se puede producir una respuesta de referencia confiable y trazable en Colombia? | ✅ Reproduce SAP2000 y bloquea entradas malas |
 | R3 · Base NSR-10 | ¿Cómo se amplía el predictor a Colombia? | ✅ 19 registros con esquema común |
 | R4 · Tiempo | ¿Cuánto se ahorra? | 🟡 Predicción ≈ 32 ms; análisis automático ≈ 0,17 s por estructura; **falta cronometrar el flujo manual en SAP2000** (Joseph) |
 
-**Conclusión que sostienen los datos:** dentro del dominio entrenado, un modelo de árboles con variables físicas estima la deriva de edificios nuevos con error de centésimas de punto porcentual y detecta casi todas las excedencias. Sirve para **filtrar alternativas**, no para certificar un diseño: la verificación normativa completa sigue siendo obligatoria.
+**Conclusión que sostienen los datos:** dentro del dominio entrenado, Random Forest con variables físicas estima la deriva de edificios nuevos con error de centésimas de punto porcentual y detecta casi todas las excedencias. Sirve para **filtrar alternativas**, no para certificar un diseño: la verificación normativa completa sigue siendo obligatoria.
 
 ## 6. Entregables y dónde están
 | Entregable | Archivo | Estado |
@@ -85,8 +85,8 @@ Nota: [[Bot Telegram n8n]] · flujos en `05 Datos/Piero JSON/`
 | Prototipo probado con 3 casos | `03 Prototipo/codigo/` + `07 Outputs/Prototipo NSR-10/` | ✅ |
 | Ficha de 1 página | `04 Entregables/Prototipo/Ficha_pruebas_prototipo_NSR10.pdf` | ✅ con enlace al repositorio |
 | Video del prototipo (≤ 2 min) | `08 Multimedia/` (fuera de Git) | ✅ 1:58, falta subir por enlace |
-| Informe tipo artículo (≤ 5 págs.) | `04 Entregables/Informe/` | 🟡 v1; **falta incorporar los resultados E.030** |
-| Presentación | `04 Entregables/Presentacion/` | 🟡 v1; **falta diapositiva E.030** |
+| Informe tipo artículo (≤ 5 págs.) | `04 Entregables/Informe/` | ✅ v2 (5 págs.) con resultados E.030 |
+| Presentación | `04 Entregables/Presentacion/` | ✅ v2 (15 diap.) con diapositiva E.030; el video ejecutivo sigue en v1 |
 | Video ejecutivo (≤ 5 min) | `08 Multimedia/` | ✅ 4:49 sin voz; falta enlace |
 | Registro Git | `REGISTRO_EQUIPO.md` + https://github.com/FrailM7/nexo-sismico | 🟡 faltan habilidades de 4 integrantes |
 
@@ -100,8 +100,8 @@ Nota: [[Bot Telegram n8n]] · flujos en `05 Datos/Piero JSON/`
 | Joseph | Validación, tiempos, integración de entregables, demo |
 
 ## 8. Qué falta, en orden de impacto
-1. **Decidir cómo nombrar el modelo** en la pregunta: "Random Forest" o "modelos de ensamble de árboles (Random Forest y Gradient Boosting)". Ver [[Decisiones]].
-2. **Llevar los resultados E.030 al informe y a la presentación** (sección 3.2 y diapositiva 10). Hoy dicen que es "el siguiente paso".
+1. ✅ Decidido: la pregunta mantiene Random Forest; Gradient Boosting como comparación. Informe y presentación v2 actualizados.
+2. **Revisión del equipo** de la v2 (Jean Piere: secciones E.030 y la versión de la norma citada) y **video ejecutivo** con la diapositiva E.030.
 3. **Cronometrar** un análisis manual en SAP2000 para poder hablar de ahorro de tiempo (Joseph).
 4. Subir los videos a Drive o YouTube y pegar los enlaces ([[Video ejecutivo 5 min]]).
 5. Completar las habilidades en `REGISTRO_EQUIPO.md`, Miro y Discord.

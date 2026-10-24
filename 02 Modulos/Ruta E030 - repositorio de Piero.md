@@ -43,7 +43,7 @@ Tiempos registrados en el repositorio: generar y analizar las 1 500 estructuras 
 ## Hallazgos de la revisión
 | # | Hallazgo | Impacto | Qué se hizo / propuesta |
 |---|---|---|---|
-| 1 | El modelo seleccionado es **Gradient Boosting**, no Random Forest. La pregunta de investigación nombra a Random Forest. | Coherencia del informe | Reportar ambos: RF (normalizado, R² 0,989 en CV) como línea base pedida por la pregunta y Gradient Boosting como mejor modelo. Propuesta de redacción: *"modelos de ensamble de árboles (Random Forest y Gradient Boosting)"*. **Decisión del equipo.** |
+| 1 | El modelo seleccionado es **Gradient Boosting**, no Random Forest. La pregunta de investigación nombra a Random Forest. | Coherencia del informe | ✅ Decidido: la pregunta mantiene Random Forest. Se entrenó `RF_normalizado` con su misma partición (`resumen_e030.py`): deriva R² 0,990, MAE 0,040 %, 137 de 146 excedencias en prueba. Gradient Boosting se reporta como comparación. |
 | 2 | La clave del desempeño son las **variables físicas auxiliares** (periodo aproximado por rigidez de piso, espectro E.030) y predecir el cociente respecto a esa estimación. | Aporte metodológico fuerte | Destacarlo en el informe: el ML corrige una estimación física, no adivina desde cero. |
 | 3 | El vault decía "130 configuraciones, 49 familias" | Cifras desactualizadas | Actualizado a 1 500 estructuras / 1 500 familias en todas las notas. |
 | 4 | Unidades kgf-cm y deriva adimensional (0,007) frente a kN-m y % en NSR-10 (límite 1,0 %) | Riesgo de mezclar | Se mantiene la regla: **no se mezclan** las bases; se comparan solo como dos líneas de evidencia. |
@@ -56,7 +56,7 @@ Tiempos registrados en el repositorio: generar y analizar las 1 500 estructuras 
 Verificación hecha: las **11 pruebas unitarias de `ml_porticos` pasan** (Python 3.13, scikit-learn 1.9.1, numpy 2.5.4, pandas 3.1.0 — mismas versiones de sus modelos). No se ejecutaron las pruebas de `porticos_rc` (requieren OpenSeesPy) ni se volvió a cargar el `.joblib`.
 
 ## Cómo encaja con lo nuestro
-- **R1 de la pregunta de investigación (precisión en familias nuevas) queda respondida con E.030**: deriva con R² 0,995 y 95 % de excedencias detectadas.
+- **R1 de la pregunta de investigación (precisión en familias nuevas) queda respondida con E.030**: Random Forest, deriva con R² 0,990 y 137 de 146 excedencias detectadas (Gradient Boosting, como comparación: R² 0,995 y 139 de 146).
 - La ruta NSR-10 (18 edificios del profesor) sigue siendo la **validación en Colombia** con pocos datos (R² 0,59 / 0,42): muestra que con 18 edificios el RF solo sirve para priorizar; con 1 500 generados, la precisión es alta. Ese contraste es un resultado en sí mismo: **la cantidad y trazabilidad de los datos manda**.
 - Ahorro de tiempo (R4): el generador automatiza la modelación (≈ 0,17 s por estructura aceptada); la predicción NSR-10 medida es ≈ 32 ms por edificio. Falta cronometrar la predicción E.030 y el flujo manual en SAP2000 (Joseph).
 

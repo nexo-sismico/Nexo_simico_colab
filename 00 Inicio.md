@@ -36,10 +36,10 @@ Estimación preliminar de derivas sísmicas en edificios aporticados de concreto
 | Bot Telegram n8n (Jean Piere) | Flujos listos; backend Python no implementado |
 | Prototipo con 3 casos | ✅ Ruta B lista: [[Pruebas 3 casos]] · ficha en `07 Outputs` |
 | Base de datos NSR-10 | ✅ 19 registros (18 profesor + caso del curso) |
-| Informe tipo artículo (4 págs.) | ✅ `04 Entregables/Informe/` · [[Informe tipo articulo]] |
-| Presentación (14 diapositivas) | ✅ `04 Entregables/Presentacion/` · [[Presentacion PPT]] |
+| Informe tipo artículo (5 págs., v2 con E.030) | ✅ `04 Entregables/Informe/` · [[Informe tipo articulo]] |
+| Presentación (15 diapositivas, v2 con E.030) | ✅ `04 Entregables/Presentacion/` · [[Presentacion PPT]] |
 | Video prototipo (1:58) y ejecutivo (4:49) | ✅ MP4 en `08 Multimedia` (fuera de Git) · guion y .srt en `04 Entregables/Videos/` |
 | Random Forest NSR-10 (validación por planta) | ✅ MAE deriva 0.086 % (X) / 0.101 % (Y), −39 % vs referencia · [[Random Forest]] |
-| ML E.030 (300 familias reservadas) | ✅ Deriva R² 0,995 · MAE 0,026 % · 95 % de excedencias detectadas (Gradient Boosting; RF R² 0,989) — falta llevarlo al informe y la PPT |
+| Random Forest E.030 (300 familias reservadas) | ✅ Deriva R² 0,990 · MAE 0,040 % · 137 de 146 excedencias (Gradient Boosting como comparación: 0,995) · en informe y PPT v2 |
 | Código del prototipo | ✅ Corre en Windows: `python "03 Prototipo/codigo/ejecutar_todo.py"` |
 | Repositorio GitHub | ✅ https://github.com/FrailM7/nexo-sismico · sincronización automática cada 15 min en el PC de Nicolás |

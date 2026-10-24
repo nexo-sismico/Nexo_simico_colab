@@ -36,7 +36,7 @@ def box(x, y, w, h, t, c=NAVY, fill="white"):
 def arr(x1, y1, x2, y2, ls="-"):
     ax.annotate("", (x2, y2), (x1, y1), arrowprops=dict(arrowstyle="->", color=GREY, lw=1.3, ls=ls))
 ax.text(0.1, 3.95, "Ruta Perú · E.030", color=NAVY, fontsize=9, weight="bold")
-box(0.1, 2.9, 1.8, 0.8, "Generador\nparamétrico"); box(2.2, 2.9, 1.8, 0.8, "OpenSees\nmodal espectral"); box(4.3, 2.9, 1.8, 0.8, "Base E.030\n130 modelos · 49 fam.")
+box(0.1, 2.9, 1.8, 0.8, "Generador\nparamétrico"); box(2.2, 2.9, 1.8, 0.8, "OpenSees\nmodal espectral"); box(4.3, 2.9, 1.8, 0.8, "Base E.030\n1 500 estructuras")
 ax.text(0.1, 1.85, "Ruta Colombia · NSR-10", color=GREEN, fontsize=9, weight="bold")
 box(0.1, 0.8, 1.8, 0.8, "SAP2000 +\nMódulo NSR-10", GREEN, "#EEF6EF"); box(2.2, 0.8, 1.8, 0.8, "Edificios teóricos\ndel profesor (OpenSees)", GREEN); box(4.3, 0.8, 1.8, 0.8, "Base NSR-10\n18 + casos", GREEN)
 box(6.6, 1.85, 1.8, 0.9, "Random Forest\nvalidación por\nfamilia / planta", ORANGE, "#FDF0E7"); box(8.9, 2.9, 1.9, 0.8, "Métricas · MAE, R²\nexcedencias · tiempos")

@@ -24,15 +24,17 @@ Detalle y revisión: [[Ruta E030 - repositorio de Piero]].
 - 1 500 estructuras / 1 500 familias; prueba con **300 familias nunca vistas**; selección solo por validación cruzada por familia.
 - 7 configuraciones comparadas (Random Forest ×3, Extra Trees ×2, Gradient Boosting ×2) con variables físicas auxiliares (periodo aproximado por rigidez de piso y espectro E.030).
 
-| Respuesta (prueba) | Mejor modelo · MAE · R² | Random Forest normalizado (CV) R² | Referencia (media) R² |
+| Respuesta (prueba, 300 familias) | **Random Forest** MAE · R² | Gradient Boosting (comparación) MAE · R² | Media R² |
 |---|---|---|---|
-| Periodo Tx | Gradient Boosting · 0,0043 s · 0,999 | — | −0,005 |
-| Deriva máx. X | Gradient Boosting · **0,026 %** · **0,995** | 0,989 | −0,004 |
-| Deriva máx. Y | Gradient Boosting · **0,026 %** · **0,995** | 0,990 | −0,005 |
+| Periodo Tx | 0,009 s · 0,996 | 0,004 s · 0,999 | −0,005 |
+| Deriva máx. X | **0,040 % · 0,990** | 0,026 % · 0,995 | −0,004 |
+| Deriva máx. Y | **0,040 % · 0,990** | 0,026 % · 0,995 | −0,005 |
+| Excedencias (X o Y) | **137 de 146** · 2 falsas alarmas | 139 de 146 · 2 falsas alarmas | — |
 
-- Excedencias (deriva > 0,007, X o Y): **139 de 146 detectadas (95 %)**, 7 no detectadas, 2 falsas alarmas.
+- Random Forest = configuración `RF_normalizado` del repositorio (250 árboles, variables físicas), entrenado con las 1 200 de desarrollo y probado una vez en las 300 reservadas por `03 Prototipo/codigo/resumen_e030.py` → `07 Outputs/E030/`.
+- Los 9 no detectados por RF tienen deriva real entre 0,70 % y 0,76 % (justo en el límite).
 - Checklist de trazabilidad: ✅ diccionario de variables · ✅ sin IDs ni salidas como entradas · ✅ partición por familias (`division.csv`) · ✅ semillas y versiones · ✅ comparación con predictor sencillo · ✅ predicciones de prueba · ✅ MAE, RMSE, R² · ✅ excedencias (calculadas en la revisión).
-- ⚠️ El mejor modelo es Gradient Boosting; la pregunta nombra Random Forest → reportar ambos (decisión del equipo, ver [[Decisiones]]).
+- ✅ Decisión (24 oct): la pregunta mantiene **Random Forest**; Gradient Boosting se reporta como comparación (ver [[Decisiones]]).
 
 ## Lectura conjunta
-Con 18 edificios (NSR-10) el Random Forest solo prioriza (R² 0,42–0,59); con 1 500 estructuras generadas y variables físicas, los modelos de árboles alcanzan R² 0,995 en familias nuevas. La diferencia la explican la cantidad de datos y las variables físicas, no el algoritmo.
+Con 18 edificios (NSR-10) el Random Forest solo prioriza (R² 0,42–0,59); con 1 500 estructuras generadas y variables físicas, Random Forest alcanza R² 0,990 en familias nuevas (Gradient Boosting 0,995). La diferencia la explican la cantidad de datos y las variables físicas, no el algoritmo.

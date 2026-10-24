@@ -10,9 +10,24 @@ const RAIZ = path.resolve(__dirname, "..", "..");
 const SAL = path.join(RAIZ, "07 Outputs", "Prototipo NSR-10");
 const FIG = (f) => path.join(SAL, "figuras", f);
 // apply_theme.js solo existía en el entorno donde se generó el deck; sin él, el deck usa los colores definidos aquí.
-let applyTheme = async () => {};
+let applyTheme = async (file, theme) => {   // respaldo: escribe colores y fuentes en ppt/theme/theme1.xml
+  const JSZip = require("jszip");
+  const zip = await JSZip.loadAsync(fs.readFileSync(file));
+  const p = "ppt/theme/theme1.xml";
+  let xml = await zip.file(p).async("string");
+  const k = ["dk1", "lt1", "dk2", "lt2", "accent1", "accent2", "accent3", "accent4", "accent5", "accent6", "hlink", "folHlink"];
+  const clr = `<a:clrScheme name="${theme.name}">` + k.map((c) => `<a:${c}><a:srgbClr val="${theme.colors[c]}"/></a:${c}>`).join("") + "</a:clrScheme>";
+  xml = xml.replace(/<a:clrScheme[\s\S]*?<\/a:clrScheme>/, clr)
+    .replace(/(<a:majorFont><a:latin typeface=")[^"]*/, `$1${theme.headFontFace}`)
+    .replace(/(<a:minorFont><a:latin typeface=")[^"]*/, `$1${theme.bodyFontFace}`)
+    .replace(/<a:fontScheme name="[^"]*"/, `<a:fontScheme name="${theme.name}"`);
+  zip.file(p, xml);
+  fs.writeFileSync(file, await zip.generateAsync({ type: "nodebuffer", compression: "DEFLATE" }));
+};
 try { ({ applyTheme } = require(process.env.APPLY_THEME || "/mnt/skills/public/pptx/scripts/apply_theme.js")); } catch (e) {}
 const N = require(path.join(SAL, "numeros.json"));
+const E = require(path.join(RAIZ, "07 Outputs", "E030", "resumen_E030.json"));   // resumen_e030.py
+const fs = require("fs");
 const OUT = path.join(RAIZ, "04 Entregables", "Presentacion", "Presentacion_Nexo_Sismico.pptx");
 
 const THEME = {
@@ -103,8 +118,8 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     { text: "Muchas alternativas no cumplen y se descartan después de todo ese trabajo.", options: { bold: true } },
   ], { x: 0.5, y: 1.35, w: 4.4, h: 2.4, fontSize: 16, paraSpaceAfter: 4 });
   const stats = [
-    ["130", "modelos E.030 generados en 49 familias"],
-    ["33 %", "superan el límite de deriva (43 de 130)"],
+    [f0(E.base_estructuras), "estructuras E.030 generadas y analizadas en OpenSees"],
+    [`${Math.round(E.base_exceden / E.base_estructuras * 100)} %`, `superan el límite de deriva (${E.base_exceden} de ${f0(E.base_estructuras)})`],
     ["1,0 %", "de hpi: límite de deriva NSR-10 (A.6.4)"],
   ];
   stats.forEach(([v, l], i) => {
@@ -113,7 +128,7 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     T(s, v, { x: 5.5, y: y + 0.12, w: 1.6, h: 0.8, fontSize: 36, bold: true, color: C.accent1, fontFace: THEME.headFontFace, valign: "middle" });
     T(s, l, { x: 7.15, y: y + 0.12, w: 2.2, h: 0.8, fontSize: 13, color: C.text2, valign: "middle" });
   });
-  s.addNotes("El problema: en el predimensionamiento cada alternativa obliga a repetir espectro, pesos, fuerzas, modelo y revisión de derivas. En nuestra base paramétrica de 130 modelos, un tercio supera el límite de deriva: es trabajo que se pudo descartar antes.");
+  s.addNotes("El problema: en el predimensionamiento cada alternativa obliga a repetir espectro, pesos, fuerzas, modelo y revisión de derivas. En nuestra base paramétrica de 1 500 edificios, el 45 % supera el límite de deriva: es trabajo que se pudo descartar antes.");
 
   // 3 ---------------------------------------------------------------- Pregunta
   s = pres.addSlide({ masterName: "CONTENIDO", sectionTitle: "Problema y pregunta" });
@@ -124,7 +139,7 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   const objs = [
     [fa.FaCubes, "Generar", "familias paramétricas y analizarlas en OpenSees (E.030)"],
     [fa.FaCogs, "Automatizar", "la verificación NSR-10 con datos de SAP2000"],
-    [fa.FaChartLine, "Evaluar", "Random Forest dejando plantas completas fuera"],
+    [fa.FaChartLine, "Evaluar", "Random Forest en familias y plantas no vistas"],
   ];
   for (let i = 0; i < 3; i++) {
     const x = 0.5 + i * 3.1;
@@ -133,17 +148,17 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     T(s, objs[i][1], { x: x + 0.95, y: 3.1, w: 1.7, h: 0.45, fontSize: 18, bold: true, color: C.text1, valign: "middle" });
     T(s, objs[i][2], { x: x + 0.25, y: 3.8, w: 2.35, h: 0.95, fontSize: 14, color: C.text2 });
   }
-  s.addNotes("Nuestra pregunta es: ¿con qué precisión puede Random Forest estimar las derivas de edificios que no vio en el entrenamiento, y qué ventaja ofrece? Para responderla generamos familias paramétricas, automatizamos la verificación NSR-10 y evaluamos el modelo dejando plantas completas por fuera.");
+  s.addNotes("Nuestra pregunta es: ¿con qué precisión puede Random Forest estimar las derivas de edificios que no vio en el entrenamiento, y qué ventaja ofrece? Para responderla generamos familias paramétricas, automatizamos la verificación NSR-10 y evaluamos el modelo solo con edificios que no vio al entrenar.");
 
   // 4 ---------------------------------------------------------------- Ejes
   pres.addSection({ title: "Solución" });
   s = pres.addSlide({ masterName: "CONTENIDO", sectionTitle: "Solución" });
   s.addText("Cuatro ejes de la beca en un mismo flujo", { placeholder: "title" });
   const ejes = [
-    [fa.FaBrain, "Inteligencia artificial", "Random Forest con validación por planta; comparado con regresión lineal y referencias"],
+    [fa.FaBrain, "Inteligencia artificial", "Random Forest en familias no vistas; Gradient Boosting y referencias como comparación"],
     [fa.FaRobot, "Automatización", "Módulo NSR-10 en Python; bot de Telegram en n8n como interfaz propuesta"],
     [fa.FaProjectDiagram, "Simulación", "OpenSees para la base E.030; SAP2000 y algoritmo OpenSees del profesor para NSR-10"],
-    [fa.FaDatabase, "Datos", "Base E.030 (130 modelos) y base NSR-10 (18 + 1 casos) con trazabilidad del origen"],
+    [fa.FaDatabase, "Datos", "Base E.030 (1 500 estructuras) y base NSR-10 (18 + 1 casos) con trazabilidad del origen"],
   ];
   for (let i = 0; i < 4; i++) {
     const x = 0.5 + (i % 2) * 4.6, y = 1.3 + Math.floor(i / 2) * 1.85;
@@ -160,7 +175,7 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   s.addImage({ path: FIG("fig_flujo_integrado.png"), x: 0.5, y: 1.15, w: 9.0, h: 3.48, objectName: "flujo" });
   T(s, "Las rutas no se mezclan: E.030 (Perú) y NSR-10 (Colombia) difieren en espectro, límite de deriva e hipótesis. Comparten el método de aprendizaje y evaluación.",
     { x: 0.5, y: 4.68, w: 9.0, h: 0.45, fontSize: 12, color: C.text2, italic: true });
-  s.addNotes("La arquitectura tiene dos rutas de evidencia que no se mezclan, porque las normas difieren: la ruta E.030 con 130 modelos paramétricos en OpenSees y la ruta NSR-10 con el módulo de verificación y los edificios del profesor Rojas Vallejo. Ambas alimentan el mismo método de Random Forest y la interfaz propuesta en Telegram.");
+  s.addNotes("La arquitectura tiene dos rutas de evidencia que no se mezclan, porque las normas difieren: la ruta E.030 con 1 500 edificios paramétricos en OpenSees y la ruta NSR-10 con el módulo de verificación y los edificios del profesor Rojas Vallejo. Ambas alimentan el mismo método de Random Forest y la interfaz propuesta en Telegram.");
 
   // 6 ---------------------------------------------------------------- Módulo NSR-10
   pres.addSection({ title: "Prototipo" });
@@ -226,8 +241,24 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     { x: 5.45, y: 4.3, w: 4.05, h: 0.7, fontSize: 11, color: C.text2, italic: true });
   s.addNotes("Validamos contra el cálculo de referencia del curso, hecho con Excel y SAP2000. El prototipo reproduce cortante, fuerzas, derivas, Q, relación torsional y R. La relación torsional de 1,19 queda muy cerca del límite de 1,2: un hallazgo útil para el diseñador.");
 
-  // 9 ---------------------------------------------------------------- Base NSR-10
+  // 9 ---------------------------------------------------------------- Resultados E.030
   pres.addSection({ title: "Resultados" });
+  s = pres.addSlide({ masterName: "CONTENIDO", sectionTitle: "Resultados" });
+  const dX = E.objetivos.deriva_max_X, dY = E.objetivos.deriva_max_Y, xr = E.exced_XoY_RF, xg = E.exced_XoY_GB;
+  s.addText(`E.030: Random Forest acierta la deriva con R² ${f2(dX.RF.R2)}`, { placeholder: "title" });
+  s.addImage({ path: path.join(RAIZ, "07 Outputs", "E030", "fig_e030_calculado_vs_predicho.png"), x: 0.5, y: 1.2, w: 5.6, h: 2.49, objectName: "e030_calc_pred" });
+  T(s, `Prueba única en ${E.n_prueba} familias nunca vistas (${f0(E.n_desarrollo)} para entrenar). Gradient Boosting, como comparación: R² ${f2(dX.GB.R2, 3)}, MAE ${f2(dX.GB.MAE * 100, 3)} %, ${xg.detectadas} de ${xg.reales} excedencias.`,
+    { x: 0.5, y: 3.85, w: 5.6, h: 0.75, fontSize: 11, color: C.text2, italic: true });
+  card(s, 6.4, 1.2, 3.1, 1.6, C.background2, "stat");
+  T(s, `${f2(dX.RF.MAE * 100, 3)} %`, { x: 6.6, y: 1.3, w: 2.8, h: 0.8, fontSize: 36, bold: true, color: C.accent1, fontFace: THEME.headFontFace });
+  T(s, "error medio de deriva (X e Y), en % de la altura de piso", { x: 6.6, y: 2.1, w: 2.8, h: 0.6, fontSize: 13, color: C.text2 });
+  card(s, 6.4, 3.0, 3.1, 1.6, C.background2, "stat");
+  T(s, `${xr.detectadas} de ${xr.reales}`, { x: 6.6, y: 3.1, w: 2.8, h: 0.8, fontSize: 36, bold: true, color: C.accent3, fontFace: THEME.headFontFace });
+  T(s, `edificios que exceden 0,7 % detectados; ${xr.falsas_alarmas} falsas alarmas`, { x: 6.6, y: 3.9, w: 2.8, h: 0.6, fontSize: 13, color: C.text2 });
+  T(s, "Los no detectados tienen derivas reales de 0,70 % a 0,76 %: justo en el límite.", { x: 0.5, y: 4.75, w: 9.0, h: 0.3, fontSize: 11, color: C.accent2, italic: true });
+  s.addNotes(`Esta es la respuesta principal a la pregunta. En la ruta peruana generamos y analizamos 1 500 edificios en OpenSees. Entrenamos Random Forest con 1 200 y lo probamos una sola vez con 300 familias que nunca vio. Su error medio en la deriva fue de 0,04 puntos porcentuales, con R² de 0,99, y detectó 137 de los 146 edificios que exceden el límite. Los que se le escapan están justo en el límite, entre 0,70 y 0,76 %. Como comparación, Gradient Boosting mejora un poco: R² de 0,995 y 139 detectados. La diferencia entre algoritmos es pequeña; lo que manda son los datos y las variables físicas.`);
+
+  // 10 --------------------------------------------------------------- Base NSR-10
   s = pres.addSlide({ masterName: "CONTENIDO", sectionTitle: "Resultados" });
   s.addText("Base NSR-10: 18 edificios teóricos + 1 verificado", { placeholder: "title" });
   const bst = [["18", "edificios del Prof. T. F. Rojas Vallejo (OpenSees)"], ["9", "plantas, 4 a 10 pisos, Bogotá, DES"], ["1", "caso del curso verificado con SAP2000"]];
@@ -243,9 +274,9 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     { x: 1.5, y: 3.7, w: 7.8, h: 1.1, fontSize: 13, color: C.text2 });
   s.addNotes("Para la ruta NSR-10 armamos una base con 18 edificios que diseñó el profesor Rojas Vallejo con su algoritmo en OpenSees, más el caso del curso. El profesor nos advirtió que varios son teóricos y que las plantas que faltan fallaron en el dimensionamiento. Los usamos para entrenar y comparar, no como diseños.");
 
-  // 10 --------------------------------------------------------------- RF chart
+  // 11 --------------------------------------------------------------- RF chart NSR-10
   s = pres.addSlide({ masterName: "CONTENIDO", sectionTitle: "Resultados" });
-  s.addText("Random Forest reduce 39 % el error de deriva", { placeholder: "title" });
+  s.addText("NSR-10: con 18 edificios, −39 % de error de deriva", { placeholder: "title" });
   const get = (obj, mod) => N.met.find((m) => m.Objetivo === obj && m.Modelo === mod).MAE;
   const mods = ["Random Forest", "Regresión lineal", "Media (referencia)"];
   const dx = mods.map((m) => +get("Deriva máx. X (%)", m).toFixed(3));
@@ -271,16 +302,16 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   T(s, "Validación dejando una planta completa fuera (9 pliegues).", { x: 0.5, y: 4.95, w: 5.6, h: 0.25, fontSize: 10, color: C.accent2, italic: true });
   s.addNotes("Evaluamos Random Forest dejando cada planta completa por fuera. Con plantas que nunca vio, su error en la deriva fue de 0,086 puntos en X y 0,101 en Y: un 39 % menos que predecir la media y mejor que la regresión lineal. Cada predicción toma unos 32 milisegundos.");
 
-  // 11 --------------------------------------------------------------- Calc vs pred
+  // 12 --------------------------------------------------------------- Calc vs pred NSR-10
   s = pres.addSlide({ masterName: "CONTENIDO", sectionTitle: "Resultados" });
-  s.addText("Útil para priorizar, aún no para certificar", { placeholder: "title" });
+  s.addText("NSR-10: con pocos datos, útil solo para priorizar", { placeholder: "title" });
   s.addImage({ path: FIG("fig_calculado_vs_predicho.png"), x: 0.5, y: 1.2, w: 5.6, h: 3.0, sizing: { type: "contain", w: 5.6, h: 3.0 }, objectName: "calc_pred" });
   T(s, "Deriva calculada (OpenSees, profesor) frente a predicha por Random Forest en plantas no vistas.", { x: 0.5, y: 4.3, w: 5.6, h: 0.5, fontSize: 11, color: C.text2, italic: true });
   T(s, `${N.ml.detectados} de ${N.ml.cerca_limite_reales}`, { x: 6.4, y: 1.3, w: 3.1, h: 0.85, fontSize: 48, bold: true, color: C.accent1, fontFace: THEME.headFontFace });
   T(s, "edificios con deriva ≥ 0,90 % detectados por el modelo", { x: 6.4, y: 2.15, w: 3.1, h: 0.6, fontSize: 14, color: C.text2 });
   T(s, `${N.ml.falsas_alarmas}`, { x: 6.4, y: 2.95, w: 3.1, h: 0.85, fontSize: 48, bold: true, color: C.accent3, fontFace: THEME.headFontFace });
   T(s, "falsas alarmas; el modelo subestima los casos más cercanos al límite", { x: 6.4, y: 3.8, w: 3.1, h: 0.8, fontSize: 14, color: C.text2 });
-  s.addNotes("Pero hay que ser honestos: de siete edificios cerca del límite, el modelo detectó tres y subestimó cuatro. No dio falsas alarmas. Por eso hoy sirve para ordenar alternativas, y la verificación final sigue en el módulo NSR-10 y SAP2000.");
+  s.addNotes("Pero hay que ser honestos: de siete edificios cerca del límite, el modelo detectó tres y subestimó cuatro. No dio falsas alarmas. Con 18 datos sirve para ordenar alternativas; con 1 500, como en la ruta E.030, la precisión sube de forma drástica. La lección es que ampliar la base colombiana con casos verificados es el siguiente paso.");
 
   // 12 --------------------------------------------------------------- Limitaciones
   pres.addSection({ title: "Cierre" });
@@ -288,7 +319,7 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   s.addText("Limitaciones que condicionan los resultados", { placeholder: "title" });
   const lim = [
     [fa.FaFlask, "Base NSR-10 pequeña y teórica", "18 edificios; varias configuraciones no serían viables en pórticos reales"],
-    [fa.FaHourglassHalf, "Ruta E.030 sin evaluar todavía", "Faltan las métricas del Random Forest en las familias reservadas"],
+    [fa.FaHourglassHalf, "Dominio E.030 acotado", "2 a 5 pisos, secciones brutas, sin P-Delta; el modelo no extrapola fuera de ese rango"],
     [fa.FaStopwatch, "Ahorro de tiempo no cronometrado", "Se midió el cálculo (ms), no el flujo completo en SAP2000"],
     [fa.FaPlug, "Bot sin backend conectado", "Los flujos de n8n esperan el servicio Python con el predictor"],
   ];
@@ -298,15 +329,15 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     T(s, lim[i][1], { x: x + 0.8, y: y + 0.05, w: 3.5, h: 0.4, fontSize: 16, bold: true });
     T(s, lim[i][2], { x: x + 0.8, y: y + 0.5, w: 3.5, h: 0.9, fontSize: 14, color: C.text2 });
   }
-  s.addNotes("Las limitaciones: la base NSR-10 es pequeña y teórica; las métricas del Random Forest en la ruta E.030 están pendientes; no cronometramos el flujo completo en SAP2000, así que no afirmamos un porcentaje de ahorro; y el bot todavía no está conectado al predictor.");
+  s.addNotes("Las limitaciones: la base NSR-10 es pequeña y teórica; el modelo E.030 solo vale de 2 a 5 pisos y con sus hipótesis de rigidez; no cronometramos el flujo completo en SAP2000, así que no afirmamos un porcentaje de ahorro; y el bot todavía no está conectado al predictor.");
 
   // 13 --------------------------------------------------------------- Conclusiones
   s = pres.addSlide({ masterName: "OSCURO", sectionTitle: "Cierre" });
   s.addText("Conclusiones y siguientes pasos", { placeholder: "title" });
   const con = [
     "El módulo NSR-10 reproduce el cálculo de referencia y bloquea datos incompletos o erróneos antes de calcular.",
-    "En plantas no vistas, Random Forest estimó la deriva con 0,086 % (X) y 0,101 % (Y) de error: 39 % menos que la referencia.",
-    "Detecta 3 de 7 edificios cerca del límite: útil para priorizar, no para certificar.",
+    `En ${E.n_prueba} familias E.030 no vistas, Random Forest estimó la deriva con R² ${f2(E.objetivos.deriva_max_X.RF.R2)} y detectó ${E.exced_XoY_RF.detectadas} de ${E.exced_XoY_RF.reales} excedencias.`,
+    "Con 18 edificios NSR-10 el error baja 39 %, pero solo detecta 3 de 7 casos al límite: los datos mandan más que el algoritmo.",
   ];
   con.forEach((c, i) => {
     num(s, 0.5, 1.3 + i * 0.95, i + 1);
@@ -315,19 +346,18 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   card(s, 5.8, 1.25, 3.7, 3.6, HEX.dk2, "siguientes");
   T(s, "Siguientes pasos", { x: 6.05, y: 1.4, w: 3.3, h: 0.4, fontSize: 17, bold: true, color: C.accent1 });
   T(s, [
-    { text: "Evaluar el modelo en las familias E.030 reservadas", options: { bullet: true, breakLine: true } },
-    { text: "Ampliar la base NSR-10 con casos verificados", options: { bullet: true, breakLine: true } },
+        { text: "Ampliar la base NSR-10 con casos verificados", options: { bullet: true, breakLine: true } },
     { text: "Conectar módulo y predictor al bot de Telegram", options: { bullet: true, breakLine: true } },
     { text: "Cronometrar el flujo completo para medir el ahorro", options: { bullet: true } },
   ], { x: 6.05, y: 1.9, w: 3.3, h: 2.8, fontSize: 14, color: C.background1, paraSpaceAfter: 6 });
-  s.addNotes("En conclusión: el módulo NSR-10 reproduce el cálculo de referencia y filtra datos malos; el Random Forest reduce el error un 39 % en plantas que no vio, pero todavía no detecta todos los casos al límite. Los siguientes pasos son evaluar la ruta E.030, ampliar la base con casos verificados, conectar todo al bot y medir el ahorro de tiempo real.");
+  s.addNotes("En conclusión: el módulo NSR-10 reproduce el cálculo de referencia y filtra datos malos; con 1 500 edificios Random Forest estima la deriva de familias nuevas con R² de 0,99 y detecta casi todas las excedencias; con 18 edificios colombianos solo sirve para priorizar. Los siguientes pasos son ampliar la base NSR-10 con casos verificados, conectar todo al bot y medir el ahorro de tiempo real.");
 
   // 14 --------------------------------------------------------------- Equipo
   s = pres.addSlide({ masterName: "CONTENIDO", sectionTitle: "Cierre" });
   s.addText("Equipo y herramientas", { placeholder: "title" });
   const eq = [
     ["Lucero", "Planteamiento académico"], ["Alexis", "Generación paramétrica y OpenSees"], ["Nicolás Infante", "Módulo NSR-10 y SAP2000"],
-    ["Jean Piere", "Datos, Random Forest y bot n8n"], ["Joseph", "Validación y coordinación"],
+    ["Jean Piere", "Datos, modelos E.030 y bot n8n"], ["Joseph", "Validación y coordinación"],
   ];
   for (let i = 0; i < 5; i++) {
     const x = 0.5 + i * 1.84;
@@ -340,7 +370,7 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   T(s, "Python · OpenSeesPy · SAP2000 · scikit-learn · n8n · Telegram · asistentes de IA generativa para programación · Obsidian · GitHub · Discord · Miro",
     { x: 0.5, y: 3.9, w: 9, h: 0.6, fontSize: 14, color: C.text2 });
   T(s, "Profesor de apoyo: Thomas Federico Rojas Vallejo (Universidad Nacional de Colombia), algoritmo de diseño NSR-10 en OpenSees.", { x: 0.5, y: 4.6, w: 9, h: 0.4, fontSize: 12, color: C.accent2, italic: true });
-  s.addNotes("Somos cinco: Lucero en el planteamiento, Alexis en la generación y OpenSees, Nicolás en el módulo NSR-10, Jean Piere en datos, Random Forest y el bot, y Joseph en validación y coordinación. Agradecemos al profesor Thomas Rojas Vallejo por sus datos. Gracias.");
+  s.addNotes("Somos cinco: Lucero en el planteamiento, Alexis en la generación y OpenSees, Nicolás en el módulo NSR-10, Jean Piere en datos, modelos E.030 y el bot, y Joseph en validación y coordinación. Agradecemos al profesor Thomas Rojas Vallejo por sus datos. Gracias.");
 
   await pres.writeFile({ fileName: OUT });
   await applyTheme(OUT, THEME);
