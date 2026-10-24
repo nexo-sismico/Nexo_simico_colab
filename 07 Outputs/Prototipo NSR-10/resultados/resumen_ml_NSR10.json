@@ -1,0 +1,17 @@
+{
+ "n_registros": 18,
+ "n_plantas": 9,
+ "validacion": "dejando una planta fuera (9 pliegues)",
+ "umbral_revision_pct": 0.9,
+ "cerca_limite_reales": 7,
+ "detectados": 3,
+ "no_detectados": 4,
+ "falsas_alarmas": 0,
+ "t_entrenamiento_s": {
+  "Tx_s": 0.38378344955556387,
+  "Vx_kN": 0.40645869088888276,
+  "dx_pct": 0.3918679093333266,
+  "dy_pct": 0.37391492644445
+ },
+ "t_prediccion_ms": 32.14914370000031
+}

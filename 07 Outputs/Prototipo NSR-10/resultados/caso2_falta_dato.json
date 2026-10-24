@@ -1,0 +1,10 @@
+{
+ "version": "1.0 (2026-10-24)",
+ "estado": "faltan_datos",
+ "faltan": [
+  "sitio.Fv — coeficiente de amplificación Fv [-]"
+ ],
+ "errores": [],
+ "advertencias": [],
+ "mensaje": "No se puede calcular: faltan datos."
+}

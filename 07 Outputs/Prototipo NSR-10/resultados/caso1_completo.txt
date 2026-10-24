@@ -1,0 +1,27 @@
+=== CASO 1 · BIEN LLENADO ===
+Estado: OK — Cálculo completo.
+hn = 17.00 m · Wt = 37,576 kN · I = 1.0 · Tc = 0.776 s · TL = 3.0 s
+Ta = 0.6019 s · Cu = 1.270 · Cu·Ta = 0.7644 s
+Dir X: T = 0.7481 s · Sa = 0.6187 g (meseta) · k = 1.124 · Vs = 23,250 kN · e acc = 1.115 m
+Dir Y: T = 0.7336 s · Sa = 0.6187 g (meseta) · k = 1.117 · Vs = 23,250 kN · e acc = 1.360 m
+Nivel |  Z (m) |   W (kN) |  Fx (kN) |  Fy (kN) | MzFx (kN·m) | MzFy (kN·m)
+    5 |  17.00 |     6990 |     7361 |     7341 |        8207 |        9984
+    4 |  13.80 |     7606 |     6336 |     6328 |        7064 |        8607
+    3 |  10.60 |     7606 |     4710 |     4713 |        5252 |        6410
+    2 |   7.40 |     7606 |     3145 |     3155 |        3506 |        4291
+    1 |   4.20 |     7768 |     1699 |     1712 |        1895 |        2328
+Derivas (envolvente de 12 combinaciones en las dos esquinas, límite 1.0 % hpi):
+  X nivel 1: 0.636 % (DER-X2 @ E5) ✓
+  X nivel 2: 0.985 % (DER-X2 @ E5) ✓
+  X nivel 3: 0.901 % (DER-X2 @ E5) ✓
+  X nivel 4: 0.697 % (DER-X2 @ E5) ✓
+  X nivel 5: 0.442 % (DER-X2 @ E5) ✓
+  Y nivel 1: 0.514 % (DER-Y2 @ E5) ✓
+  Y nivel 2: 0.982 % (DER-Y2 @ E5) ✓
+  Y nivel 3: 0.991 % (DER-Y2 @ E5) ✓
+  Y nivel 4: 0.832 % (DER-Y2 @ E5) ✓
+  Y nivel 5: 0.617 % (DER-Y2 @ E5) ✓
+Q máx = 0.0165 → P-Delta no requerido
+Torsión Δmax/Δprom = 1.193 → φp = 1.0 · R = 5.00
+DICTAMEN: derivas CUMPLEN · deriva máx X = 0.985 %, Y = 0.991 %
+(tiempo de ejecución: 0.6 ms)

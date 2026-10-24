@@ -1,0 +1,36 @@
+1
+00:00:00,000 --> 00:00:13,000
+Nexo Sísmico estima derivas para comparar alternativas. Este es el módulo NSR-10, que produce respuestas de referencia verificables.
+
+2
+00:00:13,000 --> 00:00:27,000
+Caso 1: edificio del curso, grupo 1, Piedemonte A (Bogotá). Datos del sitio, geometría, pesos y periodos de SAP2000.
+
+3
+00:00:27,000 --> 00:00:40,000
+Calcula espectro, cortante basal, fuerzas por piso y derivas de 12 combinaciones con torsión accidental.
+
+4
+00:00:40,000 --> 00:00:52,000
+Vs = 23 250 kN, deriva máxima 0,991 % ≤ 1,0 %, Q = 0,0165, R = 5. Cumple. Tiempo: 0,6 ms.
+
+5
+00:00:52,000 --> 00:01:06,000
+Reproduce exactamente el cálculo de referencia hecho con Excel y SAP2000.
+
+6
+00:01:06,000 --> 00:01:23,000
+Caso 2: si falta un dato, por ejemplo Fv, se detiene antes de calcular y dice cuál falta.
+
+7
+00:01:23,000 --> 00:01:40,000
+Caso 3: si un dato está mal, como una altura en centímetros, lo rechaza y explica el rango válido.
+
+8
+00:01:40,000 --> 00:01:53,000
+Cada caso válido se convierte en un registro de la base de datos NSR-10 que alimenta al predictor.
+
+9
+00:01:53,000 --> 00:01:58,000
+Nexo Sísmico · Módulo NSR-10. Código en el repositorio del equipo, sin claves ni tokens.
+

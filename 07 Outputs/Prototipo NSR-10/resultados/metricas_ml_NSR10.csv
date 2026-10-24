@@ -1,0 +1,13 @@
+Objetivo,Modelo,MAE,RMSE,R2,MAPE_%
+Periodo Tx (s),Random Forest,0.0703,0.0891,0.7859,9.1814
+Periodo Tx (s),Regresión lineal,0.0618,0.075,0.8485,7.2361
+Periodo Tx (s),Ta NSR-10,0.1039,0.1166,0.6338,13.2195
+Cortante Vx (kN),Random Forest,2600.5552,3039.2867,0.6515,22.9163
+Cortante Vx (kN),Regresión lineal,2398.6603,3006.977,0.6589,20.0457
+Cortante Vx (kN),Media (referencia),4765.8332,5355.868,-0.0823,47.1759
+Deriva máx. X (%),Random Forest,0.0865,0.1015,0.5886,12.2266
+Deriva máx. X (%),Regresión lineal,0.0938,0.1087,0.5284,12.5297
+Deriva máx. X (%),Media (referencia),0.1425,0.1684,-0.132,20.6738
+Deriva máx. Y (%),Random Forest,0.1014,0.13,0.4208,14.3815
+Deriva máx. Y (%),Regresión lineal,0.1295,0.1609,0.113,18.2078
+Deriva máx. Y (%),Media (referencia),0.1659,0.1836,-0.155,24.0931

@@ -1,0 +1,5 @@
+=== CASO 2 · FALTA UN DATO (Fv) ===
+Estado: FALTAN_DATOS — No se puede calcular: faltan datos.
+  ✗ FALTA: sitio.Fv — coeficiente de amplificación Fv [-]
+  → Corrija la entrada y vuelva a ejecutar. No se generó ningún resultado.
+(tiempo de ejecución: 0.2 ms)

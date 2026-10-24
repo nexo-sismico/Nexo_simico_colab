@@ -1,0 +1,132 @@
+{
+ "vs": 23250.149999999998,
+ "dxmax": 0.9847089116205865,
+ "dymax": 0.9913031930281533,
+ "Q": 0.01650350141225018,
+ "tor": 1.1925085228498686,
+ "R": 5.0,
+ "Sa": 0.6187499999999999,
+ "Ta": 0.6018688782451062,
+ "CuTa": 0.7643734753712849,
+ "Wt": 37576,
+ "ms": [
+  0.6,
+  0.2,
+  0.2
+ ],
+ "met": [
+  {
+   "Objetivo": "Periodo Tx (s)",
+   "Modelo": "Random Forest",
+   "MAE": 0.0703,
+   "RMSE": 0.0891,
+   "R2": 0.7859,
+   "MAPE_%": 9.1814
+  },
+  {
+   "Objetivo": "Periodo Tx (s)",
+   "Modelo": "Regresión lineal",
+   "MAE": 0.0618,
+   "RMSE": 0.075,
+   "R2": 0.8485,
+   "MAPE_%": 7.2361
+  },
+  {
+   "Objetivo": "Periodo Tx (s)",
+   "Modelo": "Ta NSR-10",
+   "MAE": 0.1039,
+   "RMSE": 0.1166,
+   "R2": 0.6338,
+   "MAPE_%": 13.2195
+  },
+  {
+   "Objetivo": "Cortante Vx (kN)",
+   "Modelo": "Random Forest",
+   "MAE": 2600.5552,
+   "RMSE": 3039.2867,
+   "R2": 0.6515,
+   "MAPE_%": 22.9163
+  },
+  {
+   "Objetivo": "Cortante Vx (kN)",
+   "Modelo": "Regresión lineal",
+   "MAE": 2398.6603,
+   "RMSE": 3006.977,
+   "R2": 0.6589,
+   "MAPE_%": 20.0457
+  },
+  {
+   "Objetivo": "Cortante Vx (kN)",
+   "Modelo": "Media (referencia)",
+   "MAE": 4765.8332,
+   "RMSE": 5355.868,
+   "R2": -0.0823,
+   "MAPE_%": 47.1759
+  },
+  {
+   "Objetivo": "Deriva máx. X (%)",
+   "Modelo": "Random Forest",
+   "MAE": 0.0865,
+   "RMSE": 0.1015,
+   "R2": 0.5886,
+   "MAPE_%": 12.2266
+  },
+  {
+   "Objetivo": "Deriva máx. X (%)",
+   "Modelo": "Regresión lineal",
+   "MAE": 0.0938,
+   "RMSE": 0.1087,
+   "R2": 0.5284,
+   "MAPE_%": 12.5297
+  },
+  {
+   "Objetivo": "Deriva máx. X (%)",
+   "Modelo": "Media (referencia)",
+   "MAE": 0.1425,
+   "RMSE": 0.1684,
+   "R2": -0.132,
+   "MAPE_%": 20.6738
+  },
+  {
+   "Objetivo": "Deriva máx. Y (%)",
+   "Modelo": "Random Forest",
+   "MAE": 0.1014,
+   "RMSE": 0.13,
+   "R2": 0.4208,
+   "MAPE_%": 14.3815
+  },
+  {
+   "Objetivo": "Deriva máx. Y (%)",
+   "Modelo": "Regresión lineal",
+   "MAE": 0.1295,
+   "RMSE": 0.1609,
+   "R2": 0.113,
+   "MAPE_%": 18.2078
+  },
+  {
+   "Objetivo": "Deriva máx. Y (%)",
+   "Modelo": "Media (referencia)",
+   "MAE": 0.1659,
+   "RMSE": 0.1836,
+   "R2": -0.155,
+   "MAPE_%": 24.0931
+  }
+ ],
+ "ml": {
+  "n_registros": 18,
+  "n_plantas": 9,
+  "validacion": "dejando una planta fuera (9 pliegues)",
+  "umbral_revision_pct": 0.9,
+  "cerca_limite_reales": 7,
+  "detectados": 3,
+  "no_detectados": 4,
+  "falsas_alarmas": 0,
+  "t_entrenamiento_s": {
+   "Tx_s": 0.38378344955556387,
+   "Vx_kN": 0.40645869088888276,
+   "dx_pct": 0.3918679093333266,
+   "dy_pct": 0.37391492644445
+  },
+  "t_prediccion_ms": 32.14914370000031
+ }
+}

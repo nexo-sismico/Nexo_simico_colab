@@ -1,0 +1,26 @@
+[
+ {
+  "caso": "CASO 1 · BIEN LLENADO",
+  "estado": "ok",
+  "ms": 0.6,
+  "detalle": [
+   "Vs = 23,250 kN; deriva máx 0.991 %"
+  ]
+ },
+ {
+  "caso": "CASO 2 · FALTA UN DATO (Fv)",
+  "estado": "faltan_datos",
+  "ms": 0.2,
+  "detalle": [
+   "sitio.Fv — coeficiente de amplificación Fv [-]"
+  ]
+ },
+ {
+  "caso": "CASO 3 · DATO EQUIVOCADO (altura libre 350)",
+  "estado": "datos_invalidos",
+  "ms": 0.2,
+  "detalle": [
+   "geometria.alturas_libres[nivel 1] = 350 m: fuera del rango válido [1.8, 6.0] m — ¿está en centímetros en lugar de metros?"
+  ]
+ }
+]

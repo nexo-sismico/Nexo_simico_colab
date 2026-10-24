@@ -1,0 +1,21 @@
+# Obsidian: estado local de cada usuario
+.obsidian/workspace*.json
+.obsidian/cache
+.trash/
+
+# Multimedia pesada (GitHub rechaza archivos > 100 MB): compartir por enlace
+08 Multimedia/*
+!08 Multimedia/LEEME.md
+*.mp4
+*.mov
+*.avi
+
+# Python / Colab
+__pycache__/
+.ipynb_checkpoints/
+
+# Nunca subir credenciales
+.env
+*.key
+*token*
+*secret*

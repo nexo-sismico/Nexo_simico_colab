@@ -1,0 +1,1366 @@
+{
+  "name": "RC Bot – Procesar consulta",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "session_id"
+            },
+            {
+              "name": "chat_id"
+            }
+          ]
+        }
+      },
+      "id": "5c5207c8-9c7b-4427-aa4e-617179b8c11e",
+      "name": "Inicio procesamiento de consulta",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c1",
+              "name": "BACKEND_URL",
+              "value": "https://CONFIGURAR-BACKEND",
+              "type": "string"
+            },
+            {
+              "id": "c2",
+              "name": "INTERVALO_SONDEO_SEG",
+              "value": 30,
+              "type": "number"
+            },
+            {
+              "id": "c3",
+              "name": "MAX_SONDEOS",
+              "value": 60,
+              "type": "number"
+            },
+            {
+              "id": "c4",
+              "name": "session_id",
+              "value": "={{ $json.session_id }}",
+              "type": "string"
+            },
+            {
+              "id": "c5",
+              "name": "chat_id",
+              "value": "={{ String($json.chat_id) }}",
+              "type": "string"
+            },
+            {
+              "id": "c6",
+              "name": "inicio_ms",
+              "value": "={{ Date.now() }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6ec8305e-b4c6-4234-b8e0-c398e64bdcc4",
+      "name": "Configuración",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        272,
+        144
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "6T297zMkzgzPOuo5",
+          "cachedResultName": "rc_bot_sesiones"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "session_id",
+              "keyValue": "={{ $('Configuración').first().json.session_id }}"
+            }
+          ]
+        },
+        "limit": 1
+      },
+      "id": "7116a02a-86fc-42ce-8721-5dc15d7eb331",
+      "name": "Leer sesión",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        496,
+        144
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e1",
+                    "leftValue": "={{ $json.activa !== true || $json.confirmado !== true || ($json.estado_procesamiento === 'iniciando' && !$json.consulta_id && new Date($json.actualizada_en).getTime() > Date.now() - 600000) }}",
+                    "rightValue": true,
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "No procesable"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e2",
+                    "leftValue": "={{ $json.prediccion_completada === true }}",
+                    "rightValue": true,
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Solo entrega"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra",
+          "renameFallbackOutput": "Procesar"
+        }
+      },
+      "id": "70316f8f-d48a-4b24-a0da-4ec1603ceb0c",
+      "name": "Evaluar sesión",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        720,
+        128
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "95f1121c-b89e-4da0-96d7-445a953e8b34",
+      "name": "Sesión no procesable – sin acción",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        944,
+        144
+      ]
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "5sS5waXt8SfWNbhk",
+          "cachedResultName": "RC Bot – Generar y entregar informe"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "session_id": "={{ $('Configuración').first().json.session_id }}",
+            "consulta_id": "={{ $('Crear consulta').isExecuted ? String($('Crear consulta').first().json.consulta_id) : String($('Leer sesión').first().json.consulta_id) }}",
+            "chat_id": "={{ $('Configuración').first().json.chat_id }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "session_id",
+              "displayName": "session_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "consulta_id",
+              "displayName": "consulta_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "chat_id",
+              "displayName": "chat_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "id": "a12558c4-053b-44ce-bbcb-15d85441d81f",
+      "name": "Generar y entregar informe",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1280,
+        0
+      ],
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ec1",
+              "leftValue": "={{ !!$json.consulta_id && ['pendiente', 'procesando'].includes($json.estado_procesamiento) }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "bacd0c5b-6333-41b3-89fd-e0a547df3aba",
+      "name": "¿Consulta ya en curso?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        800,
+        816
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "p1",
+              "name": "consulta_id",
+              "value": "={{ $('Crear consulta').isExecuted ? String($('Crear consulta').first().json.consulta_id) : String($('Leer sesión').first().json.consulta_id) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2a8b30c3-5583-4d31-98bc-db5cabb6ff1b",
+      "name": "Preparar sondeo",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1920,
+        672
+      ],
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "6T297zMkzgzPOuo5",
+          "cachedResultName": "rc_bot_sesiones"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "session_id",
+              "keyValue": "={{ $('Configuración').first().json.session_id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "estado_procesamiento": "iniciando",
+            "actualizada_en": "={{ $now.toISO() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "estado_procesamiento",
+              "displayName": "estado_procesamiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "actualizada_en",
+              "displayName": "actualizada_en",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0692ecf6-329b-4f24-b2e9-25c2656c1332",
+      "name": "Marcar consulta iniciando",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1024,
+        1056
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Configuración').first().json.BACKEND_URL }}/consultas",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpTemplatedCustomAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ session_id: $('Leer sesión').first().json.session_id, chat_id: String($('Leer sesión').first().json.chat_id), user_id: String($('Leer sesión').first().json.user_id), parametros: JSON.parse($('Leer sesión').first().json.parametros_json || '{}'), unidades: JSON.parse($('Leer sesión').first().json.unidades_json || '{}'), supuestos_aceptados: JSON.parse($('Leer sesión').first().json.supuestos_aceptados_json || '[]'), idempotency_key: $('Leer sesión').first().json.session_id + ':' + String($('Leer sesión').first().json.confirmado_en || '') }) }}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "c47c3eec-7aa4-46cd-af27-e26470566ee7",
+      "name": "Crear consulta",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1248,
+        1056
+      ],
+      "executeOnce": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "x1",
+              "name": "detalle_error",
+              "value": "={{ ($prevNode.name === '¿Tiempo de cálculo agotado?' ? 'Tiempo de cálculo agotado sin respuesta final del servicio' : ($prevNode.name + ': ' + JSON.stringify(($json || {}).error || ($json || {}).mensaje_usuario || ('estado = ' + (($json || {}).estado || 'sin consulta_id'))))).slice(0, 500) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "73b521a5-8ecb-4b60-ac74-bd5f411980db",
+      "name": "Clasificar error de procesamiento",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3264,
+        816
+      ],
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ci1",
+              "leftValue": "={{ $json.consulta_id ? String($json.consulta_id) : '' }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "1d5a0fef-4dda-40cb-825a-f4ce871eaa77",
+      "name": "¿Respuesta con consulta_id?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1472,
+        992
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "6T297zMkzgzPOuo5",
+          "cachedResultName": "rc_bot_sesiones"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "session_id",
+              "keyValue": "={{ $('Configuración').first().json.session_id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "consulta_id": "={{ String($json.consulta_id) }}",
+            "estado_procesamiento": "pendiente",
+            "prediccion_completada": false,
+            "ultimo_error": "",
+            "actualizada_en": "={{ $now.toISO() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "consulta_id",
+              "displayName": "consulta_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "estado_procesamiento",
+              "displayName": "estado_procesamiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "prediccion_completada",
+              "displayName": "prediccion_completada",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ultimo_error",
+              "displayName": "ultimo_error",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "actualizada_en",
+              "displayName": "actualizada_en",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c1952795-92e9-4a2f-92d2-68921c33bae0",
+      "name": "Guardar consulta_id",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1696,
+        912
+      ]
+    },
+    {
+      "parameters": {
+        "amount": "={{ $('Configuración').first().json.INTERVALO_SONDEO_SEG }}"
+      },
+      "id": "acac9431-b87d-422d-9bbb-621a3397c8f0",
+      "name": "Esperar intervalo de sondeo",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2144,
+        672
+      ],
+      "webhookId": "3caf35cb-a17d-4b52-85ed-6fcfb41ca559"
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Configuración').first().json.BACKEND_URL }}/consultas/{{ encodeURIComponent($('Preparar sondeo').first().json.consulta_id) }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpTemplatedCustomAuth",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "063fbbe8-fb77-4397-a21a-5ca2555ef914",
+      "name": "Consultar estado",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2368,
+        608
+      ],
+      "executeOnce": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "s1",
+                    "leftValue": "={{ $json.estado }}",
+                    "rightValue": "completada",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Completada"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "s2",
+                    "leftValue": "={{ $json.estado }}",
+                    "rightValue": "requiere_aclaracion",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Requiere aclaración"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "s3",
+                    "leftValue": "={{ $json.estado }}",
+                    "rightValue": "error",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Error"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra",
+          "renameFallbackOutput": "En proceso"
+        }
+      },
+      "id": "ddae1c23-061a-4df0-b7c5-ce4a16778204",
+      "name": "Según estado de la consulta",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2592,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "6T297zMkzgzPOuo5",
+          "cachedResultName": "rc_bot_sesiones"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "session_id",
+              "keyValue": "={{ $('Configuración').first().json.session_id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "estado_procesamiento": "completada",
+            "prediccion_completada": true,
+            "estado": "prediccion_completada",
+            "ultimo_error": "",
+            "actualizada_en": "={{ $now.toISO() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "estado_procesamiento",
+              "displayName": "estado_procesamiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "prediccion_completada",
+              "displayName": "prediccion_completada",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "estado",
+              "displayName": "estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ultimo_error",
+              "displayName": "ultimo_error",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "actualizada_en",
+              "displayName": "actualizada_en",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1fb84ff7-488a-4564-83c6-52215e47874c",
+      "name": "Marcar predicción completada",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        2816,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Configuración').first().json.chat_id }}",
+        "text": "=El servicio de cálculo necesita una aclaración antes de predecir:\n{{ $json.mensaje_usuario || 'Revise los parámetros de la estructura.' }}\n\nCorrija el dato indicado en el chat y vuelva a confirmar el resumen. Sus demás parámetros siguen guardados.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "db3f3cfc-1068-4753-b214-c37db8781f80",
+      "name": "Avisar aclaración necesaria",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2816,
+        384
+      ],
+      "webhookId": "70b2475a-c1fb-4d3b-b913-120e07b6144d",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "6T297zMkzgzPOuo5",
+          "cachedResultName": "rc_bot_sesiones"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "session_id",
+              "keyValue": "={{ $('Configuración').first().json.session_id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "estado_procesamiento": "={{ ['pendiente', 'procesando'].includes($json.estado) ? $json.estado : 'procesando' }}",
+            "actualizada_en": "={{ $now.toISO() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "estado_procesamiento",
+              "displayName": "estado_procesamiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "actualizada_en",
+              "displayName": "actualizada_en",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e9d7666e-511e-4eef-bdb5-a839c0f5d2a1",
+      "name": "Actualizar estado en proceso",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        2816,
+        672
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "6T297zMkzgzPOuo5",
+          "cachedResultName": "rc_bot_sesiones"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "session_id",
+              "keyValue": "={{ $('Configuración').first().json.session_id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "estado": "requiere_aclaracion",
+            "estado_procesamiento": "requiere_aclaracion",
+            "confirmado": false,
+            "actualizada_en": "={{ $now.toISO() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "estado",
+              "displayName": "estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "estado_procesamiento",
+              "displayName": "estado_procesamiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "confirmado",
+              "displayName": "confirmado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "actualizada_en",
+              "displayName": "actualizada_en",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c5dc83af-8436-44b0-bbcd-0145ecdcd837",
+      "name": "Registrar aclaración requerida",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        3040,
+        384
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "t1",
+              "leftValue": "={{ Date.now() > $('Configuración').first().json.inicio_ms + $('Configuración').first().json.INTERVALO_SONDEO_SEG * $('Configuración').first().json.MAX_SONDEOS * 1000 }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "8f6394a5-e187-465a-b2a6-1500c0f21baf",
+      "name": "¿Tiempo de cálculo agotado?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        3040,
+        672
+      ],
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "6T297zMkzgzPOuo5",
+          "cachedResultName": "rc_bot_sesiones"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "session_id",
+              "keyValue": "={{ $('Configuración').first().json.session_id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "estado_procesamiento": "error",
+            "ultimo_error": "={{ $json.detalle_error }}",
+            "actualizada_en": "={{ $now.toISO() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "estado_procesamiento",
+              "displayName": "estado_procesamiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ultimo_error",
+              "displayName": "ultimo_error",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "actualizada_en",
+              "displayName": "actualizada_en",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3f535483-17bc-42ec-a37b-bbfbae71f4b7",
+      "name": "Registrar error de procesamiento",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        3488,
+        816
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Configuración').first().json.chat_id }}",
+        "text": "No pude completar el cálculo de su consulta en este momento. Sus parámetros siguen guardados. Puede volver a confirmar el resumen más tarde o escribir /estado para ver la situación.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "ef052494-69c8-4d25-9659-77f2216327fc",
+      "name": "Avisar error al usuario",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3712,
+        816
+      ],
+      "executeOnce": true,
+      "webhookId": "393fd44d-82b6-463a-98ab-87dc0c81d171",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "content": "## Pendiente de configuración\n- El servicio Python y sus endpoints (POST /consultas, GET /consultas/{id}) son un **contrato propuesto aún no implementado**.\n- **Configuración**: sustituir BACKEND_URL; ajustar INTERVALO_SONDEO_SEG y MAX_SONDEOS (tiempo de cálculo).\n- Credenciales n8n: **Servicio Python RC** y **Telegram Bot RC**. No escribir claves en nodos.\n- El backend debe predecir con modelo_final.joblib (nunca modelo_evaluacion) y respetar idempotency_key.\n- Los datos fijados en nodos son FICTICIOS, solo para pruebas.",
+        "height": 280,
+        "width": 440
+      },
+      "id": "1a32a32d-4a66-458c-9874-ed31f3173799",
+      "name": "Nota: pendientes",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        240,
+        48
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Inicio procesamiento de consulta": {
+      "main": [
+        [
+          {
+            "node": "Configuración",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Configuración": {
+      "main": [
+        [
+          {
+            "node": "Leer sesión",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leer sesión": {
+      "main": [
+        [
+          {
+            "node": "Evaluar sesión",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evaluar sesión": {
+      "main": [
+        [
+          {
+            "node": "Sesión no procesable – sin acción",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Generar y entregar informe",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "¿Consulta ya en curso?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Consulta ya en curso?": {
+      "main": [
+        [
+          {
+            "node": "Preparar sondeo",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Marcar consulta iniciando",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar sondeo": {
+      "main": [
+        [
+          {
+            "node": "Esperar intervalo de sondeo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Marcar consulta iniciando": {
+      "main": [
+        [
+          {
+            "node": "Crear consulta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crear consulta": {
+      "main": [
+        [
+          {
+            "node": "¿Respuesta con consulta_id?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Clasificar error de procesamiento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clasificar error de procesamiento": {
+      "main": [
+        [
+          {
+            "node": "Registrar error de procesamiento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Respuesta con consulta_id?": {
+      "main": [
+        [
+          {
+            "node": "Guardar consulta_id",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Clasificar error de procesamiento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guardar consulta_id": {
+      "main": [
+        [
+          {
+            "node": "Preparar sondeo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Esperar intervalo de sondeo": {
+      "main": [
+        [
+          {
+            "node": "Consultar estado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consultar estado": {
+      "main": [
+        [
+          {
+            "node": "Según estado de la consulta",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Clasificar error de procesamiento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Según estado de la consulta": {
+      "main": [
+        [
+          {
+            "node": "Marcar predicción completada",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Avisar aclaración necesaria",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Clasificar error de procesamiento",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Actualizar estado en proceso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Marcar predicción completada": {
+      "main": [
+        [
+          {
+            "node": "Generar y entregar informe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Avisar aclaración necesaria": {
+      "main": [
+        [
+          {
+            "node": "Registrar aclaración requerida",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Actualizar estado en proceso": {
+      "main": [
+        [
+          {
+            "node": "¿Tiempo de cálculo agotado?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Tiempo de cálculo agotado?": {
+      "main": [
+        [
+          {
+            "node": "Clasificar error de procesamiento",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Esperar intervalo de sondeo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registrar error de procesamiento": {
+      "main": [
+        [
+          {
+            "node": "Avisar error al usuario",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "6fbb4b68-5f96-484f-8330-2c1353b982b2",
+  "meta": {
+    "instanceId": "2a96b8c0fe67f2ebbb0dae0ae55d7ba9c68633a16cbf9d668a1973a4fb685a7e"
+  },
+  "nodeGroups": [
+    {
+      "id": "ebbb8d81-3426-4bde-94de-f50e1a081ff6",
+      "name": "Comprobar sesión",
+      "nodeIds": [
+        "6ec8305e-b4c6-4234-b8e0-c398e64bdcc4",
+        "7116a02a-86fc-42ce-8721-5dc15d7eb331",
+        "70316f8f-d48a-4b24-a0da-4ec1603ceb0c"
+      ],
+      "description": "Solo sigue con sesiones activas y confirmadas; si la predicción ya existe va directo a la entrega"
+    },
+    {
+      "id": "f055ce59-c24e-42ce-8e2f-c7ddec91e0aa",
+      "name": "Obtener predicción",
+      "nodeIds": [
+        "bacd0c5b-6333-41b3-89fd-e0a547df3aba",
+        "0692ecf6-329b-4f24-b2e9-25c2656c1332",
+        "c47c3eec-7aa4-46cd-af27-e26470566ee7",
+        "1d5a0fef-4dda-40cb-825a-f4ce871eaa77",
+        "c1952795-92e9-4a2f-92d2-68921c33bae0",
+        "2a8b30c3-5583-4d31-98bc-db5cabb6ff1b",
+        "acac9431-b87d-422d-9bbb-621a3397c8f0",
+        "063fbbe8-fb77-4397-a21a-5ca2555ef914",
+        "ddae1c23-061a-4df0-b7c5-ce4a16778204",
+        "1fb84ff7-488a-4564-83c6-52215e47874c",
+        "db3f3cfc-1068-4753-b214-c37db8781f80",
+        "c5dc83af-8436-44b0-bbcd-0145ecdcd837",
+        "e9d7666e-511e-4eef-bdb5-a839c0f5d2a1",
+        "8f6394a5-e187-465a-b2a6-1500c0f21baf",
+        "73b521a5-8ecb-4b60-ac74-bd5f411980db",
+        "3f535483-17bc-42ec-a37b-bbfbae71f4b7",
+        "ef052494-69c8-4d25-9659-77f2216327fc"
+      ],
+      "description": "Inicia la consulta una sola vez, sondea hasta el resultado y registra aclaraciones o errores sin tocar los parámetros"
+    }
+  ],
+  "id": "jbL1B1opMCsOGmOp",
+  "tags": []
+}
