@@ -21,3 +21,6 @@ __pycache__/
 *secret*
 node_modules/
 package-lock.json
+
+# Configuración local de Claude Code
+.claude/

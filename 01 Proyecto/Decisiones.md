@@ -22,3 +22,4 @@
 | 2026-10-24 | Se incorpora la ruta E.030 del repositorio de Jean Piere (1 500 estructuras, 300 familias de prueba) como evidencia principal de R1 | Ya estaba hecha; el vault la tenía como pendiente |
 | 2026-10-24 | La pregunta mantiene **Random Forest**; Gradient Boosting (mejor modelo del repositorio E.030) se reporta como comparación. RF evaluado en las mismas 300 familias reservadas: deriva R² 0,990, 137 de 146 excedencias | Coherencia con la pregunta y la rúbrica; la diferencia entre algoritmos es pequeña |
 | 2026-10-24 | Informe v2 (5 págs.) y presentación v2 (15 diap.) con resultados E.030 | La ruta E.030 responde R1 |
+| 2026-10-24 | Interfaz del prototipo: app web estática que ejecuta el mismo `nexo_nsr10.py` en el navegador (Pyodide) | Que lo usen ingenieros sin consola y sin duplicar el cálculo validado |

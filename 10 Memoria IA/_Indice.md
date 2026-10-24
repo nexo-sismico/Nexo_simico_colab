@@ -26,9 +26,11 @@ Nunca guardar claves, tokens ni datos personales.
 - [[ADR-2026-10-24-codigo-portable-rutas-comunes]] — `rutas.py` + `ejecutar_todo.py`: el código corre en cualquier PC
 - [[ADR-2026-10-24-random-forest-en-la-pregunta]] — se mantiene Random Forest; Gradient Boosting como comparación
 - [[ADR-2026-10-24-memoria-compartida-en-el-repo]] — la memoria vive aquí, no en vaults personales
+- [[ADR-2026-10-24-app-web-con-pyodide]] — interfaz web que ejecuta el mismo nexo_nsr10.py en el navegador
 
 ## Sesiones
 - [[2026-10-24-1302]] — publicación en GitHub, código portable, revisión E.030, explicación y sincronización
 - [[2026-10-24-1330-nicolas]] — videos v2 y memoria compartida para el equipo y sus IAs
 - [[2026-10-24-1354-configuracion-obsidian]] — Joseph: repositorio clonado, vault abierto y sincronización activa en su PC
 - [[2026-10-24-1400-nicolas]] — nombres oficiales y entrega completa del Reto 06 (ficha, video en vivo, capturas, definición)
+- [[2026-10-24-1850-nicolas]] — app web del prototipo para ingenieros (formulario, importador SAP2000, gráficas, alternativas)

@@ -36,7 +36,7 @@ Vault de Obsidian **y** repositorio Git del equipo **Nexo Sísmico** (Beca AI Ta
 | `00 Inicio.md` | Mapa del vault y tabla de estado |
 | `01 Proyecto/` | Explicación, planteamiento, rúbrica, roles, decisiones, alcance |
 | `02 Modulos/` | E.030, NSR-10 + SAP2000, Random Forest, bot n8n, datos del profesor |
-| `03 Prototipo/` | Especificación, pruebas y **código** (`codigo/`) |
+| `03 Prototipo/` | Especificación, pruebas, **código** (`codigo/`) y **app web** (`app/`) |
 | `04 Entregables/` | Informe, presentación, ficha, guiones y subtítulos |
 | `05 Datos/` | Insumos (JSON del bot, etc.) |
 | `07 Outputs/` | Resultados generados (NSR-10 y E.030) |
@@ -51,6 +51,7 @@ python "03 Prototipo/codigo/ejecutar_todo.py"             # pruebas → base →
 python "03 Prototipo/codigo/ejecutar_todo.py" --informe   # + informe DOCX y presentación PPTX (npm install en codigo/)
 python "03 Prototipo/codigo/ejecutar_todo.py" --videos    # + videos (requiere ffmpeg)
 python "03 Prototipo/codigo/resumen_e030.py" RUTA/ProyectoGH   # resultados E.030 para informe y PPT
+python "03 Prototipo/app/abrir_app.py"                  # app web del prototipo (usa el mismo nexo_nsr10.py)
 ```
 Las métricas de Random Forest pueden variar en el cuarto decimal entre equipos; no subas resultados regenerados si solo cambia ese ruido.
 

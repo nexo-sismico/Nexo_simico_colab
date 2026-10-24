@@ -56,6 +56,7 @@ Código: `03 Prototipo/codigo/` · notas: [[Modulo NSR-10 y SAP2000]], [[Pruebas
 - **Caso de prueba:** edificio de oficinas de 5 pisos del curso (grupo 1, Bogotá, Piedemonte A). Reproduce exactamente el Excel + SAP2000: Vs = 23 250 kN, derivas 0,985 % / 0,991 % (cumple 1,0 %), Q = 0,0165.
 - **Las 3 pruebas pedidas:** caso completo → calcula; falta Fv → se detiene y pide el dato; altura en centímetros → la rechaza y explica el rango.
 - Cada caso válido se convierte en un **registro de la base NSR-10**.
+- **App web para ingenieros** (`03 Prototipo/app/`): formulario guiado, revisión de datos en vivo, pegado de la tabla de SAP2000, dictamen con gráficas y comparación de alternativas. Ejecuta el mismo motor en el navegador; se abre con `python "03 Prototipo/app/abrir_app.py"`.
 
 ### 4.3 Base NSR-10 y aprendizaje con datos del profesor · ✅ hecho, con limitaciones
 Notas: [[Datos del profesor NSR-10]], [[Random Forest]]

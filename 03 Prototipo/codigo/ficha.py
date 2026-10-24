@@ -61,6 +61,7 @@ s += [Paragraph("3. Tecnología utilizada", H),
       tabla([["Componente", "Herramienta", "Uso"],
              ["Motor de validación y cálculo", "Python 3 (<i>nexo_nsr10.py</i>, solo biblioteca estándar)", "Valida la entrada y aplica NSR-10 Títulos A y B"],
              ["Datos de entrada", "JSON + SAP2000", "Periodos y desplazamientos del modelo del caso real"],
+             ["Interfaz para ingenieros", "App web: HTML, JavaScript, Chart.js y Pyodide", "Ejecuta el mismo motor Python en el navegador"],
              ["Base de datos y predictor", "pandas · scikit-learn (Random Forest)", "Cada caso válido alimenta el modelo de derivas"],
              ["Versionado y trabajo en equipo", "GitHub · Obsidian · asistentes de IA para programar", "Código, pruebas y documentación sin claves ni tokens"]],
             [50, 70, 64])]
@@ -81,7 +82,7 @@ s += [tabla(filas, [23, 45, 29, 71, 16], extra=[("BACKGROUND", (3, 1), (3, 1), c
                 f"derivas 0,985 / 0,991 % = {n(r1['deriva_max_pct']['X'], 3)} / {n(r1['deriva_max_pct']['Y'], 3)} % · Q 0,0165 = {n(r1['Q_max'], 4)}. Coincidencia exacta.", B)]
 
 s += [Paragraph("5. Qué falta por mejorar", H),
-      Paragraph("• <b>Interfaz:</b> conectar el módulo al bot de Telegram en n8n (los flujos existen; falta el servicio Python que los atienda). "
+      Paragraph("• <b>Interfaz:</b> ya hay una app web local (<i>03 Prototipo/app</i>) que usa el mismo motor; falta publicarla en internet y conectar el bot de Telegram en n8n. "
                 "• <b>Entrada directa desde SAP2000:</b> leer las tablas exportadas o la API en lugar de armar el JSON a mano. "
                 "• <b>Más verificaciones:</b> irregularidades en planta y altura además de la torsional, y combinaciones de diseño. "
                 "• <b>Más casos verificados</b> para la base NSR-10 (hoy 18 edificios teóricos del profesor + este caso). "

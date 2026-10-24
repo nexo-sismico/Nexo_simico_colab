@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nexo Sísmico NSR-10</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Verificación sísmica preliminar NSR-10 de edificios aporticados de concreto: valida la entrada, calcula FHE, derivas, Q y R, y compara alternativas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+<header class="barra">
+  <div class="barra-in">
+    <div class="marca">
+      <svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><path d="M4 30 L10 30 L13 22 L17 34 L21 10 L25 28 L28 20 L31 30 L36 30" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></svg>
+      <div>
+        <div class="marca-nombre">Nexo Sísmico</div>
+        <div class="marca-sub">Verificación sísmica preliminar · NSR-10 · pórticos de concreto</div>
+      </div>
+    </div>
+    <div class="barra-acc">
+      <span id="motor" class="pill pill-cargando" role="status">Cargando motor de cálculo…</span>
+      <button id="btn-ejemplo" class="btn" type="button">Cargar ejemplo</button>
+      <label class="btn" for="archivo-json">Abrir JSON</label>
+      <input id="archivo-json" type="file" accept=".json,application/json" hidden>
+      <button id="btn-guardar-json" class="btn" type="button">Guardar JSON</button>
+    </div>
+  </div>
+  <nav class="pestanas" aria-label="Vistas">
+    <button class="pestana activa" id="tab-verificar" data-vista="verificar" type="button">Verificar edificio</button>
+    <button class="pestana" id="tab-comparar" data-vista="comparar" type="button">Comparar alternativas <span id="n-alt" class="cuenta">0</span></button>
+    <button class="pestana" id="tab-ayuda" data-vista="ayuda" type="button">Cómo se usa</button>
+  </nav>
+</header>
+
+<main class="pagina">
+<!-- ============================================================ VERIFICAR -->
+<section id="vista-verificar" class="vista">
+  <div class="layout">
+    <form id="form" class="entrada" novalidate autocomplete="off">
+      <div class="entrada-cab">
+        <h2>Datos del edificio</h2>
+        <p class="nota">Unidades: m, kN, s. Los campos se revisan mientras escribe.</p>
+      </div>
+
+      <fieldset class="bloque">
+        <legend><span class="num">1</span>Proyecto</legend>
+        <div class="rejilla">
+          <label class="campo ancho">Identificador<input id="p-id" data-ruta="id" type="text" placeholder="EDIF-ALT-A"></label>
+          <label class="campo ancho">Descripción o fuente<input id="p-fuente" data-ruta="fuente" type="text" placeholder="Alternativa A, oficinas 5 pisos"></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="bloque">
+        <legend><span class="num">2</span>Sitio · A.2</legend>
+        <div class="rejilla">
+          <label class="campo">Ciudad<input id="sitio-ciudad" data-ruta="sitio.ciudad" type="text"></label>
+          <label class="campo">Microzona / suelo<input id="sitio-microzona" data-ruta="sitio.microzona" type="text"></label>
+          <label class="campo">Aa<input id="sitio-Aa" data-ruta="sitio.Aa" type="text" inputmode="decimal"><small>0,05 – 0,50</small></label>
+          <label class="campo">Av<input id="sitio-Av" data-ruta="sitio.Av" type="text" inputmode="decimal"><small>0,05 – 0,50</small></label>
+          <label class="campo">Fa<input id="sitio-Fa" data-ruta="sitio.Fa" type="text" inputmode="decimal"><small>0,80 – 3,00</small></label>
+          <label class="campo">Fv<input id="sitio-Fv" data-ruta="sitio.Fv" type="text" inputmode="decimal"><small>0,80 – 4,00</small></label>
+          <label class="campo">TL (s)<input id="sitio-TL" data-ruta="sitio.TL" type="text" inputmode="decimal"><small>1 – 10</small></label>
+          <label class="campo doble">Grupo de uso
+            <select id="sitio-grupo_uso" data-ruta="sitio.grupo_uso" data-tipo="int">
+              <option value="1">I · ocupación normal (I = 1,00)</option>
+              <option value="2">II · ocupación especial (I = 1,10)</option>
+              <option value="3">III · atención a la comunidad (I = 1,25)</option>
+              <option value="4">IV · edificaciones indispensables (I = 1,50)</option>
+            </select>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="bloque">
+        <legend><span class="num">3</span>Sistema estructural · A.3</legend>
+        <div class="rejilla">
+          <label class="campo ancho">Sistema
+            <select id="sistema-preset">
+              <option value="7">Pórticos de concreto DES (R0 = 7,0)</option>
+              <option value="5">Pórticos de concreto DMO (R0 = 5,0)</option>
+              <option value="2.5">Pórticos de concreto DMI (R0 = 2,5)</option>
+              <option value="otro">Otro valor de R0</option>
+            </select>
+          </label>
+          <label class="campo">R0<input id="sistema-R0" data-ruta="sistema.R0" type="text" inputmode="decimal"><small>2,5 – 8,0</small></label>
+          <label class="campo">φa<input id="sistema-phi_a" data-ruta="sistema.phi_a" type="text" inputmode="decimal"><small>irregularidad en altura</small></label>
+          <label class="campo">φr<input id="sistema-phi_r" data-ruta="sistema.phi_r" type="text" inputmode="decimal"><small>redundancia</small></label>
+        </div>
+        <p class="nota">φp se calcula con la torsión de las dos esquinas y el retroceso (Tabla A.3-6).</p>
+      </fieldset>
+
+      <fieldset class="bloque">
+        <legend><span class="num">4</span>Geometría y pesos</legend>
+        <div class="rejilla">
+          <label class="campo">Planta Bx (m)<input id="geometria-Bx" data-ruta="geometria.Bx" type="text" inputmode="decimal"></label>
+          <label class="campo">Planta By (m)<input id="geometria-By" data-ruta="geometria.By" type="text" inputmode="decimal"></label>
+          <label class="campo">Losa (m)<input id="geometria-h_losa" data-ruta="geometria.h_losa" type="text" inputmode="decimal"><small>0,10 – 1,20</small></label>
+          <label class="campo">Pisos<input id="n-pisos" type="number" min="1" max="30" step="1"></label>
+        </div>
+        <div class="tabla-scroll">
+          <table class="tabla-pisos" aria-describedby="nota-pisos">
+            <thead><tr><th>Nivel</th><th>Altura libre (m)</th><th>W sísmico (kN)</th><th>L viva (kN)</th></tr></thead>
+            <tbody id="pisos"></tbody>
+          </table>
+        </div>
+        <p id="nota-pisos" class="nota">Nivel 1 es el primer piso sobre la base. Altura de piso = altura libre + losa.</p>
+        <details class="mas">
+          <summary>Retroceso en planta (opcional, irregularidad 2P)</summary>
+          <div class="rejilla">
+            <label class="campo">A (m)<input id="ret-A" data-ruta="geometria.retroceso.A" type="text" inputmode="decimal"></label>
+            <label class="campo">B (m)<input id="ret-B" data-ruta="geometria.retroceso.B" type="text" inputmode="decimal"></label>
+            <label class="campo">C (m)<input id="ret-C" data-ruta="geometria.retroceso.C" type="text" inputmode="decimal"></label>
+            <label class="campo">D (m)<input id="ret-D" data-ruta="geometria.retroceso.D" type="text" inputmode="decimal"></label>
+          </div>
+        </details>
+      </fieldset>
+
+      <fieldset class="bloque">
+        <legend><span class="num">5</span>Resultados de SAP2000</legend>
+        <div class="rejilla">
+          <label class="campo">Periodo Tx (s)<input id="periodos_sap-Tx" data-ruta="periodos_sap.Tx" type="text" inputmode="decimal"></label>
+          <label class="campo">Periodo Ty (s)<input id="periodos_sap-Ty" data-ruta="periodos_sap.Ty" type="text" inputmode="decimal"></label>
+        </div>
+        <div class="desp-cab">
+          <div>
+            <strong>Desplazamientos U1, U2 por nivel</strong>
+            <p class="nota">12 combinaciones (DER-X1…X6, DER-Y1…Y6) en dos esquinas opuestas.</p>
+          </div>
+          <button id="btn-importar" class="btn btn-sec" type="button">Pegar tabla de SAP2000</button>
+        </div>
+        <div id="desp-estado" class="desp-estado" aria-live="polite"></div>
+      </fieldset>
+
+      <div class="acciones">
+        <button id="btn-verificar" class="btn btn-pri" type="submit" disabled>Verificar edificio</button>
+        <div class="pruebas" role="group" aria-label="Pruebas del prototipo">
+          <span class="nota">Probar entradas defectuosas:</span>
+          <button id="prueba-fv" class="btn btn-mini" type="button">Quitar Fv</button>
+          <button id="prueba-cm" class="btn btn-mini" type="button">Altura en cm</button>
+        </div>
+      </div>
+    </form>
+
+    <!-- ===================================================== RESULTADOS -->
+    <section class="salida" aria-labelledby="titulo-salida">
+      <h2 id="titulo-salida" class="vh">Resultados</h2>
+      <div id="revision" class="revision" aria-live="polite"></div>
+      <div id="resultados" hidden>
+        <div id="dictamen" class="dictamen"></div>
+        <div id="kpis" class="kpis"></div>
+        <div class="graficas">
+          <figure class="grafica">
+            <figcaption>Deriva de piso por nivel · envolvente de 12 combinaciones en las dos esquinas (% de la altura de piso)</figcaption>
+            <div class="lienzo alto"><canvas id="g-derivas" role="img" aria-label="Deriva por nivel en X e Y frente al límite"></canvas></div>
+          </figure>
+          <figure class="grafica">
+            <figcaption>Espectro de diseño Sa(T) · Figura A.2.6-1</figcaption>
+            <div class="lienzo"><canvas id="g-espectro" role="img" aria-label="Espectro de diseño con los periodos de diseño"></canvas></div>
+          </figure>
+          <figure class="grafica">
+            <figcaption>Fuerza horizontal equivalente por nivel (kN) · A.4.3</figcaption>
+            <div class="lienzo"><canvas id="g-fuerzas" role="img" aria-label="Fuerzas sísmicas por nivel en X e Y"></canvas></div>
+          </figure>
+        </div>
+        <div class="tablas">
+          <div class="tabla-scroll"><table id="t-niveles" class="datos"></table></div>
+          <div class="tabla-scroll"><table id="t-derivas" class="datos"></table></div>
+        </div>
+        <div id="avisos"></div>
+        <div class="exportar">
+          <button id="btn-alternativa" class="btn btn-pri" type="button">Guardar como alternativa</button>
+          <button id="btn-copiar" class="btn" type="button">Copiar reporte</button>
+          <button id="btn-txt" class="btn" type="button">Descargar reporte (.txt)</button>
+          <button id="btn-csv" class="btn" type="button">Fila para la base de datos (.csv)</button>
+          <button id="btn-imprimir" class="btn" type="button">Imprimir / PDF</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>
+
+<!-- ============================================================ COMPARAR -->
+<section id="vista-comparar" class="vista" hidden>
+  <div class="comparar-cab">
+    <div>
+      <h2>Comparar alternativas de predimensionamiento</h2>
+      <p class="nota">Cada vez que verifica un edificio puede guardarlo como alternativa. Aquí se ven lado a lado con el mismo límite de deriva.</p>
+    </div>
+    <button id="btn-borrar-alt" class="btn" type="button">Borrar todas</button>
+  </div>
+  <div id="comparar-vacio" class="vacio">
+    <p><strong>Todavía no hay alternativas guardadas.</strong></p>
+    <p>Verifique un edificio en la pestaña <em>Verificar edificio</em> y pulse <em>Guardar como alternativa</em>. Cambie secciones, pesos o alturas, vuelva a verificar y guarde otra para compararlas.</p>
+  </div>
+  <div id="comparar-lleno" hidden>
+    <figure class="grafica">
+      <figcaption>Deriva máxima por alternativa (% de la altura de piso)</figcaption>
+      <div class="lienzo"><canvas id="g-comparar" role="img" aria-label="Deriva máxima en X e Y de cada alternativa"></canvas></div>
+    </figure>
+    <div class="tabla-scroll"><table id="t-comparar" class="datos"></table></div>
+  </div>
+</section>
+
+<!-- ============================================================ AYUDA -->
+<section id="vista-ayuda" class="vista texto" hidden>
+  <h2>Cómo se usa</h2>
+  <ol class="pasos">
+    <li><strong>Datos del sitio y del sistema.</strong> Aa, Av, Fa y Fv salen del estudio de microzonificación o de la Tabla A.2.3-2; el grupo de uso fija I. Elija el sistema para proponer R0.</li>
+    <li><strong>Geometría y pesos por nivel.</strong> Indique el número de pisos y llene, nivel por nivel, la altura libre, el peso sísmico W y la carga viva L (kN).</li>
+    <li><strong>Resultados de SAP2000.</strong> Copie los periodos fundamentales y pegue la tabla <em>Joint Displacements</em> con las 12 combinaciones de deriva (DER-X1…X6, DER-Y1…Y6) de dos nudos de esquina opuestos por nivel.</li>
+    <li><strong>Verificar.</strong> Si falta un dato o hay uno fuera de rango, la herramienta lo señala en el campo y no calcula. Si todo está bien, entrega el dictamen de derivas, la FHE, Q, R y las gráficas.</li>
+    <li><strong>Comparar.</strong> Guarde cada versión como alternativa y compárelas en la segunda pestaña.</li>
+  </ol>
+  <h3>Qué decide la herramienta y qué decide el ingeniero</h3>
+  <p>La herramienta valida la entrada y aplica la NSR-10: espectro (A.2), periodo Cu·Ta y FHE (A.4), torsión accidental del 5 % (A.3.6.7), derivas con límite de 1,0 % de la altura de piso (A.6), índice de estabilidad Q (A.6.2.3) y coeficiente R con la irregularidad torsional (A.3.3). El ingeniero construye el modelo en SAP2000, revisa el dictamen y decide el diseño. Es una verificación preliminar: no reemplaza la memoria de cálculo ni la revisión profesional.</p>
+  <h3>Formato de la tabla de desplazamientos</h3>
+  <p>Se aceptan dos formatos, copiados desde Excel o como CSV:</p>
+  <ul>
+    <li><strong>SAP2000:</strong> la tabla <em>Joint Displacements</em> con las columnas <code>Joint</code>, <code>OutputCase</code>, <code>U1</code> y <code>U2</code>. Luego se indica qué nudo corresponde a cada nivel en cada esquina.</li>
+    <li><strong>Nexo:</strong> columnas <code>Esquina</code>, <code>Combinacion</code>, <code>Nivel</code>, <code>U1</code>, <code>U2</code>.</li>
+  </ul>
+  <p>El cálculo corre en su navegador con el mismo código Python del prototipo (<code>nexo_nsr10.py</code>), probado contra Excel y SAP2000 en el edificio del curso. Los datos no salen de su equipo.</p>
+  <p class="nota">Equipo Nexo Sísmico · AI Talent, 2.ª generación (AECODE) · <span id="equipo-nombres"></span></p>
+</section>
+</main>
+
+<!-- ============================================================ IMPORTADOR -->
+<dialog id="dlg-importar" class="dialogo" aria-labelledby="dlg-titulo">
+  <form method="dialog" class="dialogo-in" id="form-importar">
+    <h2 id="dlg-titulo">Pegar desplazamientos de SAP2000</h2>
+    <p class="nota">Copie la tabla desde SAP2000 o Excel (con encabezados) y péguela aquí.</p>
+    <textarea id="imp-texto" rows="9" spellcheck="false" placeholder="Joint	OutputCase	CaseType	U1	U2	U3&#10;Text	Text	Text	m	m	m&#10;E5-1	DER-X1	Combination	0.024561	0.001442	0"></textarea>
+    <div class="rejilla">
+      <label class="campo">Unidades de U1, U2
+        <select id="imp-unidad"><option value="1">m</option><option value="0.01">cm</option><option value="0.001">mm</option></select>
+      </label>
+    </div>
+    <div id="imp-mapa" class="imp-mapa" hidden>
+      <p class="nota">Formato SAP2000 detectado. Indique el nudo de cada nivel, de abajo hacia arriba, separados por comas.</p>
+      <div class="rejilla">
+        <label class="campo">Nombre esquina 1<input id="imp-e1" type="text" value="E1"></label>
+        <label class="campo ancho">Nudos esquina 1<input id="imp-n1" type="text" placeholder="12, 24, 36, 48, 60"></label>
+        <label class="campo">Nombre esquina 2<input id="imp-e2" type="text" value="E2"></label>
+        <label class="campo ancho">Nudos esquina 2<input id="imp-n2" type="text" placeholder="1, 13, 25, 37, 49"></label>
+      </div>
+    </div>
+    <p id="imp-msg" class="imp-msg" aria-live="polite"></p>
+    <div class="dialogo-acc">
+      <button class="btn" value="cancel" type="submit" id="imp-cancelar">Cancelar</button>
+      <button class="btn btn-pri" type="button" id="imp-aplicar">Importar</button>
+    </div>
+  </form>
+</dialog>
+
+<div id="aviso" class="toast" role="status" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
