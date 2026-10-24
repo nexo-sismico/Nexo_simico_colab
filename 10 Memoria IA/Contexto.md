@@ -37,7 +37,7 @@ Dos líneas de evidencia que **no se mezclan**: E.030 Perú (generador + OpenSee
 - Subir los videos a Drive o YouTube y pegar los enlaces en `04 Entregables/Video ejecutivo 5 min.md`.
 - Cronometrar el flujo manual en SAP2000 (Joseph) para hablar de ahorro de tiempo.
 - Completar habilidades en `REGISTRO_EQUIPO.md`; Miro y Discord.
-- Invitar como colaboradores a Lucero, Alexis y Joseph (faltan sus usuarios de GitHub).
+- Colaboradores: PieroVQ y JosephLE313 invitados (pendientes de aceptar). Faltan Lucero y Alexis (aún no han pasado su usuario de GitHub).
 - Opcional: backend del bot de Telegram con el modelo E.030; ampliar la base NSR-10 con casos verificados.
 
 ## Decisiones vigentes clave
