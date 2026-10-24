@@ -7,7 +7,7 @@ import os, subprocess, sys, time
 from pathlib import Path
 
 COD = Path(__file__).resolve().parent
-PASOS = ["correr_pruebas.py", "base_datos_nsr10.py", "experimento_ml.py", "numeros.py", "figuras.py", "ficha.py"]
+PASOS = ["correr_pruebas.py", "base_datos_nsr10.py", "experimento_ml.py", "numeros.py", "figuras.py", "prototipo_docs.py", "ficha.py"]
 env = dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8")   # Windows: tildes y símbolos sin errores
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 

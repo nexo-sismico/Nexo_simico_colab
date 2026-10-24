@@ -1,4 +1,4 @@
-# Guion del video ejecutivo (duración 4:36)
+# Guion del video ejecutivo (duración 4:38)
 
 Narración por diapositiva. Para grabar la voz: reproducir el MP4 y leer cada subtítulo cuando aparece, o grabar el audio aparte y montarlo sobre el MP4 (el .srt tiene los tiempos).
 
@@ -58,7 +58,7 @@ Las limitaciones: la base NSR-10 es pequeña y teórica; el modelo E.030 solo va
 
 En conclusión: el módulo NSR-10 reproduce el cálculo de referencia y filtra datos malos; con 1 500 edificios, Random Forest estima la deriva de familias nuevas con R² de 0,99, y con 18 solo sirve para priorizar. Siguientes pasos: ampliar la base NSR-10, conectar el bot y medir el ahorro de tiempo.
 
-## 15. Equipo y herramientas  ·  4:28 (8 s)
+## 15. Equipo y herramientas  ·  4:28 (10 s)
 
-Somos Lucero, Alexis, Nicolás, Jean Piere y Joseph. Agradecemos al profesor Thomas Rojas Vallejo por sus datos. Gracias.
+Somos Lucero Vargas, Alexis Huamani, Nicolás Infante, Jean Piere Velásquez y Joseph Ccana. Agradecemos al profesor Thomas Rojas Vallejo por sus datos. Gracias.
 

@@ -66,10 +66,12 @@ Las métricas de Random Forest pueden variar en el cuarto decimal entre equipos;
 - Si la sincronización reporta conflicto, resuélvelo en GitHub Desktop; no fuerces (`--force`) nunca.
 
 ## 8. Responsables
+Nombres oficiales (para entregables): `03 Prototipo/codigo/equipo.json`.
+
 | Persona | Rol | Notas que suele editar |
 |---|---|---|
-| Lucero | Planteamiento académico | `01 Proyecto/Planteamiento.md`, introducción del informe |
-| Alexis | Generación paramétrica y OpenSees | `02 Modulos/Generador OpenSees E030.md` |
-| Nicolás Infante | Módulo NSR-10 y SAP2000, repositorio | `02 Modulos/Modulo NSR-10 y SAP2000.md`, `03 Prototipo/` |
-| Jean Piere | Datos, modelos E.030 y bot n8n | `02 Modulos/Ruta E030 - repositorio de Piero.md`, `02 Modulos/Bot Telegram n8n.md` |
-| Joseph | Validación, tiempos e integración | `04 Entregables/`, tiempos |
+| Lucero Vivivana Vargas Silva | Planteamiento académico | `01 Proyecto/Planteamiento.md`, introducción del informe |
+| Oswer Alexis Huamani | Generación paramétrica y OpenSees | `02 Modulos/Generador OpenSees E030.md` |
+| Nicolás Infante Hernández | Módulo NSR-10 y SAP2000, repositorio | `02 Modulos/Modulo NSR-10 y SAP2000.md`, `03 Prototipo/` |
+| Jean Piere Velásquez Quispe | Datos, modelos E.030 y bot n8n | `02 Modulos/Ruta E030 - repositorio de Piero.md`, `02 Modulos/Bot Telegram n8n.md` |
+| Joseph Leonardo Ccana Ayuque | Validación, tiempos e integración | `04 Entregables/`, tiempos |

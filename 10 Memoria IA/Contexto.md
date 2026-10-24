@@ -29,12 +29,15 @@ Dos líneas de evidencia que **no se mezclan**: E.030 Perú (generador + OpenSee
 - ✅ Prototipo NSR-10 con 3 pruebas y ficha de 1 página (con enlace al repositorio).
 - ✅ Ruta E.030: Random Forest en 300 familias reservadas → deriva R² 0,990, MAE 0,040 %, 137 de 146 excedencias detectadas. Gradient Boosting como comparación: R² 0,995, 139 de 146.
 - ✅ Ruta NSR-10: Random Forest con 18 edificios → MAE 0,086 % / 0,101 %, −39 % frente a la referencia, 3 de 7 casos al límite.
-- ✅ Informe v2 (5 págs.), presentación v2 (15 diap.), video del prototipo (1:58) y video ejecutivo v2 (4:36, sin voz, con subtítulos).
+- ✅ Informe v2 (5 págs.), presentación v2 (15 diap.), video ejecutivo v2 (4:38, sin voz, con subtítulos) con los nombres oficiales.
 - ✅ Código portable (Windows/macOS/Linux) y sincronización automática.
+- ✅ Reto 06 listo: ficha técnica de 1 página, video en vivo (1:20), capturas, definición y esquema → `04 Entregables/Entrega Reto 06 - prototipo funcional.md`.
+- Nombres oficiales del equipo: `03 Prototipo/codigo/equipo.json` (Lucero Vivivana Vargas Silva, Oswer Alexis Huamani, Nicolás Infante Hernández, Jean Piere Velásquez Quispe, Joseph Leonardo Ccana Ayuque).
 
 ## Pendientes
 - Revisión del equipo del informe y la PPT v2; Jean Piere confirma la versión E.030 citada (RM 183-2026-VIVIENDA).
-- Subir los videos a Drive o YouTube y pegar los enlaces en `04 Entregables/Video ejecutivo 5 min.md`.
+- Subir los videos a Drive o YouTube (sobre todo `Video_prototipo_en_vivo.mp4`) y pegar los enlaces en la nota de entrega y en `04 Entregables/Video ejecutivo 5 min.md`.
+- Pegar `Esquema_prototipo.png` en Miro; cronometrar el cálculo manual con 5 casos (plantilla en `Definicion_prototipo.pdf`).
 - Cronometrar el flujo manual en SAP2000 (Joseph) para hablar de ahorro de tiempo.
 - Completar habilidades en `REGISTRO_EQUIPO.md`; Miro y Discord.
 - Colaboradores: PieroVQ y JosephLE313 invitados (pendientes de aceptar). Faltan Lucero y Alexis (aún no han pasado su usuario de GitHub).

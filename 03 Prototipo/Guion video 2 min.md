@@ -1,5 +1,7 @@
 # Guion — video del prototipo (≤ 2 min)
 
+> ✅ **Video para entregar: `08 Multimedia/Video_prototipo_en_vivo.mp4` (1:20)**, grabación real de la consola corriendo `python demo_en_vivo.py` con las 3 pruebas (la demo narra cada paso en pantalla). Capturas en `04 Entregables/Prototipo/capturas/`. El video animado de abajo queda como respaldo.
+
 > ✅ Generado: `08 Multimedia/Video_prototipo_NSR10.mp4` (1:58, sin voz, subtítulos con esta narración; tiempos en `04 Entregables/Videos/Video_prototipo_NSR10.srt`). Muestra las salidas reales de los 3 casos. Subir por enlace (no a Git).
 
 | Tiempo | Pantalla | Narración |

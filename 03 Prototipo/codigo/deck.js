@@ -27,6 +27,7 @@ let applyTheme = async (file, theme) => {   // respaldo: escribe colores y fuent
 try { ({ applyTheme } = require(process.env.APPLY_THEME || "/mnt/skills/public/pptx/scripts/apply_theme.js")); } catch (e) {}
 const N = require(path.join(SAL, "numeros.json"));
 const E = require(path.join(RAIZ, "07 Outputs", "E030", "resumen_E030.json"));   // resumen_e030.py
+const EQ = require("./equipo.json").integrantes;   // nombres oficiales: editar solo en equipo.json
 const fs = require("fs");
 const OUT = path.join(RAIZ, "04 Entregables", "Presentacion", "Presentacion_Nexo_Sismico.pptx");
 
@@ -102,7 +103,7 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   T(s, "INVESTIGACIÓN ACADÉMICA APLICADA · BECA AI TALENT (AECODE)", { x: 0.6, y: 0.7, w: 8.5, h: 0.35, fontSize: 12, bold: true, color: C.accent1, charSpacing: 2 });
   s.addText("Nexo Sísmico", { placeholder: "title" });
   s.addText("Estimación preliminar de derivas sísmicas en edificios aporticados de concreto armado: verificación NSR-10 automatizada y aprendizaje automático", { placeholder: "body" });
-  T(s, "Lucero · Alexis · Nicolás Infante · Jean Piere · Joseph", { x: 0.6, y: 4.35, w: 8, h: 0.3, fontSize: 14, color: C.background1 });
+  T(s, EQ.map((p) => p.nombre).join(" · "), { x: 0.6, y: 4.05, w: 7.8, h: 0.6, fontSize: 12, color: C.background1 });
   T(s, "Demo Day · 24 de octubre de 2026", { x: 0.6, y: 4.7, w: 8, h: 0.3, fontSize: 12, color: C.accent6 });
   await badge(s, 8.6, 4.3, fa.FaBuilding, 0.8);
   s.addNotes("Somos Nexo Sísmico. Nuestro proyecto es una investigación aplicada: estimar de forma preliminar las derivas sísmicas de edificios aporticados de concreto, para comparar alternativas de predimensionamiento sin rehacer un modelo completo cada vez.");
@@ -355,22 +356,18 @@ const f0 = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   // 14 --------------------------------------------------------------- Equipo
   s = pres.addSlide({ masterName: "CONTENIDO", sectionTitle: "Cierre" });
   s.addText("Equipo y herramientas", { placeholder: "title" });
-  const eq = [
-    ["Lucero", "Planteamiento académico"], ["Alexis", "Generación paramétrica y OpenSees"], ["Nicolás Infante", "Módulo NSR-10 y SAP2000"],
-    ["Jean Piere", "Datos, modelos E.030 y bot n8n"], ["Joseph", "Validación y coordinación"],
-  ];
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < EQ.length; i++) {
     const x = 0.5 + i * 1.84;
-    card(s, x, 1.3, 1.68, 1.9, C.background2, "integrante");
-    await badge(s, x + 0.54, 1.45, fa.FaUserAlt, 0.6, C.accent2);
-    T(s, eq[i][0], { x: x + 0.08, y: 2.15, w: 1.52, h: 0.35, fontSize: 14, bold: true, align: "center" });
-    T(s, eq[i][1], { x: x + 0.08, y: 2.5, w: 1.52, h: 0.65, fontSize: 11, color: C.text2, align: "center" });
+    card(s, x, 1.2, 1.68, 2.3, C.background2, "integrante");
+    await badge(s, x + 0.54, 1.32, fa.FaUserAlt, 0.6, C.accent2);
+    T(s, EQ[i].nombre, { x: x + 0.08, y: 2.0, w: 1.52, h: 0.7, fontSize: 12, bold: true, align: "center", valign: "middle" });
+    T(s, EQ[i].rol, { x: x + 0.08, y: 2.75, w: 1.52, h: 0.65, fontSize: 10.5, color: C.text2, align: "center" });
   }
-  T(s, "Herramientas", { x: 0.5, y: 3.5, w: 9, h: 0.35, fontSize: 15, bold: true });
+  T(s, "Herramientas", { x: 0.5, y: 3.7, w: 9, h: 0.35, fontSize: 15, bold: true });
   T(s, "Python · OpenSeesPy · SAP2000 · scikit-learn · n8n · Telegram · asistentes de IA generativa para programación · Obsidian · GitHub · Discord · Miro",
-    { x: 0.5, y: 3.9, w: 9, h: 0.6, fontSize: 14, color: C.text2 });
-  T(s, "Profesor de apoyo: Thomas Federico Rojas Vallejo (Universidad Nacional de Colombia), algoritmo de diseño NSR-10 en OpenSees.", { x: 0.5, y: 4.6, w: 9, h: 0.4, fontSize: 12, color: C.accent2, italic: true });
-  s.addNotes("Somos Lucero, Alexis, Nicolás, Jean Piere y Joseph. Agradecemos al profesor Thomas Rojas Vallejo por sus datos. Gracias.");
+    { x: 0.5, y: 4.05, w: 9, h: 0.55, fontSize: 13, color: C.text2 });
+  T(s, "Profesor de apoyo: Thomas Federico Rojas Vallejo (Universidad Nacional de Colombia), algoritmo de diseño NSR-10 en OpenSees.", { x: 0.5, y: 4.65, w: 9, h: 0.4, fontSize: 12, color: C.accent2, italic: true });
+  s.addNotes(`Somos ${EQ.map((p) => p.corto).join(", ").replace(/, ([^,]*)$/, " y $1")}. Agradecemos al profesor Thomas Rojas Vallejo por sus datos. Gracias.`);
 
   await pres.writeFile({ fileName: OUT });
   await applyTheme(OUT, THEME);

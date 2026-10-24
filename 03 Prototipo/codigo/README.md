@@ -13,6 +13,9 @@
 | `ficha.py` | Ficha de pruebas de 1 página (PDF), copia en `04 Entregables/Prototipo` |
 | `rutas.py` | Rutas comunes (codigo, 07 Outputs, 04 Entregables) y búsqueda de fuentes en cualquier sistema |
 | `ejecutar_todo.py` | Corre toda la cadena en orden |
+| `equipo.json` | **Nombres oficiales** de los integrantes (los leen informe, presentación, ficha y demo) |
+| `demo_en_vivo.py` | Demostración en vivo de las 3 pruebas para grabar el video del Reto 06 (≈ 1:20; `--rapido` para revisar) |
+| `prototipo_docs.py` | Esquema del prototipo y `Definicion_prototipo.pdf` (problema, flujo, límites, pruebas, medición) |
 | `resumen_e030.py` | Resultados de la ruta E.030 (repositorio de Jean Piere): entrena Random Forest con su partición y escribe `07 Outputs/E030/` para el informe y la PPT. Uso: `python resumen_e030.py RUTA/ProyectoGH` |
 | `informe.js` | Informe tipo artículo (DOCX; convertir a PDF con Word o LibreOffice) |
 | `deck.js` | Presentación (PPTX) con notas del orador |

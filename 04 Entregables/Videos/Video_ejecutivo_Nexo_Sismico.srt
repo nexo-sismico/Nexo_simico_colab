@@ -127,6 +127,6 @@ con 1 500 edificios, Random Forest estima la deriva de familias nuevas con R² d
 ampliar la base NSR-10, conectar el bot y medir el ahorro de tiempo.
 
 33
-00:04:28,131 --> 00:04:36,078
-Somos Lucero, Alexis, Nicolás, Jean Piere y Joseph. Agradecemos al profesor Thomas Rojas Vallejo por sus datos. Gracias.
+00:04:28,131 --> 00:04:38,118
+Somos Lucero Vargas, Alexis Huamani, Nicolás Infante, Jean Piere Velásquez y Joseph Ccana. Agradecemos al profesor Thomas Rojas Vallejo por sus datos. Gracias.
 

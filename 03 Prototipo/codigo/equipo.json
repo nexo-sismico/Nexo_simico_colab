@@ -1,0 +1,13 @@
+{
+ "equipo": "Nexo Sísmico",
+ "programa": "AI Talent, 2.ª generación (AECODE)",
+ "repositorio": "https://github.com/FrailM7/nexo-sismico",
+ "integrantes": [
+  {"nombre": "Lucero Vivivana Vargas Silva", "corto": "Lucero Vargas", "rol": "Planteamiento académico"},
+  {"nombre": "Oswer Alexis Huamani", "corto": "Alexis Huamani", "rol": "Generación paramétrica y OpenSees"},
+  {"nombre": "Nicolás Infante Hernández", "corto": "Nicolás Infante", "rol": "Módulo NSR-10 y SAP2000"},
+  {"nombre": "Jean Piere Velásquez Quispe", "corto": "Jean Piere Velásquez", "rol": "Datos, modelos E.030 y bot n8n"},
+  {"nombre": "Joseph Leonardo Ccana Ayuque", "corto": "Joseph Ccana", "rol": "Validación y coordinación"}
+ ],
+ "profesor": "Thomas Federico Rojas Vallejo (Universidad Nacional de Colombia)"
+}

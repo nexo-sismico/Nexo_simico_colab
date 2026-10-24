@@ -1,6 +1,6 @@
 # Video ejecutivo (≤ 5 min) — ✅ versión 2 (con resultados E.030)
 
-- MP4: `08 Multimedia/Video_ejecutivo_Nexo_Sismico.mp4` (4:36, sin voz, con subtítulos; 15 diapositivas de la presentación v2). Se regenera con `python "03 Prototipo/codigo/ejecutar_todo.py" --videos` (requiere ffmpeg). **No va a Git**: subir a Drive o YouTube (no listado) y pegar el enlace aquí: _(enlace)_
+- MP4: `08 Multimedia/Video_ejecutivo_Nexo_Sismico.mp4` (4:38, sin voz, con subtítulos; 15 diapositivas de la presentación v2). Se regenera con `python "03 Prototipo/codigo/ejecutar_todo.py" --videos` (requiere ffmpeg). **No va a Git**: subir a Drive o YouTube (no listado) y pegar el enlace aquí: _(enlace)_
 - Guion por diapositiva: `04 Entregables/Videos/Guion_video_ejecutivo.md` · tiempos: `Video_ejecutivo_Nexo_Sismico.srt`.
 - Para ponerle voz: grabar leyendo el guion con el video en pantalla (OBS, Clipchamp o CapCut) o importar MP4 + audio + .srt en el editor.
 

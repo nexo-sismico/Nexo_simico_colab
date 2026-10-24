@@ -16,6 +16,7 @@ Estimación preliminar de derivas sísmicas en edificios aporticados de concreto
 ## 👉 Empieza aquí
 - **[[Ruta de trabajo y coordinacion]]** — qué se entrega hoy, quién y en qué orden
 - **[[Explicacion del proyecto]]** — el proyecto completo explicado de principio a fin (léelo primero)
+- **[[Entrega Reto 06 - prototipo funcional]]** — qué subir hoy y dónde está cada archivo
 - **[[Contexto]]** (`10 Memoria IA/`) — memoria compartida del equipo y sus IAs: estado, decisiones y sesiones · reglas para IAs en `AGENTS.md`
 - **[[Flujo integrado de herramientas]]** — cómo encajan todas las herramientas y la historia del informe
 - [[Inventario de insumos]] — dónde está cada archivo

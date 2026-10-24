@@ -6,11 +6,11 @@
 
 | Integrante | Rol | Habilidades |
 |---|---|---|
-| Lucero | Planteamiento académico | _(completar)_ |
-| Alexis | Generación paramétrica y OpenSees | _(completar)_ |
-| Nicolás Infante | Módulo NSR-10 y SAP2000 | Análisis estructural NSR-10, SAP2000, Python, AutoCAD, QGIS |
-| Jean Piere | Datos, Random Forest y bot n8n | _(completar)_ |
-| Joseph | Validación y coordinación | _(completar)_ |
+| Lucero Vivivana Vargas Silva | Planteamiento académico | _(completar)_ |
+| Oswer Alexis Huamani | Generación paramétrica y OpenSees | _(completar)_ |
+| Nicolás Infante Hernández | Módulo NSR-10 y SAP2000 | Análisis estructural NSR-10, SAP2000, Python, AutoCAD, QGIS |
+| Jean Piere Velásquez Quispe | Datos, modelos E.030 y bot n8n | _(completar)_ |
+| Joseph Leonardo Ccana Ayuque | Validación y coordinación | _(completar)_ |
 
 **Problema elegido:** comparar alternativas de predimensionamiento exige repetir análisis; falta saber con qué precisión un predictor estima derivas de familias nuevas y cuánto tiempo ahorra.
 **Propuesta de solución:** flujo reproducible de generación paramétrica + análisis (OpenSees / SAP2000) + Random Forest, con interfaz conversacional en Telegram.

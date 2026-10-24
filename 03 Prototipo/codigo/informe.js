@@ -19,6 +19,7 @@ const pc = (x, d = 3) => f(x * 100, d);   // deriva adimensional → % de la alt
 const exRF = E.exced_XoY_RF, exGB = E.exced_XoY_GB;
 const FONT = "Arial", SZ = 19; // 9.5 pt
 const NAVY = "1F3864";
+const EQ = JSON.parse(fs.readFileSync(path.join(__dirname, "equipo.json"), "utf8")).integrantes;   // nombres oficiales
 
 const P = (runs, opt = {}) => new Paragraph({
   spacing: { after: 70, line: 252 }, alignment: AlignmentType.JUSTIFIED, ...opt,
@@ -73,7 +74,7 @@ const children = [
     text: "Estimación preliminar de derivas sísmicas en edificios aporticados de concreto reforzado mediante generación paramétrica, verificación normativa automatizada y aprendizaje automático",
     font: FONT, size: 28, bold: true, color: NAVY })] }),
   new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 30 }, children: [new TextRun({
-    text: "Lucero · Alexis · Nicolás Infante Hernández · Jean Piere · Joseph", font: FONT, size: 19 })] }),
+    text: EQ.map((p) => p.nombre).join(" · "), font: FONT, size: 19 })] }),
   new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 120 }, children: [new TextRun({
     text: "Equipo Nexo Sísmico · Beca AI Talent, 2.ª generación (AECODE) · Modalidad C: investigación académica aplicada · Octubre de 2026",
     font: FONT, size: 16, color: "555555" })] }),

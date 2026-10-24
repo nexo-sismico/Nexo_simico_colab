@@ -1,7 +1,7 @@
 # Nexo Sísmico — Beca AI Talent (AECODE)
 
 **Estimación preliminar de derivas sísmicas en edificios aporticados de concreto armado mediante generación paramétrica, verificación normativa automatizada y aprendizaje automático.**
-Investigación académica aplicada · Equipo: Lucero · Alexis · Nicolás Infante · Jean Piere · Joseph · Profesor de apoyo: Thomas F. Rojas Vallejo (UNAL).
+Investigación académica aplicada · Equipo: Lucero Vivivana Vargas Silva · Oswer Alexis Huamani · Nicolás Infante Hernández · Jean Piere Velásquez Quispe · Joseph Leonardo Ccana Ayuque · Profesor de apoyo: Thomas F. Rojas Vallejo (UNAL).
 
 > Este repositorio es **a la vez el vault de Obsidian del equipo y la memoria compartida para nuestras IAs**. Todo el contexto, las decisiones y el estado del proyecto están aquí, y cada computador del equipo se sincroniza solo con GitHub.
 
