@@ -44,4 +44,5 @@ Estimación preliminar de derivas sísmicas en edificios aporticados de concreto
 | Random Forest NSR-10 (validación por planta) | ✅ MAE deriva 0.086 % (X) / 0.101 % (Y), −39 % vs referencia · [[Random Forest]] |
 | Random Forest E.030 (300 familias reservadas) | ✅ Deriva R² 0,990 · MAE 0,040 % · 137 de 146 excedencias (Gradient Boosting como comparación: 0,995) · en informe y PPT v2 |
 | Código del prototipo | ✅ Corre en Windows: `python "03 Prototipo/codigo/ejecutar_todo.py"` |
+| App web del prototipo | ✅ En línea: https://nexo-sismico-nsr10.netlify.app (se publica sola al cambiar la app o el motor) · local: `python "03 Prototipo/app/abrir_app.py"` |
 | Repositorio GitHub | ✅ https://github.com/FrailM7/nexo-sismico · sincronización automática cada 15 min en el PC de Nicolás |
