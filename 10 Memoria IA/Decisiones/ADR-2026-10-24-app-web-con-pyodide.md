@@ -23,7 +23,7 @@ App web estática en `03 Prototipo/app/` (HTML + CSS + JS, Chart.js) que carga e
 ## Consecuencias
 - La primera carga necesita internet (Pyodide ≈ 10 MB, luego queda en caché).
 - Cualquier cambio en `nexo_nsr10.py` se refleja en la app sin tocarla.
-- Publicada en Netlify: https://nexo-sismico-nsr10.netlify.app. Solo se sube la carpeta `dist` que arma `construir_sitio.py`; la protección de equipo que Netlify activa por defecto se desactivó solo en este sitio.
+- Publicada en Netlify: https://nexo-sismico-nsr10.netlify.app. Solo se sube la carpeta `dist` que arma `construir_sitio.py`; la protección de equipo que Netlify activa por defecto se desactivó solo en este sitio. Despliegue continuo desde GitHub (`main`) con regla `ignore`: solo publica si cambian la app, el motor, el ejemplo, los nombres o `netlify.toml`.
 - Pendiente: conectar el bot de Telegram al mismo motor.
 
 ## Relacionado

@@ -65,6 +65,7 @@ Las métricas de Random Forest pueden variar en el cuarto decimal entre equipos;
 - Para evitar conflictos: **cada quien edita sobre todo las notas de su módulo**; en notas compartidas (`00 Inicio.md`, `Decisiones.md`, `Contexto.md`) haz cambios pequeños y agrega filas en lugar de reescribir.
 - Si una IA hace muchos cambios, haz un commit con mensaje claro (`Alexis: tabla de la familia 9`) en lugar de esperar al automático.
 - Si la sincronización reporta conflicto, resuélvelo en GitHub Desktop; no fuerces (`--force`) nunca.
+- **La app web se publica sola:** cambios en `03 Prototipo/app/`, `nexo_nsr10.py`, `casos/caso1_completo.json` o `equipo.json` quedan en línea (https://nexo-sismico-nsr10.netlify.app) al llegar a `main`. Pruébalos antes con `python "03 Prototipo/app/abrir_app.py"`.
 
 ## 8. Responsables
 Nombres oficiales (para entregables): `03 Prototipo/codigo/equipo.json`.

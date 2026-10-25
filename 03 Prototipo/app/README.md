@@ -29,7 +29,9 @@ Los botones **Quitar Fv** y **Altura en cm** repiten las pruebas 2 y 3 del Reto 
 - `index.html` (estructura), `estilos.css` (tema claro y oscuro), `app.js` (formulario, validación, importador, gráficas con Chart.js, alternativas).
 - Los datos no salen del computador. Las alternativas se guardan en el navegador (`localStorage`).
 - **Publicada en Netlify:** https://nexo-sismico-nsr10.netlify.app (cuenta de FrailM7). Solo se publica lo que arma `construir_sitio.py` (interfaz, motor, ejemplo y nombres); el resto del vault no.
-- Para volver a publicar después de un cambio: `powershell -ExecutionPolicy Bypass -File "03 Prototipo\app\publicar_app.ps1"`. `netlify.toml` (raíz) deja listo conectar el repositorio en Netlify para que publique solo en cada push.
+- **Se publica sola:** Netlify está conectado a `FrailM7/nexo-sismico` (rama `main`). Cada push que cambie `03 Prototipo/app/`, `nexo_nsr10.py`, el caso de ejemplo, `equipo.json` o `netlify.toml` vuelve a publicar en uno o dos minutos; los commits de solo notas no publican (regla `ignore` en `netlify.toml`).
+- Antes de subir un cambio a la app o al motor, pruébalo en local con `abrir_app.py`: lo que llegue a `main` queda en línea.
+- Respaldo manual: `powershell -ExecutionPolicy Bypass -File "03 Prototipo\app\publicar_app.ps1"`.
 
 ## Archivos que lee
 `../codigo/nexo_nsr10.py` (motor), `../codigo/casos/caso1_completo.json` (ejemplo), `../codigo/equipo.json` (nombres). Si se copia la app a otro lugar, basta poner esos archivos junto a `index.html`.
