@@ -1,7 +1,11 @@
 # Publica solo la app web del prototipo (no el vault): ver 03 Prototipo/app/construir_sitio.py
+# Sitio: https://nexo-sismico-nsr10.netlify.app
 [build]
   command = "python3 '03 Prototipo/app/construir_sitio.py'"
   publish = "03 Prototipo/app/dist"
+  # La sincronización automática sube notas cada 15 min: solo se publica si cambió algo que el sitio usa.
+  # (salida 0 = no publicar; salida 1 = publicar)
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- '03 Prototipo/app/' '03 Prototipo/codigo/nexo_nsr10.py' '03 Prototipo/codigo/casos/caso1_completo.json' '03 Prototipo/codigo/equipo.json' netlify.toml"
 
 [build.environment]
   PYTHON_VERSION = "3.11"
