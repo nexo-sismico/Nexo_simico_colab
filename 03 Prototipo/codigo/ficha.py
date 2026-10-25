@@ -82,7 +82,7 @@ s += [tabla(filas, [23, 45, 29, 71, 16], extra=[("BACKGROUND", (3, 1), (3, 1), c
                 f"derivas 0,985 / 0,991 % = {n(r1['deriva_max_pct']['X'], 3)} / {n(r1['deriva_max_pct']['Y'], 3)} % · Q 0,0165 = {n(r1['Q_max'], 4)}. Coincidencia exacta.", B)]
 
 s += [Paragraph("5. Qué falta por mejorar", H),
-      Paragraph("• <b>Interfaz:</b> ya hay una app web local (<i>03 Prototipo/app</i>) que usa el mismo motor; falta publicarla en internet y conectar el bot de Telegram en n8n. "
+      Paragraph("• <b>Interfaz:</b> la app web ya está en línea; falta conectar el bot de Telegram en n8n al mismo motor. "
                 "• <b>Entrada directa desde SAP2000:</b> leer las tablas exportadas o la API en lugar de armar el JSON a mano. "
                 "• <b>Más verificaciones:</b> irregularidades en planta y altura además de la torsional, y combinaciones de diseño. "
                 "• <b>Más casos verificados</b> para la base NSR-10 (hoy 18 edificios teóricos del profesor + este caso). "
@@ -94,7 +94,7 @@ s += [Paragraph("6. Medición del impacto (antes vs. después)", H),
                 "no se reporta un porcentaje de ahorro hasta medirlo.", B)]
 
 s += [Paragraph("7. Enlace y capturas", H),
-      Paragraph(f"Repositorio: <b>{eq['repositorio']}</b> (código en <i>03 Prototipo/codigo</i>; ejecutar <i>python correr_pruebas.py</i> o <i>python demo_en_vivo.py</i>). "
+      Paragraph(f"<b>App en línea: https://nexo-sismico-nsr10.netlify.app</b> · Repositorio: <b>{eq['repositorio']}</b> (código en <i>03 Prototipo/codigo</i>; ejecutar <i>python correr_pruebas.py</i> o <i>python demo_en_vivo.py</i>). "
                 "Capturas de las 3 pruebas en <i>04 Entregables/Prototipo/capturas</i>; video de demostración de menos de 2 min. "
                 "Sin claves, tokens ni datos personales: las pruebas usan datos de un edificio académico.", S)]
 doc.build(s)

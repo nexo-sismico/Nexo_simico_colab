@@ -1,0 +1,7 @@
+# Publica solo la app web del prototipo (no el vault): ver 03 Prototipo/app/construir_sitio.py
+[build]
+  command = "python3 '03 Prototipo/app/construir_sitio.py'"
+  publish = "03 Prototipo/app/dist"
+
+[build.environment]
+  PYTHON_VERSION = "3.11"

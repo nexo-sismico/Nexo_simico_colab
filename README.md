@@ -26,7 +26,7 @@ Investigación académica aplicada · Equipo: Lucero Vivivana Vargas Silva · Os
 El prototipo NSR-10 reproduce exactamente el cálculo de referencia con SAP2000 (Vs = 23 250 kN, deriva 0,991 %) y bloquea entradas incompletas o erróneas.
 
 ## 🖥️ App web del prototipo
-Verificación NSR-10 interactiva para ingenieros: formulario guiado, revisión de datos en vivo, pegado de la tabla de desplazamientos de SAP2000, dictamen con gráficas (deriva por nivel, espectro, FHE) y comparación de alternativas. Corre en el navegador con el mismo motor Python validado.
+**En línea: https://nexo-sismico-nsr10.netlify.app** · Verificación NSR-10 interactiva para ingenieros: formulario guiado, revisión de datos en vivo, pegado de la tabla de desplazamientos de SAP2000, dictamen con gráficas (deriva por nivel, espectro, FHE) y comparación de alternativas. Corre en el navegador con el mismo motor Python validado.
 ```bash
 python "03 Prototipo/app/abrir_app.py"
 ```

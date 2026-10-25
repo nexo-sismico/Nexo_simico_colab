@@ -51,7 +51,7 @@ python "03 Prototipo/codigo/ejecutar_todo.py"             # pruebas → base →
 python "03 Prototipo/codigo/ejecutar_todo.py" --informe   # + informe DOCX y presentación PPTX (npm install en codigo/)
 python "03 Prototipo/codigo/ejecutar_todo.py" --videos    # + videos (requiere ffmpeg)
 python "03 Prototipo/codigo/resumen_e030.py" RUTA/ProyectoGH   # resultados E.030 para informe y PPT
-python "03 Prototipo/app/abrir_app.py"                  # app web del prototipo (usa el mismo nexo_nsr10.py)
+python "03 Prototipo/app/abrir_app.py"                  # app web del prototipo (usa el mismo nexo_nsr10.py); en línea: https://nexo-sismico-nsr10.netlify.app
 ```
 Las métricas de Random Forest pueden variar en el cuarto decimal entre equipos; no subas resultados regenerados si solo cambia ese ruido.
 

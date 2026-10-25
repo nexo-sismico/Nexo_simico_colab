@@ -6,7 +6,9 @@
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => [...document.querySelectorAll(s)];
 const COMBOS = [1, 2, 3, 4, 5, 6].map((i) => `DER-X${i}`).concat([1, 2, 3, 4, 5, 6].map((i) => `DER-Y${i}`));
-const CANDIDATOS = (f) => [`../codigo/${f}`, f];          // la app vive en 03 Prototipo/app y el motor en ../codigo (o copia junto a la app)
+// Dónde están el motor y los datos: ../codigo/ en el repositorio, ./ en el sitio publicado (construir_sitio.py)
+const BASE_DATOS = document.querySelector('meta[name="nexo-datos"]')?.content ?? "../codigo/";
+const CANDIDATOS = (f) => [BASE_DATOS + f];
 const CLAVE_ALT = "nexo-sismico-alternativas";
 
 const estado = {

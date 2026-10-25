@@ -24,3 +24,7 @@ package-lock.json
 
 # Configuración local de Claude Code
 .claude/
+
+# Sitio publicado de la app (se genera con construir_sitio.py)
+03 Prototipo/app/dist/
+.netlify/

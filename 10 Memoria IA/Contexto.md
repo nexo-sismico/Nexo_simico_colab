@@ -32,7 +32,7 @@ Dos líneas de evidencia que **no se mezclan**: E.030 Perú (generador + OpenSee
 - ✅ Informe v2 (5 págs.), presentación v2 (15 diap.), video ejecutivo v2 (4:38, sin voz, con subtítulos) con los nombres oficiales.
 - ✅ Código portable (Windows/macOS/Linux) y sincronización automática.
 - ✅ Reto 06 listo: ficha técnica de 1 página, video en vivo (1:20), capturas, definición y esquema → `04 Entregables/Entrega Reto 06 - prototipo funcional.md`.
-- ✅ App web del prototipo (`03 Prototipo/app/`, abrir con `python "03 Prototipo/app/abrir_app.py"`): formulario con revisión en vivo, importador de SAP2000, dictamen y gráficas, comparación de alternativas. Ejecuta el mismo `nexo_nsr10.py` en el navegador (Pyodide).
+- ✅ App web del prototipo (`03 Prototipo/app/`, abrir con `python "03 Prototipo/app/abrir_app.py"`): formulario con revisión en vivo, importador de SAP2000, dictamen y gráficas, comparación de alternativas. Ejecuta el mismo `nexo_nsr10.py` en el navegador (Pyodide). **Publicada: https://nexo-sismico-nsr10.netlify.app** (Netlify, cuenta FrailM7; republicar con `03 Prototipo/app/publicar_app.ps1`).
 - Nombres oficiales del equipo: `03 Prototipo/codigo/equipo.json` (Lucero Vivivana Vargas Silva, Oswer Alexis Huamani, Nicolás Infante Hernández, Jean Piere Velásquez Quispe, Joseph Leonardo Ccana Ayuque).
 
 ## Pendientes
@@ -42,7 +42,7 @@ Dos líneas de evidencia que **no se mezclan**: E.030 Perú (generador + OpenSee
 - Cronometrar el flujo manual en SAP2000 (Joseph) para hablar de ahorro de tiempo.
 - Completar habilidades en `REGISTRO_EQUIPO.md`; Miro y Discord.
 - Colaboradores: PieroVQ y JosephLE313 invitados (pendientes de aceptar). Faltan Lucero y Alexis (aún no han pasado su usuario de GitHub).
-- Hospedar la app web (GitHub Pages exige repo público o plan pago; alternativas: Netlify, servidor universitario) y grabar un video usándola.
+- Grabar un video corto usando la app publicada; opcional: conectar el repositorio en Netlify para publicar en cada push.
 - Opcional: backend del bot de Telegram con el modelo E.030; ampliar la base NSR-10 con casos verificados.
 
 ## Decisiones vigentes clave

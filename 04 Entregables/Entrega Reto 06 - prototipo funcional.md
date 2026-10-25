@@ -12,9 +12,9 @@ Equipo: Lucero Vivivana Vargas Silva · Oswer Alexis Huamani · Nicolás Infante
 |---|---|---|---|
 | 1 | **Ficha técnica (1 página)**: problema, tecnología, resultados de las 3 pruebas, qué falta mejorar | `04 Entregables/Prototipo/Ficha_pruebas_prototipo_NSR10.pdf` | ✅ |
 | 2 | **Video ≤ 2 min** con el prototipo corriendo en vivo con el caso real | `08 Multimedia/Video_prototipo_en_vivo.mp4` (1:20, grabación real de la consola) | ✅ falta subir a Drive/YouTube y pegar el enlace aquí: _(enlace)_ |
-| 3 | **Enlace o capturas** | Repositorio https://github.com/FrailM7/nexo-sismico · capturas en `04 Entregables/Prototipo/capturas/` | ✅ |
+| 3 | **Enlace o capturas** | App en línea https://nexo-sismico-nsr10.netlify.app · repositorio https://github.com/FrailM7/nexo-sismico · capturas en `04 Entregables/Prototipo/capturas/` | ✅ |
 | 4 | Definición del prototipo y esquema (Miro) | `04 Entregables/Prototipo/Definicion_prototipo.pdf` · `Esquema_prototipo.png` | ✅ falta pegar el esquema en el tablero de Miro |
-| + | Interfaz interactiva para ingenieros | App web `03 Prototipo/app/` (`python "03 Prototipo/app/abrir_app.py"`) · captura `capturas/app_web_verificar.png` | ✅ local; falta hospedarla |
+| + | Interfaz interactiva para ingenieros | App web `03 Prototipo/app/` (`python "03 Prototipo/app/abrir_app.py"`) · captura `capturas/app_web_verificar.png` | ✅ en línea: https://nexo-sismico-nsr10.netlify.app |
 | 5 | Plus: medición antes vs. después (5 casos) | Plantilla en `Definicion_prototipo.pdf`, sección 6 | ⏳ falta cronometrar el cálculo manual |
 
 ## Cómo cumple cada parte de la orden

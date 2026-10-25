@@ -2,6 +2,8 @@
 
 Interfaz para ingenieros del prototipo: verificación sísmica preliminar NSR-10 de edificios aporticados de concreto, en el navegador.
 
+**En línea: https://nexo-sismico-nsr10.netlify.app**
+
 ![App web del verificador NSR-10](../../04%20Entregables/Prototipo/capturas/app_web_verificar.png)
 
 ## Abrirla
@@ -26,7 +28,8 @@ Los botones **Quitar Fv** y **Altura en cm** repiten las pruebas 2 y 3 del Reto 
 - **El cálculo es el mismo `../codigo/nexo_nsr10.py`** que pasó las 3 pruebas y reproduce Excel + SAP2000. La app lo ejecuta en el navegador con [Pyodide](https://pyodide.org) (Python compilado a WebAssembly). No hay una segunda implementación en JavaScript: si el motor cambia, la app usa la versión nueva.
 - `index.html` (estructura), `estilos.css` (tema claro y oscuro), `app.js` (formulario, validación, importador, gráficas con Chart.js, alternativas).
 - Los datos no salen del computador. Las alternativas se guardan en el navegador (`localStorage`).
-- Para publicarla en internet basta un hosting estático que sirva la carpeta del repositorio (por ejemplo GitHub Pages con el repositorio público, Netlify o un servidor de la universidad).
+- **Publicada en Netlify:** https://nexo-sismico-nsr10.netlify.app (cuenta de FrailM7). Solo se publica lo que arma `construir_sitio.py` (interfaz, motor, ejemplo y nombres); el resto del vault no.
+- Para volver a publicar después de un cambio: `powershell -ExecutionPolicy Bypass -File "03 Prototipo\app\publicar_app.ps1"`. `netlify.toml` (raíz) deja listo conectar el repositorio en Netlify para que publique solo en cada push.
 
 ## Archivos que lee
 `../codigo/nexo_nsr10.py` (motor), `../codigo/casos/caso1_completo.json` (ejemplo), `../codigo/equipo.json` (nombres). Si se copia la app a otro lugar, basta poner esos archivos junto a `index.html`.
