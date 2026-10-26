@@ -11,7 +11,7 @@ tema: Validación local del backend y preparación del despliegue del bot
 - Preparé un entorno virtual local (ignorado por Git) e instalé las dependencias del backend.
 - Cargué `modelo_final.joblib` y confirmé 107 entradas y ocho objetivos de predicción.
 - Corregí `normalize_unit()` para quitar diacríticos Unicode; valores como `adimensional / categoría` se rechazaban al compararse con la forma sin tilde.
-- Ejecuté una prueba local con entradas sintéticas dentro de rangos: validación aceptada, ocho predicciones y repetición idempotente de la consulta.
+- Ejecuté una prueba HTTP local con entradas sintéticas dentro de rangos: `/health`, `/schema` (107 entradas), validación, `POST /consultas`, lectura del resultado con ocho predicciones y clave idempotente.
 - Revisé los tres workflows n8n: `BACKEND_URL` aún apunta a un marcador; el informe conserva `PDF_SERVICE_URL` provisional para Gotenberg.
 
 ## No hecho / limitaciones
