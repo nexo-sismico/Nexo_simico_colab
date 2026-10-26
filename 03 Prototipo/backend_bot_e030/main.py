@@ -2,9 +2,11 @@
 from __future__ import annotations
 
 import hashlib
+import html as html_lib
 import json
 import math
 import os
+import re
 import sqlite3
 import sys
 import unicodedata
@@ -16,7 +18,7 @@ from typing import Any
 import joblib
 import numpy as np
 import pandas as pd
-from fastapi import Depends, FastAPI, Header, HTTPException
+from fastapi import Depends, FastAPI, Header, HTTPException, Request
 from fastapi.responses import Response
 from pydantic import BaseModel, Field
 
@@ -306,3 +308,75 @@ def get_query(consulta_id: str) -> dict[str, Any]:
 @app.get("/consultas/{consulta_id}/archivos/{archivo_id}", dependencies=[Depends(require_api_key)])
 def get_file(consulta_id: str, archivo_id: str) -> Response:
     raise HTTPException(404, "Esta consulta no contiene el archivo solicitado.")
+
+
+@app.post("/informes/pdf", dependencies=[Depends(require_api_key)])
+async def create_report_pdf(request: Request) -> Response:
+    """Render the report workflow's index_html and footer_html multipart files."""
+    try:
+        form = await request.form(max_files=2, max_fields=8, max_part_size=12 * 1024 * 1024)
+    except Exception as exc:
+        raise HTTPException(400, "No se pudo leer el formulario multipart del informe.") from exc
+
+    files = form.getlist("files")
+    html_parts: dict[str, bytes] = {}
+    for upload in files:
+        filename = Path(getattr(upload, "filename", "")).name.lower()
+        if filename not in {"index.html", "footer.html"}:
+            continue
+        content = await upload.read(8 * 1024 * 1024 + 1)
+        if len(content) > 8 * 1024 * 1024:
+            raise HTTPException(413, "El HTML del informe excede el tamaño permitido.")
+        html_parts[filename] = content
+
+    if "index.html" not in html_parts:
+        raise HTTPException(422, "Falta el archivo index.html del informe.")
+    if sum(map(len, html_parts.values())) > 10 * 1024 * 1024:
+        raise HTTPException(413, "Los archivos del informe exceden el tamaño permitido.")
+
+    try:
+        from io import BytesIO
+        from xhtml2pdf import pisa
+
+        html = html_parts["index.html"].decode("utf-8-sig")
+        footer = html_parts.get("footer.html", b"").decode("utf-8-sig")
+        footer = footer.replace('<span class="pageNumber"></span>', "__PAGE_NUMBER__")
+        footer = footer.replace('<span class="totalPages"></span>', "__PAGE_COUNT__")
+        footer_text = " ".join(html_lib.unescape(part) for part in re.findall(r">([^<>]+)<", footer))
+        footer_text = " ".join(footer_text.split())
+        if footer_text:
+            safe_footer = (
+                footer_text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+                .replace("__PAGE_NUMBER__", "<pdf:pagenumber />")
+                .replace("__PAGE_COUNT__", "<pdf:pagecount />")
+            )
+            footer_div = '<div id="report-footer">' + safe_footer + "</div>"
+            html = html.replace("</body>", footer_div + "</body>")
+            html = html.replace("</style>",
+                "@page { @frame contentFrame { left: 18mm; width: 174mm; top: 22mm; height: 255mm; } "
+                "@frame reportFooter { -pdf-frame-content: report-footer; left: 18mm; width: 174mm; top: 280mm; height: 8mm; } }"
+                "#report-footer { font-family: Georgia, serif; font-size: 8pt; color: #444; text-align: center; }"
+                "</style>", 1)
+
+        output = BytesIO()
+        def embedded_images_only(uri: str, rel: str | None = None) -> str:
+            if uri.startswith("data:image/"):
+                return uri
+            raise ValueError("El informe no puede cargar recursos externos.")
+
+        rendered = pisa.CreatePDF(
+            html, dest=output, encoding="utf-8", link_callback=embedded_images_only
+        )
+        if rendered.err:
+            raise ValueError("El motor de PDF no pudo procesar el HTML.")
+        pdf_bytes = output.getvalue()
+        if not pdf_bytes.startswith(b"%PDF-"):
+            raise ValueError("El motor no devolvió un documento PDF válido.")
+    except Exception as exc:
+        raise HTTPException(422, "No se pudo generar el PDF a partir del HTML del informe.") from exc
+
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={"Content-Disposition": 'attachment; filename="informe.pdf"'},
+    )

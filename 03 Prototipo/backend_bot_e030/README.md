@@ -31,7 +31,7 @@ $env:BOT_API_TOKEN = 'un-secreto-aleatorio-largo'
 
 La raíz queda en `http://127.0.0.1:8000`; la documentación OpenAPI local está
 en `/docs`. `GET /health` no requiere autenticación. Todos los endpoints de
-consultas exigen `Authorization: Bearer <BOT_API_TOKEN>`.
+consulta e informes exigen `Authorization: Bearer <BOT_API_TOKEN>`.
 
 ## Endpoints usados por n8n
 
@@ -40,6 +40,7 @@ consultas exigen `Authorization: Bearer <BOT_API_TOKEN>`.
   coherencia de vanos y unidades declaradas.
 - `POST /consultas`: predicción idempotente de ocho respuestas.
 - `GET /consultas/{consulta_id}`: resultado para el subflujo del informe.
+- `POST /informes/pdf`: recibe `index.html` y `footer.html` como archivos multipart y devuelve el informe PDF.
 - `GET /consultas/{consulta_id}/archivos/{archivo_id}`: responde 404; esta
   versión no genera imagen o vista 3D.
 
@@ -58,9 +59,10 @@ añadir la misma credencial Bearer a n8n y actualizar `BACKEND_URL` en los tres
 workflows. No exponga una instancia local mediante un túnel público sin
 autenticación.
 
-Los workflows también necesitan credenciales del proveedor de IA. El flujo
-final espera un servicio PDF compatible con Gotenberg; esta API todavía no
-genera PDF ni archivos 3D. No activar los workflows hasta conectar esas piezas.
+Los workflows también necesitan credenciales del proveedor de IA. El endpoint
+PDF usa xhtml2pdf, acepta imágenes incrustadas y bloquea la carga de recursos
+externos. Esta API todavía no genera archivos 3D. No activar los workflows
+hasta conectar el backend, configurar credenciales y completar una prueba real.
 
 ## Procedencia del modelo
 
