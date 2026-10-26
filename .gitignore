@@ -12,6 +12,7 @@
 
 # Python / Colab
 __pycache__/
+.venv/
 .ipynb_checkpoints/
 
 # Nunca subir credenciales

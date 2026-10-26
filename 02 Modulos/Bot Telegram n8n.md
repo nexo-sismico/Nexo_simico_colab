@@ -16,14 +16,15 @@ Esquema de extracción del LLM: `estado` ∈ {faltan_datos, requiere_aclaracion,
 - La verificación del disparador **no** probó respuestas, IA, cálculo ni PDF; los workflows siguen inactivos.
 - Backend inicial en `03 Prototipo/backend_bot_e030/`: carga el artefacto real `modelo_final.joblib`, define el esquema de entradas, valida el dominio y prepara las ocho respuestas que esperan los flujos.
 - El modelo requiere **107 entradas** por estructura. No es correcto completar ese esquema inventando datos a partir de una descripción breve.
+- Validación local (2026-10-25): cargó el modelo real, validó un caso sintético dentro del dominio y devolvió ocho predicciones; también se verificó que la clave idempotente evita duplicar la consulta. Se corrigió la normalización de unidades categóricas con tildes.
+- En n8n, el modelo de conversación DeepSeek está conectado a la cadena; hay un nodo DeepSeek duplicado que sigue desconectado. Los tres `BACKEND_URL` y `PDF_SERVICE_URL` aún son marcadores provisionales; el workflow de informe espera Gotenberg.
 
 ## Pendientes para completar la integración
-- [ ] Instalar dependencias y probar localmente la API contra casos del proyecto; aún no se verificó la carga/ejecución del artefacto desde el servicio nuevo.
-- [ ] Elegir alojamiento HTTPS, desplegar el backend con almacenamiento persistente y guardar `BOT_API_TOKEN` como secreto del servicio.
+- [ ] Desplegar el backend en HTTPS con almacenamiento persistente y guardar `BOT_API_TOKEN` como secreto del servicio. La conexión OAuth de Railway está pendiente: la pantalla de autorización de GitHub apareció con el botón «Autorizar» deshabilitado.
 - [ ] Guardar el mismo token como credencial Bearer en n8n y actualizar `BACKEND_URL` en los tres workflows.
-- [ ] Crear credenciales del proveedor de IA en n8n y verificar los modelos disponibles. La cuenta actualmente solo muestra Telegram.
+- [ ] Confirmar credenciales/modelos de IA en los tres workflows (DeepSeek para conversación y modelo redactor del informe).
 - [ ] Configurar la entrega PDF (Gotenberg) o reemplazarla por un generador compatible; no hay servicio PDF configurado.
 - [ ] Definir cómo el usuario proporcionará las 107 entradas técnicas (captura conversacional completa o archivo estructurado). El flujo actual recibe texto y botones.
 - [ ] Completar archivos 3D del resultado; el backend inicial aún no los genera.
-- [ ] Probar el flujo real completo y sus tres casos obligatorios antes de activar workflows.
+- [ ] Probar el flujo real completo y sus tres casos obligatorios antes de activar workflows. La prueba local con entradas sintéticas no acredita una prueba real por Telegram.
 - [ ] Los datos fijados en nodos son ficticios: no usarlos como resultados.

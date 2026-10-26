@@ -7,6 +7,7 @@ import math
 import os
 import sqlite3
 import sys
+import unicodedata
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
@@ -84,7 +85,9 @@ def metadata_for(name: str) -> dict[str, Any]:
 
 
 def normalize_unit(value: str) -> str:
-    text = value.lower().replace("²", "2").replace("³", "3")
+    text = unicodedata.normalize("NFKD", value.lower())
+    text = "".join(ch for ch in text if not unicodedata.combining(ch))
+    text = text.replace("²", "2").replace("³", "3")
     return "".join(ch for ch in text if ch.isalnum())
 
 
