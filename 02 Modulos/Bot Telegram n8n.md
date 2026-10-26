@@ -1,6 +1,6 @@
 # Bot de Telegram en n8n (Jean Piere)
 
-Archivos: `05 Datos/Piero JSON/` — revisados el 2026-10-24. **No contienen claves** (las credenciales van en n8n: Telegram Bot RC, OpenAI, Servicio Python RC).
+Archivos: `05 Datos/Piero JSON/` — revisados el 2026-10-24. **No contienen claves** (las credenciales van en n8n: Telegram Bot RC, DeepSeek, OpenAI para el redactor y Servicio Python RC).
 
 | Flujo | Qué hace |
 |---|---|
@@ -17,7 +17,7 @@ Esquema de extracción del LLM: `estado` ∈ {faltan_datos, requiere_aclaracion,
 - Backend inicial en `03 Prototipo/backend_bot_e030/`: carga el artefacto real `modelo_final.joblib`, define el esquema de entradas, valida el dominio y prepara las ocho respuestas que esperan los flujos.
 - El modelo requiere **107 entradas** por estructura. No es correcto completar ese esquema inventando datos a partir de una descripción breve.
 - Validación local (2026-10-25): cargó el modelo real, validó un caso sintético dentro del dominio y devolvió ocho predicciones; también se verificó que la clave idempotente evita duplicar la consulta. Se corrigió la normalización de unidades categóricas con tildes.
-- En n8n, el modelo de conversación DeepSeek está conectado a la cadena; hay un nodo DeepSeek duplicado que sigue desconectado. Los tres `BACKEND_URL` y `PDF_SERVICE_URL` aún son marcadores provisionales; el workflow de informe espera Gotenberg.
+- En n8n, DeepSeek (`deepseek-flash`) está conectado a la cadena de conversación; se eliminó el duplicado desconectado. Se actualizaron las notas de pendientes para reflejar el estado real del backend. Los tres `BACKEND_URL` y `PDF_SERVICE_URL` aún son marcadores provisionales; el workflow de informe espera Gotenberg.
 
 ## Pendientes para completar la integración
 - [ ] Desplegar el backend en HTTPS con almacenamiento persistente y guardar `BOT_API_TOKEN` como secreto del servicio. La conexión OAuth de Railway está pendiente: la pantalla de autorización de GitHub apareció con el botón «Autorizar» deshabilitado.

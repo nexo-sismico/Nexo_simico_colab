@@ -13,6 +13,7 @@ tema: Validación local del backend y preparación del despliegue del bot
 - Corregí `normalize_unit()` para quitar diacríticos Unicode; valores como `adimensional / categoría` se rechazaban al compararse con la forma sin tilde.
 - Ejecuté una prueba HTTP local con entradas sintéticas dentro de rangos: `/health`, `/schema` (107 entradas), validación, `POST /consultas`, lectura del resultado con ocho predicciones y clave idempotente.
 - Revisé los tres workflows n8n: `BACKEND_URL` aún apunta a un marcador; el informe conserva `PDF_SERVICE_URL` provisional para Gotenberg.
+- En n8n eliminé el nodo DeepSeek desconectado (el conectado permanece) y reescribí las notas de los tres workflows para que describan el backend implementado y los pendientes actuales.
 
 ## No hecho / limitaciones
 - No se desplegó Railway ni se autorizó la app GitHub. Joseph confirmó la autorización OAuth solicitada, pero GitHub muestra el botón «Autorizar» deshabilitado; no se ha concedido acceso a la cuenta/repositorio.
