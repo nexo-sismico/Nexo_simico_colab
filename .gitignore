@@ -19,6 +19,7 @@ __pycache__/
 *.key
 *token*
 *secret*
+03 Prototipo/backend_bot_e030/consultas.sqlite3*
 node_modules/
 package-lock.json
 

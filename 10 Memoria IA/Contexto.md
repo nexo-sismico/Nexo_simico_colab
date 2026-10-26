@@ -33,6 +33,7 @@ Dos líneas de evidencia que **no se mezclan**: E.030 Perú (generador + OpenSee
 - ✅ Código portable (Windows/macOS/Linux) y sincronización automática.
 - ✅ Reto 06 listo: ficha técnica de 1 página, video en vivo (1:20), capturas, definición y esquema → `04 Entregables/Entrega Reto 06 - prototipo funcional.md`.
 - ✅ App web del prototipo (`03 Prototipo/app/`, abrir con `python "03 Prototipo/app/abrir_app.py"`): formulario con revisión en vivo, importador de SAP2000, dictamen y gráficas, comparación de alternativas. Ejecuta el mismo `nexo_nsr10.py` en el navegador (Pyodide). **Publicada: https://nexo-sismico-nsr10.netlify.app** (Netlify, cuenta FrailM7, conectado a GitHub: se republica solo cuando un push cambia la app o el motor).
+- 🟡 Bot Telegram E.030: tres workflows importados en el n8n de Joseph; credencial Telegram probada y el trigger recibió un mensaje real. Se creó backend inicial en `03 Prototipo/backend_bot_e030/`, aún sin prueba funcional ni despliegue HTTPS. El modelo pide 107 entradas técnicas; IA, PDF, 3D y captura de datos siguen sin configurar. Ver `02 Modulos/Bot Telegram n8n.md`.
 - Nombres oficiales del equipo: `03 Prototipo/codigo/equipo.json` (Lucero Vivivana Vargas Silva, Oswer Alexis Huamani, Nicolás Infante Hernández, Jean Piere Velásquez Quispe, Joseph Leonardo Ccana Ayuque).
 
 ## Pendientes
@@ -43,7 +44,8 @@ Dos líneas de evidencia que **no se mezclan**: E.030 Perú (generador + OpenSee
 - Completar habilidades en `REGISTRO_EQUIPO.md`; Miro y Discord.
 - Colaboradores: PieroVQ y JosephLE313 invitados (pendientes de aceptar). Faltan Lucero y Alexis (aún no han pasado su usuario de GitHub).
 - Grabar un video corto usando la app publicada.
-- Opcional: backend del bot de Telegram con el modelo E.030; ampliar la base NSR-10 con casos verificados.
+- Bot de Telegram: desplegar backend, configurar credenciales de IA/PDF, definir entrada estructurada de las 107 variables y probar los tres casos de extremo a extremo antes de activar.
+- Ampliar la base NSR-10 con casos verificados.
 
 ## Decisiones vigentes clave
 - [[ADR-2026-10-24-repo-privado-y-sync-automatico]]

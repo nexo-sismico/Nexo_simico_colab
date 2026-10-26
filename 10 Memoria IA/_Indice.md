@@ -34,3 +34,4 @@ Nunca guardar claves, tokens ni datos personales.
 - [[2026-10-24-1354-configuracion-obsidian]] — Joseph: repositorio clonado, vault abierto y sincronización activa en su PC
 - [[2026-10-24-1400-nicolas]] — nombres oficiales y entrega completa del Reto 06 (ficha, video en vivo, capturas, definición)
 - [[2026-10-24-1850-nicolas]] — app web del prototipo para ingenieros (formulario, importador SAP2000, gráficas, alternativas)
+- [[2026-10-25-1958-joseph-backend-bot]] — bot Telegram E.030 en n8n y backend inicial; recepción Telegram probada, integración completa pendiente
